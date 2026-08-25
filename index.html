@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zicão Store — iPhones Semi-Novos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+  :root{
+    --bg:#0c0f14;--bg2:#141a23;--card:#161d27;--card-h:#1c2531;
+    --line:rgba(255,255,255,.07);--txt:#eef2f7;--mut:#93a3b5;--gold:#f5b301;--green:#35d07f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:radial-gradient(1200px 600px at 20% -5%,#1a2431 0%,var(--bg) 55%);color:var(--txt);min-height:100vh;padding-bottom:60px}
+
+  header{max-width:1160px;margin:0 auto;padding:34px 22px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#ffcf4d);display:grid;place-items:center;font-family:'Sora';font-weight:800;font-size:26px;color:#1a1205;box-shadow:0 6px 20px rgba(245,179,1,.35)}
+  .brand h1{font-family:'Sora';font-size:22px;font-weight:800;letter-spacing:.3px;line-height:1}
+  .brand span{font-size:13px;color:var(--mut)}
+  .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:20px;background:var(--bg2);border:1px solid var(--line);color:var(--txt)}
+  .pill.g{background:rgba(53,208,127,.12);border-color:rgba(53,208,127,.3);color:var(--green)}
+
+  .headline{max-width:1160px;margin:8px auto 0;padding:0 22px}
+  .headline h2{font-family:'Sora';font-size:clamp(24px,5vw,38px);font-weight:800;line-height:1.05}
+  .headline h2 .hl{color:var(--gold)}
+  .headline p{color:var(--mut);margin-top:8px;font-size:15px}
+
+  /* abas de linha */
+  .tabs{max-width:1160px;margin:24px auto 0;padding:0 22px;display:flex;gap:12px;justify-content:center}
+  .tab{
+    font-family:'Sora';font-size:17px;font-weight:800;cursor:pointer;
+    padding:16px 34px;border-radius:14px;border:2px solid var(--line);
+    background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
+  }
+  .tab:hover{color:var(--txt);border-color:rgba(245,179,1,.4)}
+  .tab.active{background:var(--gold);color:#1a1205;border-color:var(--gold);box-shadow:0 4px 16px rgba(245,179,1,.3)}
+
+  .filter{max-width:1160px;margin:18px auto 0;padding:0 22px;display:flex;gap:8px;flex-wrap:wrap}
+  .fbtn{font-family:'Inter';font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);transition:.15s}
+  .fbtn:hover{background:var(--card-h);color:var(--txt)}
+  .fbtn.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
+
+  .wrap{max-width:1160px;margin:24px auto 0;padding:0 22px}
+  .model-block{margin-top:34px}
+  .model-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .model-head h3{font-family:'Sora';font-size:21px;font-weight:700}
+  .model-head .count{font-size:13px;color:var(--mut)}
+  .model-head .from{margin-left:auto;font-size:13px;color:var(--mut)}
+  .model-head .from b{color:var(--gold);font-family:'Sora'}
+
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;transition:.18s;position:relative;overflow:hidden}
+  .card:hover{transform:translateY(-3px);background:var(--card-h);border-color:rgba(245,179,1,.3)}
+  .cchip{height:6px;border-radius:6px;margin-bottom:4px}
+  .cinfo{display:flex;flex-direction:column;gap:9px}
+  .ctop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .colr{font-size:13.5px;font-weight:600;color:var(--txt)}
+  .cap{font-size:14px;font-weight:700;color:var(--txt);background:var(--bg2);padding:4px 12px;border-radius:8px;border:1px solid var(--line)}
+  .bat{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--green)}
+  .bat .ico{width:15px;height:15px;display:inline-block}
+  .price{font-family:'Sora';font-weight:800;font-size:22px;margin-top:2px}
+  .price small{font-size:13px;color:var(--mut);font-weight:600}
+  .buy{margin-top:4px;text-align:center;text-decoration:none;font-size:13.5px;font-weight:700;padding:9px;border-radius:10px;background:var(--gold);color:#1a1205;transition:.15s}
+  .buy:hover{background:#ffcf4d}
+
+  footer{max-width:1160px;margin:50px auto 0;padding:26px 22px 0;border-top:1px solid var(--line);color:var(--mut);font-size:13.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--gold);text-decoration:none;font-weight:600}
+
+  /* busca */
+  .searchbar{max-width:1160px;margin:20px auto 0;padding:0 22px}
+  .searchbar input{
+    width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);
+    background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outline:none;transition:.15s;
+  }
+  .searchbar input:focus{border-color:var(--gold)}
+  .searchbar input::placeholder{color:var(--mut)}
+  .noresult{color:var(--mut);padding:30px 22px;text-align:center;font-size:15px}
+
+  /* whatsapp flutuante */
+  .wafloat{
+    position:fixed;right:20px;bottom:20px;z-index:99;
+    width:60px;height:60px;border-radius:50%;background:#25D366;
+    display:grid;place-items:center;box-shadow:0 6px 20px rgba(37,211,102,.45);
+    transition:.15s;
+  }
+  .wafloat:hover{transform:scale(1.08)}
+  @media(max-width:560px){.wafloat{width:54px;height:54px;right:16px;bottom:16px}}
+</style>
+</head>
+<body>
+
+<!-- ============================================================= -->
+<!-- ===============   EDITE SUAS LISTAS AQUI EMBAIXO   =========== -->
+<!-- =============================================================
+     São DUAS listas: PREMIUM e PADRAO.
+     Cada aparelho é UMA linha entre { }.
+     • modelo / bat (só número) / cap / cor / preco (só número)
+     • Vendeu? Apague a linha.  Chegou? Copie uma e troque.
+     • Cores aceitas estão lá embaixo em CORES.
+============================================================= -->
+<script>
+  const WHATS = "5535991580070"; // <-- SEU NÚMERO (DDI+DDD+numero, só dígitos)
+
+  const SEMINOVOS = [
+    {modelo:"11 Pro",      bat:100, cap:"64GB",  cor:"Preto",      preco:"1.399"},
+    {modelo:"13 Pro",      bat:100, cap:"256GB", cor:"Dourado",    preco:"2.799"},
+    {modelo:"13 Pro Max",  bat:78,  cap:"128GB", cor:"Branco",     preco:"3.099"},
+    {modelo:"13 Pro Max",  bat:79,  cap:"128GB", cor:"Preto",      preco:"3.099"},
+    {modelo:"13 Pro Max",  bat:93,  cap:"128GB", cor:"Azul Claro", preco:"3.099"},
+    {modelo:"13 Pro Max",  bat:80,  cap:"256GB", cor:"Preto",      preco:"3.399"},
+    {modelo:"14 Pro Max",  bat:78,  cap:"128GB", cor:"Roxo",       preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:79,  cap:"128GB", cor:"Preto",      preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:82,  cap:"128GB", cor:"Roxo",       preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:83,  cap:"128GB", cor:"Roxo",       preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:83,  cap:"128GB", cor:"Roxo",       preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:83,  cap:"128GB", cor:"Roxo",       preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:83,  cap:"128GB", cor:"Preto",      preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:83,  cap:"128GB", cor:"Preto",      preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:84,  cap:"128GB", cor:"Dourado",    preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:84,  cap:"128GB", cor:"Roxo",       preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:85,  cap:"128GB", cor:"Roxo",       preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:85,  cap:"128GB", cor:"Roxo",       preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:85,  cap:"128GB", cor:"Preto",      preco:"3.690"},
+    {modelo:"14 Pro Max",  bat:81,  cap:"256GB", cor:"Roxo",       preco:"3.999"},
+    {modelo:"14 Pro Max",  bat:82,  cap:"256GB", cor:"Preto",      preco:"3.999"},
+    {modelo:"14 Pro Max",  bat:86,  cap:"256GB", cor:"Roxo",       preco:"3.999"},
+    {modelo:"14 Pro Max",  bat:100, cap:"256GB", cor:"Roxo",       preco:"3.999"},
+    {modelo:"16 Plus",     bat:97,  cap:"128GB", cor:"Preto",      preco:"3.899"},
+    {modelo:"15 Pro",      bat:82,  cap:"128GB", cor:"Cinza",      preco:"3.990"},
+    {modelo:"15 Pro",      bat:82,  cap:"128GB", cor:"Cinza",      preco:"3.990"},
+    {modelo:"15 Pro",      bat:83,  cap:"128GB", cor:"Cinza",      preco:"3.990"},
+    {modelo:"15 Pro",      bat:86,  cap:"128GB", cor:"Cinza",      preco:"3.990"},
+    {modelo:"15 Pro",      bat:87,  cap:"128GB", cor:"Cinza",      preco:"3.990"},
+    {modelo:"15 Pro",      bat:87,  cap:"128GB", cor:"Azul",       preco:"3.990"},
+    {modelo:"15 Pro",      bat:88,  cap:"128GB", cor:"Cinza",      preco:"3.990"},
+    {modelo:"15 Pro",      bat:89,  cap:"128GB", cor:"Cinza",      preco:"3.990"},
+    {modelo:"15 Pro",      bat:85,  cap:"128GB", cor:"Branco",     preco:"3.999"},
+    {modelo:"15 Pro",      bat:87,  cap:"256GB", cor:"Preto",      preco:"4.290"},
+    {modelo:"15 Pro",      bat:89,  cap:"256GB", cor:"Azul",       preco:"4.290"},
+    {modelo:"15 Pro",      bat:89,  cap:"256GB", cor:"Cinza",      preco:"4.290"},
+    {modelo:"15 Pro Max",  bat:82,  cap:"256GB", cor:"Azul",       preco:"4.399"},
+    {modelo:"15 Pro Max",  bat:83,  cap:"256GB", cor:"Preto",      preco:"4.399"},
+    {modelo:"15 Pro Max",  bat:83,  cap:"256GB", cor:"Cinza",      preco:"4.399"},
+    {modelo:"15 Pro Max",  bat:84,  cap:"256GB", cor:"Cinza",      preco:"4.399"},
+    {modelo:"15 Pro Max",  bat:84,  cap:"256GB", cor:"Azul",       preco:"4.399"},
+    {modelo:"15 Pro Max",  bat:84,  cap:"256GB", cor:"Cinza",      preco:"4.399"},
+    {modelo:"15 Pro Max",  bat:84,  cap:"256GB", cor:"Cinza",      preco:"4.399"},
+    {modelo:"15 Pro Max",  bat:100, cap:"256GB", cor:"Preto",      preco:"4.399"},
+    {modelo:"15 Pro Max",  bat:84,  cap:"512GB", cor:"Azul",       preco:"4.799"},
+    {modelo:"16 Pro",      bat:90,  cap:"128GB", cor:"Cinza",      preco:"4.799"},
+    {modelo:"16 Pro",      bat:91,  cap:"128GB", cor:"Preto",      preco:"4.799"},
+    {modelo:"16 Pro",      bat:91,  cap:"128GB", cor:"Preto",      preco:"4.799"},
+    {modelo:"16 Pro Max",  bat:89,  cap:"256GB", cor:"Preto",      preco:"5.799"},
+    {modelo:"16 Pro Max",  bat:89,  cap:"256GB", cor:"Preto",      preco:"5.799"},
+    {modelo:"16 Pro Max",  bat:91,  cap:"256GB", cor:"Deserto",    preco:"5.799"},
+    {modelo:"16 Pro Max",  bat:100, cap:"1TB",   cor:"Deserto",    preco:"6.299"},
+    {modelo:"XR",       bat:75,  cap:"64GB",  cor:"Branco",     preco:"699"},
+    {modelo:"SE",       bat:73,  cap:"64GB",  cor:"Branco",     preco:"799"},
+    {modelo:"11",       bat:66,  cap:"64GB",  cor:"Branco",     preco:"999"},
+    {modelo:"11",       bat:70,  cap:"64GB",  cor:"Branco",     preco:"999"},
+    {modelo:"11",       bat:72,  cap:"64GB",  cor:"Branco",     preco:"999"},
+    {modelo:"11",       bat:67,  cap:"64GB",  cor:"Preto",      preco:"999"},
+    {modelo:"11",       bat:72,  cap:"64GB",  cor:"Preto",      preco:"999"},
+    {modelo:"11",       bat:68,  cap:"128GB", cor:"Preto",      preco:"1.299"},
+    {modelo:"11",       bat:71,  cap:"128GB", cor:"Preto",      preco:"1.299"},
+    {modelo:"11",       bat:83,  cap:"128GB", cor:"Preto",      preco:"1.299"},
+    {modelo:"11",       bat:70,  cap:"128GB", cor:"Branco",     preco:"1.299"},
+    {modelo:"11",       bat:71,  cap:"128GB", cor:"Branco",     preco:"1.299"},
+    {modelo:"11",       bat:69,  cap:"128GB", cor:"Vermelho",   preco:"1.299"},
+    {modelo:"12",       bat:74,  cap:"64GB",  cor:"Lilás",      preco:"1.401"},
+    {modelo:"12",       bat:74,  cap:"64GB",  cor:"Preto",      preco:"1.401"},
+    {modelo:"12",       bat:78,  cap:"64GB",  cor:"Preto",      preco:"1.401"},
+    {modelo:"12",       bat:79,  cap:"64GB",  cor:"Preto",      preco:"1.401"},
+    {modelo:"12",       bat:79,  cap:"64GB",  cor:"Preto",      preco:"1.401"},
+    {modelo:"13",       bat:72,  cap:"128GB", cor:"Preto",      preco:"2.099"},
+    {modelo:"13",       bat:74,  cap:"128GB", cor:"Branco",     preco:"2.099"},
+    {modelo:"13",       bat:75,  cap:"128GB", cor:"Preto",      preco:"2.099"},
+    {modelo:"13",       bat:76,  cap:"128GB", cor:"Preto",      preco:"2.099"},
+    {modelo:"13",       bat:77,  cap:"128GB", cor:"Azul Claro", preco:"2.099"},
+    {modelo:"13",       bat:79,  cap:"128GB", cor:"Branco",     preco:"2.099"},
+    {modelo:"13",       bat:82,  cap:"128GB", cor:"Azul Claro", preco:"2.099"},
+    {modelo:"13",       bat:84,  cap:"128GB", cor:"Preto",      preco:"2.099"},
+    {modelo:"13",       bat:100, cap:"128GB", cor:"Preto",      preco:"2.099"},
+    {modelo:"13",       bat:100, cap:"128GB", cor:"Azul",       preco:"2.099"},
+    {modelo:"13",       bat:77,  cap:"256GB", cor:"Preto",      preco:"2.091"},
+    {modelo:"14",       bat:78,  cap:"128GB", cor:"Preto",      preco:"2.499"},
+    {modelo:"14",       bat:78,  cap:"128GB", cor:"Azul Claro", preco:"2.499"},
+    {modelo:"14",       bat:81,  cap:"128GB", cor:"Preto",      preco:"2.499"},
+    {modelo:"14",       bat:82,  cap:"128GB", cor:"Azul Claro", preco:"2.499"},
+    {modelo:"14",       bat:84,  cap:"128GB", cor:"Azul Claro", preco:"2.499"},
+    {modelo:"14",       bat:85,  cap:"128GB", cor:"Branco",     preco:"2.499"},
+    {modelo:"14 Plus",  bat:81,  cap:"128GB", cor:"Lilás",      preco:"2.599"},
+    {modelo:"16",       bat:90,  cap:"128GB", cor:"Verde",      preco:"3.799"},
+    {modelo:"16",       bat:90,  cap:"128GB", cor:"Preto",      preco:"3.799"},
+    {modelo:"16",       bat:98,  cap:"128GB", cor:"Branco",     preco:"3.799"},
+  ];
+
+  // NOVOS LACRADOS — não têm bateria (use 0). cor pode ficar "" se não souber.
+  const NOVOS = [
+    {modelo:"13 Pro",      cap:"128GB", cor:"Cinza",   preco:"3.490"},
+    {modelo:"15",          cap:"128GB", cor:"Preto",   preco:"3.999"},
+    {modelo:"16",          cap:"128GB", cor:"Preto",   preco:"4.790"},
+    {modelo:"17",          cap:"256GB", cor:"Preto",   preco:"5.390"},
+    {modelo:"17 Pro",      cap:"256GB", cor:"Laranja", preco:"7.099"},
+    {modelo:"17 Pro",      cap:"256GB", cor:"Azul",    preco:"7.179"},
+    {modelo:"17 Pro",      cap:"256GB", cor:"Prata",   preco:"7.179"},
+    {modelo:"17 Pro Max",  cap:"256GB", cor:"Laranja", preco:"7.599"},
+    {modelo:"17 Pro Max",  cap:"256GB", cor:"Branco",  preco:"7.699"},
+    {modelo:"17 Pro Max",  cap:"256GB", cor:"Azul",    preco:"7.699"},
+  ];
+
+  const CORES = {
+    "Preto":      {body:"#20222a", frame:"#3a3d47", glass:"#15161c"},
+    "Branco":     {body:"#eceae4", frame:"#c9c6bd", glass:"#f6f5f1"},
+    "Cinza":      {body:"#8f9295", frame:"#6c6f73", glass:"#7d8083"},
+    "Prata":      {body:"#dfe3e6", frame:"#b9bfc4", glass:"#eef1f3"},
+    "Dourado":    {body:"#e6cfa4", frame:"#c3a26d", glass:"#dcc298"},
+    "Laranja":    {body:"#d98a4e", frame:"#b56a30", glass:"#cf8044"},
+    "Vermelho":   {body:"#a5262c", frame:"#7f1c22", glass:"#8f2026"},
+    "Verde":      {body:"#b7c6b4", frame:"#93a68f", glass:"#aebfaa"},
+    "Azul":       {body:"#3c4a61", frame:"#2a3446", glass:"#33405a"},
+    "Azul Claro": {body:"#aac2d6", frame:"#88a4bb", glass:"#9fbace"},
+    "Lilás":      {body:"#cdc3de", frame:"#a99fc0", glass:"#c3b8d6"},
+    "Roxo":       {body:"#5f5480", frame:"#463c5f", glass:"#564a75"},
+    "Sierra":     {body:"#c1ccd8", frame:"#9fadbb", glass:"#b6c3d1"},
+    "Deserto":    {body:"#c9aa82", frame:"#a98a62", glass:"#c0a078"},
+  };
+</script>
+
+<!-- ========   DAQUI PRA BAIXO NÃO PRECISA MEXER   ============== -->
+
+<header>
+  <div class="brand">
+    <div class="logo">Z</div>
+    <div><h1>Zicão Store</h1><span>Itaú de Minas · MG</span></div>
+  </div>
+  <div class="tags">
+    <span class="pill g">✔ Pronta entrega</span>
+    <span class="pill">Originais Apple</span>
+    <span class="pill">Garantia 90 dias</span>
+  </div>
+</header>
+
+<div class="headline">
+  <h2 id="htitle">iPhones <span class="hl">Semi-novos</span></h2>
+  <p id="hsub">Todos testados, com bateria conferida. Chama no WhatsApp que te ajudo a escolher.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-linha="semi">Semi-novos</button>
+  <button class="tab" data-linha="novos">Novos (Lacrados)</button>
+</div>
+
+<div class="searchbar">
+  <input id="search" type="text" placeholder="🔍 Buscar... (ex: 13 preto, 128gb, roxo)" autocomplete="off">
+</div>
+
+<div class="filter" id="filter"></div>
+<div class="wrap" id="catalog"></div>
+
+<a class="wafloat" id="wafloat" href="#" target="_blank" title="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" width="32" height="32" fill="#fff"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+</a>
+
+<footer>
+  <span>© Zicão Store · Itaú de Minas/MG</span>
+  <span>Atualizado direto no estoque · <a id="wlink" href="#" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:4px" fill="#25D366"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>Falar no WhatsApp</a></span>
+</footer>
+
+<script>
+  
+  function batIco(){return `<svg class="ico" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="17" height="10" rx="2.5" stroke="currentColor" stroke-width="2"/><rect x="4" y="9" width="11" height="6" rx="1" fill="currentColor"/><rect x="20" y="10" width="2.5" height="4" rx="1" fill="currentColor"/></svg>`;}
+  const WA = `<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:5px" fill="#1a1205"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>`;
+
+  const catalog=document.getElementById('catalog');
+  const filterBar=document.getElementById('filter');
+  const searchInput=document.getElementById('search');
+  let termoBusca='';
+  const num=p=>parseFloat(p.replace(/\./g,'').replace(',','.'));
+  // ordem por geração/lançamento (mais antigo -> mais novo)
+  const ORDEM_MODELOS=["XR","SE","11","11 Pro","11 Pro Max","12","12 Pro","12 Pro Max","13","13 Pro","13 Pro Max","14","14 Plus","14 Pro","14 Pro Max","15","15 Plus","15 Pro","15 Pro Max","16","16 Plus","16 Pro","16 Pro Max","17","17 Plus","17 Air","17 Pro","17 Pro Max"];
+  const idxModelo=m=>{const i=ORDEM_MODELOS.indexOf(m);return i===-1?999:i;};
+  document.getElementById('wlink').href=`https://wa.me/${WHATS}`;
+  document.getElementById('wafloat').href=`https://wa.me/${WHATS}`;
+
+  let ordem=[], modelos=[], filtroModelo='all', linhaAtual='semi';
+
+  function prep(){
+    const fonte = linhaAtual==='novos' ? NOVOS : SEMINOVOS;
+    ordem=[...fonte].sort((a,b)=>idxModelo(a.modelo)-idxModelo(b.modelo)||(b.bat||0)-(a.bat||0));
+    modelos=[]; ordem.forEach(it=>{if(!modelos.includes(it.modelo))modelos.push(it.modelo);});
+    filtroModelo='all';
+    filterBar.innerHTML='';
+    mkFilter('Todos','all',true);
+    modelos.forEach(m=>mkFilter(m,m,false));
+  }
+  function mkFilter(label,val,active){
+    const b=document.createElement('button');
+    b.className='fbtn'+(active?' active':'');b.textContent=label;
+    b.onclick=()=>{document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');filtroModelo=val;render();};
+    filterBar.appendChild(b);
+  }
+  function render(){
+    catalog.innerHTML='';
+    const ehNovo = linhaAtual==='novos';
+    const termo = termoBusca.trim().toLowerCase();
+    let achou=false;
+    modelos.forEach(modelo=>{
+      if(filtroModelo!=='all'&&filtroModelo!==modelo)return;
+      let itens=ordem.filter(i=>i.modelo===modelo);
+      if(termo){
+        itens=itens.filter(i=>{
+          const alvo=`iphone ${i.modelo} ${i.cor} ${i.cap} ${i.preco}`.toLowerCase();
+          return termo.split(/\s+/).every(t=>alvo.includes(t));
+        });
+      }
+      if(!itens.length)return;
+      achou=true;
+      const menor=itens.reduce((m,i)=>num(i.preco)<num(m.preco)?i:m,itens[0]);
+      const block=document.createElement('div');
+      block.className='model-block';
+      block.innerHTML=`<div class="model-head"><h3>iPhone ${modelo}</h3><span class="count">${itens.length} ${itens.length>1?'unidades':'unidade'}</span><span class="from">a partir de <b>${menor.preco}</b></span></div><div class="grid"></div>`;
+      const grid=block.querySelector('.grid');
+      itens.forEach(it=>{
+        const estado = ehNovo ? 'novo lacrado' : `bateria ${it.bat}%`;
+        const msg=encodeURIComponent(`Olá! Tenho interesse no iPhone ${it.modelo} ${it.cap} ${it.cor} (${estado}) — ${it.preco}. Ainda tem?`);
+        const c=CORES[it.cor]||CORES["Preto"];
+        const selo = ehNovo
+          ? `<span class="bat" style="color:var(--gold)">✔ Lacrado · Garantia Apple 1 ano</span>`
+          : `<span class="bat">${batIco()} ${it.bat}%</span>`;
+        const card=document.createElement('div');
+        card.className='card';
+        card.innerHTML=`<div class="cchip" style="background:linear-gradient(135deg,${c.frame},${c.body})"></div>
+          <div class="cinfo"><div class="ctop"><span class="colr">${it.cor||'—'}</span><span class="cap">${it.cap}</span></div>
+          ${selo}
+          <div class="price"><small>R$ </small>${it.preco}</div>
+          <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${msg}">${WA}Tenho interesse</a></div>`;
+        grid.appendChild(card);
+      });
+      catalog.appendChild(block);
+    });
+    if(!achou){
+      catalog.innerHTML=`<div class="noresult">Nenhum aparelho encontrado para "<b>${termoBusca}</b>". Tenta outra busca ou fala comigo no WhatsApp. 😊</div>`;
+    }
+  }
+
+  searchInput.addEventListener('input',e=>{termoBusca=e.target.value;render();});
+
+  // troca de abas
+  const TITULOS={semi:'Semi-novos', novos:'Novos (Lacrados)'};
+  const SUBS={
+    semi:'Todos testados, com bateria conferida. Chama no WhatsApp que te ajudo a escolher.',
+    novos:'Lacrados, com Nota Fiscal e Garantia Apple de 1 ano. Pronta entrega.'
+  };
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.onclick=()=>{
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      linhaAtual=t.dataset.linha;
+      termoBusca=''; searchInput.value='';
+      document.getElementById('htitle').innerHTML=`iPhones <span class="hl">${TITULOS[linhaAtual]}</span>`;
+      document.getElementById('hsub').textContent=SUBS[linhaAtual];
+      prep(); render();
+    };
+  });
+
+  prep(); render();
+</script>
+</body>
+</html>
