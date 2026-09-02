@@ -16,6 +16,7 @@
 --line:rgba(255,255,255,.07);--txt:#eef2f7;--mut:#93a3b5;--gold:#f5b301;--green:#35d07f;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden;-webkit-text-size-adjust:100%}
 body{font-family:'Inter',sans-serif;background:radial-gradient(1200px 600px at 20% -5%,#1a2431 0%,var(--bg) 55%);color:var(--txt);min-height:100vh;padding-bottom:60px}
 header{max-width:1160px;margin:0 auto;padding:34px 22px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .brand{display:flex;align-items:center;gap:14px}
@@ -127,6 +128,70 @@ transition:.15s;
 }
 .wafloat:hover{transform:scale(1.08)}
 @media(max-width:560px){.wafloat{width:54px;height:54px;right:16px;bottom:16px}}
+
+/* ============ OTIMIZAÇÃO MOBILE (celular) ============ */
+@media(max-width:640px){
+body{padding-bottom:80px}
+/* header mais compacto */
+header{padding:20px 16px 10px;gap:12px}
+.logo{width:44px;height:44px;font-size:22px}
+.brand h1{font-size:19px}
+.brand span{font-size:12px}
+.tags{gap:6px}
+.pill{font-size:11px;padding:4px 9px}
+/* headline */
+.headline{padding:0 16px}
+.headline p{font-size:13.5px}
+/* abas ocupam a largura toda, lado a lado */
+.tabs{padding:0 16px;gap:8px;margin-top:18px}
+.tab{flex:1 1 0;padding:13px 8px;font-size:14px;text-align:center}
+/* banner garantia */
+.warranty-banner{padding:0 16px;margin-top:14px}
+.warranty-inner{padding:14px 16px;gap:12px}
+.warranty-inner .big-ico{width:40px;height:40px}
+.warranty-inner .wtxt h4{font-size:16px}
+.warranty-inner .wtxt p{font-size:12.5px}
+/* pagamento */
+.pay-strip{padding:0 16px;gap:8px}
+.pay-badge{font-size:11.5px;padding:7px 12px}
+/* busca */
+.searchbar{padding:0 16px}
+.searchbar input{padding:12px 14px;font-size:15px}
+/* filtros */
+.filter-label{padding:0 16px 6px}
+.filter{padding:0 16px;gap:6px}
+.fbtn{font-size:12.5px;padding:7px 12px}
+/* catálogo */
+.wrap{padding:0 16px}
+.model-block{margin-top:26px}
+.model-head h3{font-size:18px}
+.model-head .count{font-size:12px}
+.model-head .from{font-size:12px}
+/* 2 cards por linha no celular */
+.grid{grid-template-columns:repeat(2,1fr);gap:10px}
+.card{padding:12px;gap:9px;border-radius:14px}
+.colr{font-size:12.5px}
+.cap{font-size:12px;padding:3px 9px}
+.bat{font-size:11.5px}
+.price{font-size:19px}
+.parcela{font-size:10.5px}
+.buy{font-size:12.5px;padding:10px 6px}
+/* selos de topo menores */
+.flag{font-size:9px;padding:3px 7px}
+.card-flags{top:10px;right:10px;gap:4px}
+/* footer empilhado */
+footer{flex-direction:column;gap:6px;text-align:center;padding:24px 16px 0}
+}
+
+/* telas bem pequenas (celular antigo/estreito) */
+@media(max-width:380px){
+.brand span{display:none}
+.tab{font-size:13px;padding:12px 6px}
+.price{font-size:17.5px}
+.buy{font-size:11.5px}
+/* botões de compra sempre com o texto legível */
+.buy svg{display:none}
+}
 </style>
 </head>
 <body>
