@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zicão Store — iPhones Semi-Novos</title>
+<!-- FAVICON (o iconezinho da aba do navegador) — embutido, não precisa de arquivo separado -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f5b301'/%3E%3Cstop offset='1' stop-color='%23ffcf4d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='url(%23g)'/%3E%3Cpath d='M20 20 h24 v6 L28 44 h16 v6 H20 v-6 L36 26 H20 z' fill='%231a1205'/%3E%3C/svg%3E">
+<!-- Ícone pra quando salvar na tela do celular (Apple) -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f5b301'/%3E%3Cstop offset='1' stop-color='%23ffcf4d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='0' y='0' width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Cpath d='M20 20 h24 v6 L28 44 h16 v6 H20 v-6 L36 26 H20 z' fill='%231a1205'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#f5b301">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 :root{
@@ -32,10 +37,52 @@ background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
 }
 .tab:hover{color:var(--txt);border-color:rgba(245,179,1,.4)}
 .tab.active{background:var(--gold);color:#1a1205;border-color:var(--gold);box-shadow:0 4px 16px rgba(245,179,1,.3)}
-.filter{max-width:1160px;margin:18px auto 0;padding:0 22px;display:flex;gap:8px;flex-wrap:wrap}
+
+/* Banner de garantia (aba Novos) */
+.warranty-banner{
+max-width:1160px;margin:18px auto 0;padding:0 22px;display:none;
+}
+.warranty-banner.show{display:block}
+.warranty-inner{
+background:linear-gradient(135deg,rgba(53,208,127,.18),rgba(53,208,127,.06));
+border:1.5px solid rgba(53,208,127,.45);border-radius:16px;
+padding:18px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.warranty-inner .big-ico{
+width:48px;height:48px;border-radius:12px;background:var(--green);
+display:grid;place-items:center;flex-shrink:0;
+}
+.warranty-inner .wtxt h4{font-family:'Sora';font-size:19px;font-weight:800;color:var(--green);line-height:1.1}
+.warranty-inner .wtxt p{font-size:14px;color:var(--txt);margin-top:3px}
+
+/* Filtros de pagamento fixos (topo) */
+.pay-strip{
+max-width:1160px;margin:16px auto 0;padding:0 22px;
+display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+}
+.pay-badge{
+font-size:13px;font-weight:700;padding:8px 16px;border-radius:12px;
+background:rgba(245,179,1,.1);border:1px solid rgba(245,179,1,.35);color:var(--gold);
+display:inline-flex;align-items:center;gap:6px;
+}
+.pay-badge.pix{background:rgba(53,208,127,.1);border-color:rgba(53,208,127,.35);color:var(--green)}
+
+.searchbar{max-width:1160px;margin:20px auto 0;padding:0 22px}
+.searchbar input{
+width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);
+background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outline:none;transition:.15s;
+}
+.searchbar input:focus{border-color:var(--gold)}
+.searchbar input::placeholder{color:var(--mut)}
+
+.filter-label{max-width:1160px;margin:18px auto 0;padding:0 22px 6px;font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.filter{max-width:1160px;margin:0 auto;padding:0 22px;display:flex;gap:8px;flex-wrap:wrap}
 .fbtn{font-family:'Inter';font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);transition:.15s}
 .fbtn:hover{background:var(--card-h);color:var(--txt)}
 .fbtn.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
+/* faixa de preço em outra cor pra diferenciar */
+.filter.price .fbtn.active{background:var(--green);color:#06231a;border-color:var(--green)}
+
 .wrap{max-width:1160px;margin:24px auto 0;padding:0 22px}
 .model-block{margin-top:34px}
 .model-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
@@ -46,6 +93,16 @@ background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;transition:.18s;position:relative;overflow:hidden}
 .card:hover{transform:translateY(-3px);background:var(--card-h);border-color:rgba(245,179,1,.3)}
+/* card com bateria 100% ganha borda dourada */
+.card.perfect{border-color:rgba(245,179,1,.55);box-shadow:0 0 0 1px rgba(245,179,1,.25),0 8px 24px rgba(245,179,1,.12)}
+
+/* selos no topo do card */
+.card-flags{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-end;z-index:2}
+.flag{font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:8px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+.flag.perfect{background:linear-gradient(135deg,var(--gold),#ffcf4d);color:#1a1205;box-shadow:0 3px 10px rgba(245,179,1,.4)}
+.flag.high{background:rgba(53,208,127,.16);border:1px solid rgba(53,208,127,.4);color:var(--green)}
+.flag.last{background:rgba(255,90,90,.16);border:1px solid rgba(255,90,90,.5);color:#ff7a7a}
+
 .cchip{height:6px;border-radius:6px;margin-bottom:4px}
 .cinfo{display:flex;flex-direction:column;gap:9px}
 .ctop{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -55,17 +112,12 @@ background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
 .bat .ico{width:15px;height:15px;display:inline-block}
 .price{font-family:'Sora';font-weight:800;font-size:22px;margin-top:2px}
 .price small{font-size:13px;color:var(--mut);font-weight:600}
+.parcela{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:-4px}
+.parcela b{color:var(--txt)}
 .buy{margin-top:4px;text-align:center;text-decoration:none;font-size:13.5px;font-weight:700;padding:9px;border-radius:10px;background:var(--gold);color:#1a1205;transition:.15s}
 .buy:hover{background:#ffcf4d}
 footer{max-width:1160px;margin:50px auto 0;padding:26px 22px 0;border-top:1px solid var(--line);color:var(--mut);font-size:13.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
 footer a{color:var(--gold);text-decoration:none;font-weight:600}
-.searchbar{max-width:1160px;margin:20px auto 0;padding:0 22px}
-.searchbar input{
-width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);
-background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outline:none;transition:.15s;
-}
-.searchbar input:focus{border-color:var(--gold)}
-.searchbar input::placeholder{color:var(--mut)}
 .noresult{color:var(--mut);padding:30px 22px;text-align:center;font-size:15px}
 .wafloat{
 position:fixed;right:20px;bottom:20px;z-index:99;
@@ -86,12 +138,18 @@ Cada aparelho é UMA linha entre { }.
 • modelo / bat (só número) / cap / cor / preco (só número)
 • Vendeu? Apague a linha. Chegou? Copie uma e troque.
 • Cores aceitas estão lá embaixo em CORES.
+
+REGRA AUTOMÁTICA DE PREÇO (iPhone 13 pra cima, só semi-novos):
+• bateria 100% → +R$ 100 e ganha selo dourado "🔋 100% BATERIA"
+• bateria abaixo de 80% → -R$ 100
+• 80% a 99% → preço normal
+Você digita o preço BASE; o site ajusta sozinho. Não precisa fazer conta.
 ============================================================= -->
 <script>
 const WHATS = "5535991580070"; // <-- SEU NÚMERO (DDI+DDD+numero, só dígitos)
 
 const SEMINOVOS = [
-// ===== PRO / PRO MAX — MANTIDOS (iguais ao que está no ar) =====
+// ===== PRO / PRO MAX =====
 {modelo:"13 Pro", bat:100, cap:"256GB", cor:"Dourado", preco:"2.799"},
 {modelo:"13 Pro Max", bat:78, cap:"128GB", cor:"Branco", preco:"3.099"},
 {modelo:"13 Pro Max", bat:79, cap:"128GB", cor:"Preto", preco:"3.099"},
@@ -115,35 +173,35 @@ const SEMINOVOS = [
 {modelo:"14 Pro Max", bat:86, cap:"256GB", cor:"Roxo", preco:"3.999"},
 {modelo:"14 Pro Max", bat:100, cap:"256GB", cor:"Roxo", preco:"3.999"},
 {modelo:"16 Plus", bat:97, cap:"128GB", cor:"Preto", preco:"3.899"},
-{modelo:"15 Pro", bat:82, cap:"128GB", cor:"Cinza", preco:"3.990"},
-{modelo:"15 Pro", bat:82, cap:"128GB", cor:"Cinza", preco:"3.990"},
-{modelo:"15 Pro", bat:83, cap:"128GB", cor:"Cinza", preco:"3.990"},
-{modelo:"15 Pro", bat:86, cap:"128GB", cor:"Cinza", preco:"3.990"},
-{modelo:"15 Pro", bat:87, cap:"128GB", cor:"Cinza", preco:"3.990"},
-{modelo:"15 Pro", bat:87, cap:"128GB", cor:"Azul", preco:"3.990"},
-{modelo:"15 Pro", bat:88, cap:"128GB", cor:"Cinza", preco:"3.990"},
-{modelo:"15 Pro", bat:89, cap:"128GB", cor:"Cinza", preco:"3.990"},
-{modelo:"15 Pro", bat:85, cap:"128GB", cor:"Branco", preco:"3.999"},
-{modelo:"15 Pro", bat:87, cap:"256GB", cor:"Preto", preco:"4.290"},
-{modelo:"15 Pro", bat:89, cap:"256GB", cor:"Azul", preco:"4.290"},
-{modelo:"15 Pro", bat:89, cap:"256GB", cor:"Cinza", preco:"4.290"},
-{modelo:"15 Pro Max", bat:82, cap:"256GB", cor:"Azul", preco:"4.399"},
-{modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Preto", preco:"4.399"},
-{modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Cinza", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Cinza", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Azul", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Cinza", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Cinza", preco:"4.399"},
-{modelo:"15 Pro Max", bat:100, cap:"256GB", cor:"Preto", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"512GB", cor:"Azul", preco:"4.799"},
-{modelo:"16 Pro", bat:90, cap:"128GB", cor:"Cinza", preco:"4.799"},
-{modelo:"16 Pro", bat:91, cap:"128GB", cor:"Preto", preco:"4.799"},
-{modelo:"16 Pro", bat:91, cap:"128GB", cor:"Preto", preco:"4.799"},
-{modelo:"16 Pro Max", bat:89, cap:"256GB", cor:"Preto", preco:"5.799"},
-{modelo:"16 Pro Max", bat:89, cap:"256GB", cor:"Preto", preco:"5.799"},
-{modelo:"16 Pro Max", bat:91, cap:"256GB", cor:"Deserto", preco:"5.799"},
-{modelo:"16 Pro Max", bat:100, cap:"1TB", cor:"Deserto", preco:"6.299"},
-// ===== NORMAIS — ATUALIZADOS (lista de hoje, preços antigos) =====
+{modelo:"15 Pro", bat:82, cap:"128GB", cor:"Titânio Natural", preco:"3.990"},
+{modelo:"15 Pro", bat:82, cap:"128GB", cor:"Titânio Natural", preco:"3.990"},
+{modelo:"15 Pro", bat:83, cap:"128GB", cor:"Titânio Natural", preco:"3.990"},
+{modelo:"15 Pro", bat:86, cap:"128GB", cor:"Titânio Natural", preco:"3.990"},
+{modelo:"15 Pro", bat:87, cap:"128GB", cor:"Titânio Natural", preco:"3.990"},
+{modelo:"15 Pro", bat:87, cap:"128GB", cor:"Titânio Azul", preco:"3.990"},
+{modelo:"15 Pro", bat:88, cap:"128GB", cor:"Titânio Natural", preco:"3.990"},
+{modelo:"15 Pro", bat:89, cap:"128GB", cor:"Titânio Natural", preco:"3.990"},
+{modelo:"15 Pro", bat:85, cap:"128GB", cor:"Titânio Branco", preco:"3.999"},
+{modelo:"15 Pro", bat:87, cap:"256GB", cor:"Titânio Preto", preco:"4.290"},
+{modelo:"15 Pro", bat:89, cap:"256GB", cor:"Titânio Azul", preco:"4.290"},
+{modelo:"15 Pro", bat:89, cap:"256GB", cor:"Titânio Natural", preco:"4.290"},
+{modelo:"15 Pro Max", bat:82, cap:"256GB", cor:"Titânio Azul", preco:"4.399"},
+{modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Titânio Preto", preco:"4.399"},
+{modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Titânio Natural", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Titânio Natural", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Titânio Azul", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Titânio Natural", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Titânio Natural", preco:"4.399"},
+{modelo:"15 Pro Max", bat:100, cap:"256GB", cor:"Titânio Preto", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"512GB", cor:"Titânio Azul", preco:"4.799"},
+{modelo:"16 Pro", bat:90, cap:"128GB", cor:"Titânio Natural", preco:"4.799"},
+{modelo:"16 Pro", bat:91, cap:"128GB", cor:"Titânio Preto", preco:"4.799"},
+{modelo:"16 Pro", bat:91, cap:"128GB", cor:"Titânio Preto", preco:"4.799"},
+{modelo:"16 Pro Max", bat:89, cap:"256GB", cor:"Titânio Preto", preco:"5.799"},
+{modelo:"16 Pro Max", bat:89, cap:"256GB", cor:"Titânio Preto", preco:"5.799"},
+{modelo:"16 Pro Max", bat:91, cap:"256GB", cor:"Titânio Deserto", preco:"5.799"},
+{modelo:"16 Pro Max", bat:100, cap:"1TB", cor:"Titânio Deserto", preco:"6.299"},
+// ===== NORMAIS =====
 {modelo:"SE", bat:73, cap:"64GB", cor:"Branco", preco:"799"},
 {modelo:"11", bat:61, cap:"64GB", cor:"Preto", preco:"999"},
 {modelo:"11", bat:66, cap:"64GB", cor:"Branco", preco:"999"},
@@ -185,7 +243,7 @@ const SEMINOVOS = [
 
 // NOVOS LACRADOS — não têm bateria (use 0). cor pode ficar "" se não souber.
 const NOVOS = [
-{modelo:"13 Pro", cap:"128GB", cor:"Cinza", preco:"3.490"},
+{modelo:"13 Pro", cap:"128GB", cor:"Titânio Cinza", preco:"3.490"},
 {modelo:"15", cap:"128GB", cor:"Preto", preco:"3.999"},
 {modelo:"16", cap:"128GB", cor:"Preto", preco:"4.790"},
 {modelo:"17", cap:"256GB", cor:"Preto", preco:"5.390"},
@@ -212,6 +270,13 @@ const CORES = {
 "Roxo": {body:"#5f5480", frame:"#463c5f", glass:"#564a75"},
 "Sierra": {body:"#c1ccd8", frame:"#9fadbb", glass:"#b6c3d1"},
 "Deserto": {body:"#c9aa82", frame:"#a98a62", glass:"#c0a078"},
+// cores oficiais Titânio (linha 15/16 Pro)
+"Titânio Natural": {body:"#c3c0ba", frame:"#9d9a93", glass:"#b6b3ac"},
+"Titânio Azul": {body:"#5a6a7d", frame:"#42505f", glass:"#4f5e70"},
+"Titânio Branco": {body:"#e4e3df", frame:"#c3c1bb", glass:"#eeede9"},
+"Titânio Preto": {body:"#2a2a2d", frame:"#454548", glass:"#1d1d20"},
+"Titânio Cinza": {body:"#8f9295", frame:"#6c6f73", glass:"#7d8083"},
+"Titânio Deserto": {body:"#c9aa82", frame:"#a98a62", glass:"#c0a078"},
 };
 </script>
 <!-- ======== DAQUI PRA BAIXO NÃO PRECISA MEXER ============== -->
@@ -227,53 +292,144 @@ const CORES = {
 </div>
 </header>
 <div class="headline">
-<h2 id="htitle">iPhones <span class="hl">Semi-novos</span></h2>
-<p id="hsub">Todos testados, com bateria conferida. Chama no WhatsApp que te ajudo a escolher.</p>
+<h2 id="htitle">iPhones <span class="hl">Novos (Lacrados)</span></h2>
+<p id="hsub">Lacrados, com Nota Fiscal e Garantia Apple de 1 ano. Pronta entrega.</p>
 </div>
 <div class="tabs">
-<button class="tab active" data-linha="semi">Semi-novos</button>
-<button class="tab" data-linha="novos">Novos (Lacrados)</button>
+<button class="tab active" data-linha="novos">Novos (Lacrados)</button>
+<button class="tab" data-linha="semi">Semi-novos</button>
 </div>
+
+<!-- Banner grande de garantia (só aparece na aba Novos) -->
+<div class="warranty-banner" id="warrantyBanner">
+<div class="warranty-inner">
+<div class="big-ico">
+<svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M12 2l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V5l7-3z" stroke="#06231a" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#06231a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</div>
+<div class="wtxt">
+<h4>Garantia Apple de 1 ANO</h4>
+<p>Aparelhos lacrados de fábrica, com Nota Fiscal. Garantia direto com a Apple — a maior segurança que existe.</p>
+</div>
+</div>
+</div>
+
+<!-- Formas de pagamento -->
+<div class="pay-strip">
+<span class="pay-badge">💳 Cartão em até <b>18x</b> (com taxas)</span>
+<span class="pay-badge pix">⚡ Pix à vista</span>
+</div>
+
 <div class="searchbar">
 <input id="search" type="text" placeholder="🔍 Buscar... (ex: 13 preto, 128gb, roxo)" autocomplete="off">
 </div>
+
+<div class="filter-label">Modelo</div>
 <div class="filter" id="filter"></div>
+
+<div class="filter-label">Faixa de preço</div>
+<div class="filter price" id="priceFilter"></div>
+
 <div class="wrap" id="catalog"></div>
 <a class="wafloat" id="wafloat" href="#" target="_blank" title="Falar no WhatsApp">
 <svg viewBox="0 0 24 24" width="32" height="32" fill="#fff"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
 </a>
 <footer>
 <span>© Zicão Store · Itaú de Minas/MG</span>
-<span>Atualizado direto no estoque · <a id="wlink" href="#" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:4px" fill="#25D366"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>Falar no WhatsApp</a></span>
+<span id="footdate">Atualizado direto no estoque · <a id="wlink" href="#" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:4px" fill="#25D366"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>Falar no WhatsApp</a></span>
 </footer>
 <script>
 function batIco(){return `<svg class="ico" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="17" height="10" rx="2.5" stroke="currentColor" stroke-width="2"/><rect x="4" y="9" width="11" height="6" rx="1" fill="currentColor"/><rect x="20" y="10" width="2.5" height="4" rx="1" fill="currentColor"/></svg>`;}
 const WA = `<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:5px" fill="#1a1205"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>`;
 const catalog=document.getElementById('catalog');
 const filterBar=document.getElementById('filter');
+const priceBar=document.getElementById('priceFilter');
 const searchInput=document.getElementById('search');
 let termoBusca='';
 const num=p=>parseFloat(p.replace(/\./g,'').replace(',','.'));
+const fmt=n=>n.toLocaleString('pt-BR');
+
+// ---- REGRA AUTOMÁTICA DE PREÇO (iPhone 13 pra cima, semi-novos) ----
+// Descobre o "nível" do modelo pela ordem. 13 = índice do "13".
 const ORDEM_MODELOS=["XR","SE","11","11 Pro","11 Pro Max","12","12 Pro","12 Pro Max","13","13 Pro","13 Pro Max","14","14 Plus","14 Pro","14 Pro Max","15","15 Plus","15 Pro","15 Pro Max","16","16e","16 Plus","16 Pro","16 Pro Max","17","17 Plus","17 Air","17 Pro","17 Pro Max"];
 const idxModelo=m=>{const i=ORDEM_MODELOS.indexOf(m);return i===-1?999:i;};
+const IDX_13 = idxModelo("13"); // qualquer modelo com índice >= a este é "13 pra cima"
+
+// Retorna o preço numérico ajustado pela bateria
+function precoAjustado(it){
+let base=num(it.preco);
+const ehTreze = idxModelo(it.modelo)>=IDX_13;
+if(ehTreze && it.bat){
+if(it.bat===100) base+=100;      // 100% → +100
+else if(it.bat<80) base-=100;    // abaixo de 80% → -100
+}
+return base;
+}
+// Preço formatado pra exibir
+function precoTexto(it){return fmt(precoAjustado(it));}
+
+const ORDEM_MODELOS_SORT=ORDEM_MODELOS;
 document.getElementById('wlink').href=`https://wa.me/${WHATS}`;
 document.getElementById('wafloat').href=`https://wa.me/${WHATS}`;
-let ordem=[], modelos=[], filtroModelo='all', linhaAtual='semi';
+
+// data automática no rodapé
+(function(){
+const d=new Date();
+const dd=String(d.getDate()).padStart(2,'0');
+const mm=String(d.getMonth()+1).padStart(2,'0');
+const linkHtml=document.getElementById('footdate').innerHTML.split('· ')[1];
+document.getElementById('footdate').innerHTML=`Atualizado em ${dd}/${mm} · ${linkHtml}`;
+})();
+
+// Faixas de preço
+const FAIXAS=[
+{label:"Todos", val:"all"},
+{label:"Até R$ 1.500", val:"0-1500"},
+{label:"R$ 1.500 – 3.000", val:"1500-3000"},
+{label:"Acima de R$ 3.000", val:"3000-999999"},
+];
+
+let ordem=[], modelos=[], filtroModelo='all', filtroPreco='all', linhaAtual='novos';
+
 function prep(){
 const fonte = linhaAtual==='novos' ? NOVOS : SEMINOVOS;
-ordem=[...fonte].sort((a,b)=>idxModelo(a.modelo)-idxModelo(b.modelo)||(b.bat||0)-(a.bat||0));
+// ordena por modelo e, dentro do modelo, por bateria (maior primeiro) e preço ajustado
+ordem=[...fonte].sort((a,b)=>
+idxModelo(a.modelo)-idxModelo(b.modelo)
+||(b.bat||0)-(a.bat||0)
+||precoAjustado(a)-precoAjustado(b)
+);
 modelos=[]; ordem.forEach(it=>{if(!modelos.includes(it.modelo))modelos.push(it.modelo);});
-filtroModelo='all';
+filtroModelo='all'; filtroPreco='all';
+
+// filtro de modelos
 filterBar.innerHTML='';
-mkFilter('Todos','all',true);
-modelos.forEach(m=>mkFilter(m,m,false));
+mkFilter(filterBar,'Todos','all',true,'modelo');
+modelos.forEach(m=>mkFilter(filterBar,m,m,false,'modelo'));
+
+// filtro de preço
+priceBar.innerHTML='';
+FAIXAS.forEach((f,i)=>mkFilter(priceBar,f.label,f.val,i===0,'preco'));
 }
-function mkFilter(label,val,active){
+
+function mkFilter(bar,label,val,active,tipo){
 const b=document.createElement('button');
 b.className='fbtn'+(active?' active':'');b.textContent=label;
-b.onclick=()=>{document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');filtroModelo=val;render();};
-filterBar.appendChild(b);
+b.onclick=()=>{
+[...bar.querySelectorAll('.fbtn')].forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+if(tipo==='modelo') filtroModelo=val; else filtroPreco=val;
+render();
+};
+bar.appendChild(b);
 }
+
+function dentroDaFaixa(it){
+if(filtroPreco==='all') return true;
+const [min,max]=filtroPreco.split('-').map(Number);
+const p=precoAjustado(it);
+return p>=min && p<=max;
+}
+
 function render(){
 catalog.innerHTML='';
 const ehNovo = linhaAtual==='novos';
@@ -282,39 +438,58 @@ let achou=false;
 modelos.forEach(modelo=>{
 if(filtroModelo!=='all'&&filtroModelo!==modelo)return;
 let itens=ordem.filter(i=>i.modelo===modelo);
+// filtro de preço
+itens=itens.filter(dentroDaFaixa);
+// busca por texto
 if(termo){
 itens=itens.filter(i=>{
-const alvo=`iphone ${i.modelo} ${i.cor} ${i.cap} ${i.preco}`.toLowerCase();
+const alvo=`iphone ${i.modelo} ${i.cor} ${i.cap} ${precoTexto(i)}`.toLowerCase();
 return termo.split(/\s+/).every(t=>alvo.includes(t));
 });
 }
 if(!itens.length)return;
 achou=true;
-const menor=itens.reduce((m,i)=>num(i.preco)<num(m.preco)?i:m,itens[0]);
+const menor=itens.reduce((m,i)=>precoAjustado(i)<precoAjustado(m)?i:m,itens[0]);
+const totalModelo=itens.length;
 const block=document.createElement('div');
 block.className='model-block';
-block.innerHTML=`<div class="model-head"><h3>iPhone ${modelo}</h3><span class="count">${itens.length} ${itens.length>1?'unidades':'unidade'}</span><span class="from">a partir de <b>${menor.preco}</b></span></div><div class="grid"></div>`;
+block.innerHTML=`<div class="model-head"><h3>iPhone ${modelo}</h3><span class="count">${totalModelo} ${totalModelo>1?'unidades':'unidade'}</span><span class="from">a partir de <b>${precoTexto(menor)}</b></span></div><div class="grid"></div>`;
 const grid=block.querySelector('.grid');
 itens.forEach(it=>{
+const pTxt=precoTexto(it);
 const estado = ehNovo ? 'novo lacrado' : `bateria ${it.bat}%`;
-const msg=encodeURIComponent(`Olá! Tenho interesse no iPhone ${it.modelo} ${it.cap} ${it.cor} (${estado}) — ${it.preco}. Ainda tem?`);
+const msg=encodeURIComponent(`Olá! Tenho interesse no iPhone ${it.modelo} ${it.cap} ${it.cor} (${estado}) — R$ ${pTxt}. Ainda tem?`);
 const c=CORES[it.cor]||CORES["Preto"];
+
+// selos de topo
+let flags='';
+const ehUltima = !ehNovo && totalModelo===1; // só 1 dessa cor/modelo depois dos filtros base
+if(!ehNovo){
+if(it.bat===100) flags+=`<span class="flag perfect">🔋 100% bateria</span>`;
+else if(it.bat>=90) flags+=`<span class="flag high">Bateria alta</span>`;
+}
+// selo de parcelamento
+const parcela = `18x R$ ${fmt(Math.ceil(precoAjustado(it)/18))}`;
+
 const selo = ehNovo
 ? `<span class="bat" style="color:var(--gold)">✔ Lacrado · Garantia Apple 1 ano</span>`
 : `<span class="bat">${batIco()} ${it.bat}%</span>`;
+
 const card=document.createElement('div');
-card.className='card';
-card.innerHTML=`<div class="cchip" style="background:linear-gradient(135deg,${c.frame},${c.body})"></div>
+card.className='card'+(!ehNovo && it.bat===100?' perfect':'');
+card.innerHTML=`${flags?`<div class="card-flags">${flags}</div>`:''}
+<div class="cchip" style="background:linear-gradient(135deg,${c.frame},${c.body})"></div>
 <div class="cinfo"><div class="ctop"><span class="colr">${it.cor||'—'}</span><span class="cap">${it.cap}</span></div>
 ${selo}
-<div class="price"><small>R$ </small>${it.preco}</div>
+<div class="price"><small>R$ </small>${pTxt}</div>
+<div class="parcela">ou <b>${parcela}</b> · Pix à vista</div>
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${msg}">${WA}Tenho interesse</a></div>`;
 grid.appendChild(card);
 });
 catalog.appendChild(block);
 });
 if(!achou){
-catalog.innerHTML=`<div class="noresult">Nenhum aparelho encontrado para "<b>${termoBusca}</b>". Tenta outra busca ou fala comigo no WhatsApp. 😊</div>`;
+catalog.innerHTML=`<div class="noresult">Nenhum aparelho encontrado${termoBusca?` para "<b>${termoBusca}</b>"`:''} nessa faixa de preço. Tenta outra busca ou fala comigo no WhatsApp. 😊</div>`;
 }
 }
 searchInput.addEventListener('input',e=>{termoBusca=e.target.value;render();});
@@ -331,9 +506,13 @@ linhaAtual=t.dataset.linha;
 termoBusca=''; searchInput.value='';
 document.getElementById('htitle').innerHTML=`iPhones <span class="hl">${TITULOS[linhaAtual]}</span>`;
 document.getElementById('hsub').textContent=SUBS[linhaAtual];
+// mostra banner de garantia só na aba novos
+document.getElementById('warrantyBanner').classList.toggle('show',linhaAtual==='novos');
 prep(); render();
 };
 });
+// como a aba Novos abre por padrão, já mostra o banner de garantia
+document.getElementById('warrantyBanner').classList.add('show');
 prep(); render();
 </script>
 </body>
