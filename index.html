@@ -412,6 +412,26 @@ const searchInput=document.getElementById('search');
 let termoBusca='';
 const num=p=>parseFloat(p.replace(/\./g,'').replace(',','.'));
 const fmt=n=>n.toLocaleString('pt-BR');
+const fmt2=n=>n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+// ---- TAXAS DO CARTÃO (PagBank) ----
+// taxa = percentual acrescido sobre o valor à vista.
+// Total a prazo = valor / (1 - taxa/100). Parcela = Total / nº de parcelas.
+// >>> Se as taxas da maquininha mudarem, é SÓ trocar os números aqui embaixo. <<<
+const TAXAS_CARTAO={
+1:4.99, 2:5.83, 3:6.48, 4:7.12, 5:7.76, 6:8.39,
+7:9.21, 8:9.83, 9:10.44, 10:11.05, 11:11.65, 12:12.25,
+13:13.64, 14:14.23, 15:14.81, 16:15.39, 17:15.96, 18:16.53
+};
+const MAX_PARCELAS=18;
+// calcula o valor de cada parcela em N vezes (com juros)
+function valorParcela(precoVista, n){
+const taxa=TAXAS_CARTAO[n];
+if(!taxa) return precoVista/n;
+const total=precoVista/(1-taxa/100);
+return total/n;
+}
+
 
 // ---- REGRA AUTOMÁTICA DE PREÇO (iPhone 13 pra cima, semi-novos) ----
 // Descobre o "nível" do modelo pela ordem. 13 = índice do "13".
@@ -533,8 +553,9 @@ if(!ehNovo){
 if(it.bat===100) flags+=`<span class="flag perfect">🔋 100% bateria</span>`;
 else if(it.bat>=90) flags+=`<span class="flag high">Bateria alta</span>`;
 }
-// selo de parcelamento
-const parcela = `18x R$ ${fmt(Math.ceil(precoAjustado(it)/18))}`;
+// selo de parcelamento (18x com juros reais da PagBank)
+const parcela18 = valorParcela(precoAjustado(it), 18);
+const parcela = `18x R$ ${fmt2(parcela18)}`;
 
 const selo = ehNovo
 ? `<span class="bat" style="color:var(--gold)">✔ Lacrado · Garantia Apple 1 ano</span>`
