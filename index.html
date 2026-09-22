@@ -460,6 +460,8 @@ return total/n;
 // Descobre o "nível" do modelo pela ordem. 13 = índice do "13".
 const ORDEM_MODELOS=["XR","SE","11","11 Pro","11 Pro Max","12","12 Pro","12 Pro Max","13","13 Pro","13 Pro Max","14","14 Plus","14 Pro","14 Pro Max","15","15 Plus","15 Pro","15 Pro Max","16","16e","16 Plus","16 Pro","16 Pro Max","17","17 Plus","17 Air","17 Pro","17 Pro Max"];
 const idxModelo=m=>{const i=ORDEM_MODELOS.indexOf(m);return i===-1?999:i;};
+// Converte capacidade em número pra ordenar (64GB<128GB<256GB<512GB<1TB)
+const capNum=c=>{const s=String(c).toUpperCase();const n=parseFloat(s)||0;return s.includes('TB')?n*1024:n;};
 const IDX_13 = idxModelo("13"); // qualquer modelo com índice >= a este é "13 pra cima"
 
 // Retorna o preço numérico ajustado pela bateria
@@ -505,8 +507,10 @@ const fonte = linhaAtual==='novos' ? NOVOS : SEMINOVOS;
 // ordena por modelo e, dentro do modelo, por bateria (maior primeiro) e preço ajustado
 ordem=[...fonte].sort((a,b)=>
 idxModelo(a.modelo)-idxModelo(b.modelo)
-||(b.bat||0)-(a.bat||0)
 ||precoAjustado(a)-precoAjustado(b)
+||capNum(a.cap)-capNum(b.cap)
+||(b.bat||0)-(a.bat||0)
+||(a.cor||'').localeCompare(b.cor||'','pt')
 );
 modelos=[]; ordem.forEach(it=>{if(!modelos.includes(it.modelo))modelos.push(it.modelo);});
 filtroModelo='all'; filtroPreco='all';
