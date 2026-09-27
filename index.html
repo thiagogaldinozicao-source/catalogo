@@ -234,6 +234,42 @@ footer{flex-direction:column;gap:6px;text-align:center;padding:24px 16px 0}
 .parc li{font-size:11px}
 .parc .ptot{display:none}
 }
+/* ---- aparelho em destaque (abre ao tocar no card) ---- */
+.card{cursor:pointer}
+.card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+body.noscroll{overflow:hidden}
+.det{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.det[hidden]{display:none}
+.det-bg{position:absolute;inset:0;background:rgba(5,7,10,.8);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.det-box{position:relative;width:100%;max-width:440px;max-height:calc(100vh - 40px);overflow-y:auto;overscroll-behavior:contain;background:var(--card);border:1px solid rgba(245,179,1,.35);border-radius:20px;box-shadow:0 24px 70px rgba(0,0,0,.65);animation:detIn .18s ease}
+@keyframes detIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.det-x{position:absolute;top:10px;right:10px;z-index:3;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(12,15,20,.85);color:var(--txt);font-size:17px;line-height:1;cursor:pointer}
+.det-img{display:block;width:100%;height:min(440px,48vh);object-fit:contain;background:#0e1319;border-bottom:1px solid var(--line)}
+.det-cor{height:96px}
+.det-flags{position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:2}
+.det-in{padding:18px 20px 22px;display:flex;flex-direction:column;gap:10px}
+.det-in h3{font-family:'Sora';font-size:23px;font-weight:800;line-height:1.15}
+.det-sub{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.det-sub .colr{font-size:14.5px}
+.det-price{font-family:'Sora';font-weight:800;font-size:31px;margin-top:4px}
+.det-price small{font-size:15px;color:var(--mut);font-weight:600}
+.det-price .pix{font-size:13px;color:var(--mut);font-weight:600;margin-left:6px}
+body.noscroll .wafloat{display:none}
+.det-gar{font-size:12.5px;color:var(--mut);font-weight:600}
+.det-tit{font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--mut);margin-top:6px}
+.det .parc ul{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:6px;margin:0}
+.det .parc li{font-size:12px}
+.det .parc .ptot{display:block}
+.det .buy{display:block;font-size:15px;padding:13px;margin-top:6px}
+@media(max-width:640px){
+.det{padding:0;align-items:flex-end}
+.det-box{max-width:none;max-height:92vh;border-radius:20px 20px 0 0;border-bottom:none;animation:detUp .22s ease}
+@keyframes detUp{from{opacity:.4;transform:translateY(40px)}to{opacity:1;transform:none}}
+.det-in{padding:16px 16px 22px}
+.det-in h3{font-size:21px}
+.det-price{font-size:28px}
+.det .parc li{font-size:11.5px}
+}
 </style>
 </head>
 <body>
@@ -459,6 +495,13 @@ const CORES = {
 <a class="wafloat" id="wafloat" href="#" target="_blank" title="Falar no WhatsApp">
 <svg viewBox="0 0 24 24" width="32" height="32" fill="#fff"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
 </a>
+<div class="det" id="det" hidden>
+<div class="det-bg" data-close></div>
+<div class="det-box" role="dialog" aria-modal="true" aria-label="Detalhes do aparelho">
+<button class="det-x" type="button" data-close aria-label="Fechar">✕</button>
+<div id="detBody"></div>
+</div>
+</div>
 <footer>
 <span>© Zicão Store · Itaú de Minas/MG</span>
 <span id="footdate">Atualizado direto no estoque · <a id="wlink" href="#" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:4px" fill="#25D366"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>Falar no WhatsApp</a></span>
@@ -667,6 +710,10 @@ ${it.obs?`<div class="cobs">⚠ ${it.obs}</div>`:''}
 <div class="parcela">ou <b>${p12}</b> · <b>${p18}</b></div>
 <details class="parc"><summary>ver parcelas</summary><ul>${listaParcelas(vista)}</ul></details>
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${msg}">${WA}Tenho interesse</a></div>`;
+card.tabIndex=0;
+const abrir=()=>abrirDetalhe({it,ehNovo,pTxt,vista,foto,c,msg,flags,selo});
+card.addEventListener('click',e=>{ if(e.target.closest('a,summary,details')) return; abrir(); });
+card.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target===card){ e.preventDefault(); abrir(); } });
 grid.appendChild(card);
 });
 catalog.appendChild(block);
@@ -696,6 +743,42 @@ prep(); render();
 });
 // como a aba Novos abre por padrão, já mostra o banner de garantia
 document.getElementById('warrantyBanner').classList.add('show');
+
+// ---- aparelho em destaque ----
+const det=document.getElementById('det'), detBody=document.getElementById('detBody');
+function abrirDetalhe(d){
+const {it,ehNovo,pTxt,vista,foto,c,msg,flags,selo}=d;
+const gar = ehNovo ? 'Lacrado · Nota Fiscal · Garantia Apple de 1 ano' : 'Testado · Garantia de 90 dias da loja';
+detBody.innerHTML=`${flags?`<div class="det-flags">${flags}</div>`:''}
+${foto?`<img class="det-img" src="${foto}" alt="iPhone ${it.modelo} ${it.cor}">`:''}
+<div class="cchip det-cor" style="background:linear-gradient(135deg,${c.frame},${c.body});${foto?'height:8px;border-radius:0;margin:0':'border-radius:0;margin:0'}"></div>
+<div class="det-in">
+<h3>iPhone ${it.modelo}</h3>
+<div class="det-sub"><span class="colr">${it.cor||'—'}</span><span class="cap">${it.cap}</span>${selo}</div>
+${it.obs?`<div class="cobs">⚠ ${it.obs}</div>`:''}
+<div class="det-price"><small>R$ </small>${pTxt}<span class="pix">no Pix</span></div>
+<div class="parcela">ou <b>12x R$ ${fmt2(valorParcela(vista,12))}</b> · <b>18x R$ ${fmt2(valorParcela(vista,18))}</b></div>
+<div class="det-gar">${gar}</div>
+<div class="det-tit">Parcelas no cartão</div>
+<div class="parc"><ul>${listaParcelas(vista)}</ul></div>
+<a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${msg}">${WA}Tenho interesse</a>
+</div>`;
+det.hidden=false;
+det.querySelector('.det-box').scrollTop=0;
+document.body.classList.add('noscroll');
+history.pushState({det:1},'');
+det.querySelector('.det-x').focus({preventScroll:true});
+}
+function fecharDetalhe(veioDoVoltar){
+if(det.hidden) return;
+det.hidden=true;
+document.body.classList.remove('noscroll');
+if(!veioDoVoltar && history.state && history.state.det) history.back();
+}
+det.addEventListener('click',e=>{ if(e.target.closest('[data-close]')) fecharDetalhe(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') fecharDetalhe(); });
+window.addEventListener('popstate',()=>fecharDetalhe(true));
+
 prep(); render();
 </script>
 </body>
