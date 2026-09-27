@@ -210,6 +210,7 @@ footer{flex-direction:column;gap:6px;text-align:center;padding:24px 16px 0}
 /* botões de compra sempre com o texto legível */
 .buy svg{display:none}
 }
+.cobs{font-size:12px;line-height:1.35;color:#f0b35a;margin:6px 0 2px;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -217,9 +218,11 @@ footer{flex-direction:column;gap:6px;text-align:center;padding:24px 16px 0}
 <!-- =============== EDITE SUAS LISTAS AQUI EMBAIXO =========== -->
 <!-- =============================================================
 São DUAS listas: SEMINOVOS e NOVOS.
+• SEMINOVOS é AUTOMÁTICA: vem do estoque do Zicão Gestão toda noite.
+  Não edite aqui (seria apagado). Mude preço/bateria/obs no sistema.
+• NOVOS (lacrados/encomenda) é MANUAL: edite aqui mesmo.
 Cada aparelho é UMA linha entre { }.
-• modelo / bat (só número) / cap / cor / preco (só número)
-• Vendeu? Apague a linha. Chegou? Copie uma e troque.
+• modelo / bat (só número) / cap / cor / preco (só número) / obs (opcional)
 • Cores aceitas estão lá embaixo em CORES.
 
 REGRA AUTOMÁTICA DE PREÇO (iPhone 13 pra cima, só semi-novos):
@@ -232,100 +235,105 @@ Você digita o preço BASE; o site ajusta sozinho. Não precisa fazer conta.
 const WHATS = "5535991580070"; // <-- SEU NÚMERO (DDI+DDD+numero, só dígitos)
 
 const SEMINOVOS = [
-{modelo:"SE", bat:73, cap:"64GB", cor:"Branco", preco:"799"},
-{modelo:"11", bat:70, cap:"64GB", cor:"Branco", preco:"999"},
 {modelo:"11", bat:72, cap:"64GB", cor:"Branco", preco:"999"},
-{modelo:"11", bat:66, cap:"64GB", cor:"Branco", preco:"999"},
 {modelo:"11", bat:72, cap:"64GB", cor:"Preto", preco:"999"},
-{modelo:"11", bat:69, cap:"128GB", cor:"Vermelho", preco:"1.299"},
-{modelo:"11", bat:71, cap:"128GB", cor:"Branco", preco:"1.299"},
-{modelo:"11", bat:69, cap:"128GB", cor:"Branco", preco:"1.299"},
-{modelo:"11", bat:70, cap:"128GB", cor:"Branco", preco:"1.299"},
-{modelo:"11", bat:68, cap:"128GB", cor:"Preto", preco:"1.299"},
-{modelo:"11", bat:71, cap:"128GB", cor:"Preto", preco:"1.299"},
+{modelo:"11", bat:70, cap:"64GB", cor:"Branco", preco:"999"},
+{modelo:"11", bat:66, cap:"64GB", cor:"Branco", preco:"999"},
 {modelo:"11", bat:83, cap:"128GB", cor:"Preto", preco:"1.299"},
+{modelo:"11", bat:71, cap:"128GB", cor:"Branco", preco:"1.299"},
+{modelo:"11", bat:71, cap:"128GB", cor:"Preto", preco:"1.299"},
+{modelo:"11", bat:70, cap:"128GB", cor:"Branco", preco:"1.299"},
+{modelo:"11", bat:69, cap:"128GB", cor:"Branco", preco:"1.299"},
+{modelo:"11", bat:69, cap:"128GB", cor:"Vermelho", preco:"1.299"},
+{modelo:"11", bat:68, cap:"128GB", cor:"Preto", preco:"1.299"},
 {modelo:"11 Pro", bat:100, cap:"64GB", cor:"Preto", preco:"1.590"},
 {modelo:"12", bat:79, cap:"64GB", cor:"Lilás", preco:"1.399"},
-{modelo:"12", bat:76, cap:"64GB", cor:"Lilás", preco:"1.399"},
-{modelo:"12", bat:74, cap:"64GB", cor:"Preto", preco:"1.399"},
+{modelo:"12", bat:79, cap:"64GB", cor:"Preto", preco:"1.399"},
 {modelo:"12", bat:79, cap:"64GB", cor:"Preto", preco:"1.399"},
 {modelo:"12", bat:78, cap:"64GB", cor:"Preto", preco:"1.399"},
-{modelo:"12", bat:79, cap:"64GB", cor:"Preto", preco:"1.399"},
-{modelo:"13", bat:79, cap:"128GB", cor:"Branco", preco:"1.999"},
-{modelo:"13", bat:78, cap:"128GB", cor:"Branco", preco:"1.999"},
-{modelo:"13", bat:72, cap:"128GB", cor:"Branco", preco:"1.999"},
-{modelo:"13", bat:77, cap:"128GB", cor:"Branco", preco:"1.999"},
-{modelo:"13", bat:90, cap:"128GB", cor:"Branco", preco:"2.099"},
-{modelo:"13", bat:77, cap:"128GB", cor:"Azul Claro", preco:"1.999"},
-{modelo:"13", bat:76, cap:"128GB", cor:"Preto", preco:"1.999"},
-{modelo:"13", bat:72, cap:"128GB", cor:"Preto", preco:"1.999"},
-{modelo:"13", bat:72, cap:"128GB", cor:"Preto", preco:"1.999"},
-{modelo:"13", bat:75, cap:"128GB", cor:"Preto", preco:"1.999"},
-{modelo:"13", bat:79, cap:"128GB", cor:"Preto", preco:"1.999"},
+{modelo:"12", bat:76, cap:"64GB", cor:"Lilás", preco:"1.399"},
+{modelo:"12", bat:74, cap:"64GB", cor:"Preto", preco:"1.399"},
 {modelo:"13", bat:87, cap:"128GB", cor:"Preto", preco:"1.999"},
+{modelo:"13", bat:79, cap:"128GB", cor:"Branco", preco:"1.999"},
+{modelo:"13", bat:79, cap:"128GB", cor:"Preto", preco:"1.999"},
+{modelo:"13", bat:78, cap:"128GB", cor:"Branco", preco:"1.999"},
+{modelo:"13", bat:77, cap:"128GB", cor:"Azul Claro", preco:"1.999"},
+{modelo:"13", bat:77, cap:"128GB", cor:"Branco", preco:"1.999"},
+{modelo:"13", bat:76, cap:"128GB", cor:"Preto", preco:"1.999"},
+{modelo:"13", bat:75, cap:"128GB", cor:"Preto", preco:"1.999"},
+{modelo:"13", bat:72, cap:"128GB", cor:"Branco", preco:"1.999"},
+{modelo:"13", bat:72, cap:"128GB", cor:"Preto", preco:"1.999"},
+{modelo:"13", bat:72, cap:"128GB", cor:"Preto", preco:"1.999"},
+{modelo:"13", bat:90, cap:"128GB", cor:"Branco", preco:"2.099"},
+{modelo:"13", bat:100, cap:"128GB", cor:"Meia-noite", preco:"2.199", obs:"Bateria trocada, eu mesmo que troquei"},
 {modelo:"13", bat:77, cap:"256GB", cor:"Preto", preco:"2.199"},
-{modelo:"13 Pro Max", bat:78, cap:"128GB", cor:"Branco", preco:"2.999"},
 {modelo:"13 Pro Max", bat:79, cap:"128GB", cor:"Preto", preco:"2.999"},
+{modelo:"13 Pro Max", bat:78, cap:"128GB", cor:"Branco", preco:"2.999"},
 {modelo:"13 Pro Max", bat:81, cap:"128GB", cor:"Azul Claro", preco:"3.099"},
 {modelo:"14", bat:78, cap:"128GB", cor:"Azul Claro", preco:"2.399"},
-{modelo:"14", bat:82, cap:"128GB", cor:"Azul Claro", preco:"2.499"},
-{modelo:"14", bat:84, cap:"128GB", cor:"Azul Claro", preco:"2.499"},
-{modelo:"14", bat:84, cap:"128GB", cor:"Azul Claro", preco:"2.499"},
 {modelo:"14", bat:78, cap:"128GB", cor:"Preto", preco:"2.399"},
+{modelo:"14", bat:77, cap:"128GB", cor:"Branco", preco:"2.399"},
+{modelo:"14", bat:77, cap:"128GB", cor:"Branco", preco:"2.399"},
+{modelo:"14", bat:88, cap:"128GB", cor:"Branco", preco:"2.499"},
+{modelo:"14", bat:84, cap:"128GB", cor:"Azul Claro", preco:"2.499"},
+{modelo:"14", bat:84, cap:"128GB", cor:"Azul Claro", preco:"2.499"},
+{modelo:"14", bat:84, cap:"128GB", cor:"Preto", preco:"2.499"},
+{modelo:"14", bat:83, cap:"128GB", cor:"Branco", preco:"2.499"},
+{modelo:"14", bat:82, cap:"128GB", cor:"Azul Claro", preco:"2.499"},
 {modelo:"14", bat:81, cap:"128GB", cor:"Preto", preco:"2.499"},
 {modelo:"14", bat:80, cap:"128GB", cor:"Preto", preco:"2.499"},
-{modelo:"14", bat:84, cap:"128GB", cor:"Preto", preco:"2.499"},
 {modelo:"14", bat:85, cap:"256GB", cor:"Preto", preco:"2.790"},
-{modelo:"14", bat:77, cap:"128GB", cor:"Branco", preco:"2.399"},
-{modelo:"14", bat:83, cap:"128GB", cor:"Branco", preco:"2.499"},
-{modelo:"14", bat:77, cap:"128GB", cor:"Branco", preco:"2.399"},
 {modelo:"14 Pro", bat:83, cap:"128GB", cor:"Roxo", preco:"3.490"},
-{modelo:"14 Pro Max", bat:85, cap:"128GB", cor:"Roxo", preco:"3.690"},
-{modelo:"14 Pro Max", bat:78, cap:"128GB", cor:"Roxo", preco:"3.590"},
-{modelo:"14 Pro Max", bat:83, cap:"128GB", cor:"Roxo", preco:"3.690"},
-{modelo:"14 Pro Max", bat:83, cap:"128GB", cor:"Roxo", preco:"3.690"},
-{modelo:"14 Pro Max", bat:84, cap:"128GB", cor:"Roxo", preco:"3.690"},
 {modelo:"14 Pro Max", bat:79, cap:"128GB", cor:"Preto", preco:"3.590"},
-{modelo:"14 Pro Max", bat:83, cap:"128GB", cor:"Preto", preco:"3.690"},
-{modelo:"14 Pro Max", bat:83, cap:"128GB", cor:"Preto", preco:"3.690"},
+{modelo:"14 Pro Max", bat:78, cap:"128GB", cor:"Roxo", preco:"3.590"},
 {modelo:"14 Pro Max", bat:85, cap:"128GB", cor:"Preto", preco:"3.690"},
+{modelo:"14 Pro Max", bat:84, cap:"128GB", cor:"Roxo", preco:"3.690"},
+{modelo:"14 Pro Max", bat:83, cap:"128GB", cor:"Preto", preco:"3.690"},
+{modelo:"14 Pro Max", bat:83, cap:"128GB", cor:"Preto", preco:"3.690"},
+{modelo:"14 Pro Max", bat:83, cap:"128GB", cor:"Roxo", preco:"3.690"},
+{modelo:"14 Pro Max", bat:83, cap:"128GB", cor:"Roxo", preco:"3.690"},
 {modelo:"14 Pro Max", bat:80, cap:"128GB", cor:"Roxo", preco:"3.690"},
 {modelo:"14 Pro Max", bat:79, cap:"256GB", cor:"Roxo", preco:"3.899"},
 {modelo:"14 Pro Max", bat:85, cap:"256GB", cor:"Roxo", preco:"3.999"},
 {modelo:"14 Pro Max", bat:82, cap:"256GB", cor:"Preto", preco:"3.999"},
-{modelo:"15", bat:85, cap:"128GB", cor:"Branco", preco:"3.290"},
 {modelo:"15", bat:88, cap:"128GB", cor:"Preto", preco:"3.290"},
+{modelo:"15", bat:85, cap:"128GB", cor:"Branco", preco:"3.290"},
+{modelo:"15 Pro", bat:89, cap:"128GB", cor:"Azul", preco:"3.799"},
+{modelo:"15 Pro", bat:88, cap:"128GB", cor:"Cinza", preco:"3.799"},
+{modelo:"15 Pro", bat:87, cap:"128GB", cor:"Cinza", preco:"3.799"},
 {modelo:"15 Pro", bat:87, cap:"128GB", cor:"Cinza", preco:"3.799"},
 {modelo:"15 Pro", bat:86, cap:"128GB", cor:"Cinza", preco:"3.799"},
-{modelo:"15 Pro", bat:82, cap:"128GB", cor:"Cinza", preco:"3.799"},
-{modelo:"15 Pro", bat:87, cap:"128GB", cor:"Cinza", preco:"3.799"},
-{modelo:"15 Pro", bat:83, cap:"128GB", cor:"Cinza", preco:"3.799"},
-{modelo:"15 Pro", bat:88, cap:"128GB", cor:"Cinza", preco:"3.799"},
 {modelo:"15 Pro", bat:86, cap:"128GB", cor:"Preto", preco:"3.799"},
-{modelo:"15 Pro", bat:89, cap:"128GB", cor:"Azul", preco:"3.799"},
-{modelo:"15 Pro", bat:87, cap:"256GB", cor:"Preto", preco:"4.190"},
+{modelo:"15 Pro", bat:83, cap:"128GB", cor:"Cinza", preco:"3.799"},
+{modelo:"15 Pro", bat:82, cap:"128GB", cor:"Cinza", preco:"3.799"},
 {modelo:"15 Pro", bat:80, cap:"256GB", cor:"Cinza", preco:"4.099"},
-{modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Preto", preco:"4.399"},
-{modelo:"15 Pro Max", bat:87, cap:"256GB", cor:"Preto", preco:"4.190", obs:"tela com arranhões"},
-{modelo:"15 Pro Max", bat:82, cap:"256GB", cor:"Azul", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Azul", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Azul", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Cinza", preco:"4.399"},
-{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Cinza", preco:"4.399"},
+{modelo:"15 Pro", bat:87, cap:"256GB", cor:"Preto", preco:"4.190"},
+{modelo:"15 Pro Max", bat:87, cap:"256GB", cor:"Preto", preco:"4.190"},
 {modelo:"15 Pro Max", bat:85, cap:"256GB", cor:"Cinza", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Azul", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Azul", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Cinza", preco:"4.399"},
+{modelo:"15 Pro Max", bat:84, cap:"256GB", cor:"Cinza", preco:"4.399"},
 {modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Cinza", preco:"4.399"},
 {modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Cinza", preco:"4.399"},
 {modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Cinza", preco:"4.399"},
+{modelo:"15 Pro Max", bat:83, cap:"256GB", cor:"Preto", preco:"4.399"},
+{modelo:"15 Pro Max", bat:82, cap:"256GB", cor:"Azul", preco:"4.399"},
 {modelo:"15 Pro Max", bat:84, cap:"512GB", cor:"Azul", preco:"4.799"},
 {modelo:"16", bat:90, cap:"128GB", cor:"Verde", preco:"3.999"},
 {modelo:"16", bat:88, cap:"128GB", cor:"Verde", preco:"3.999"},
 {modelo:"16", bat:88, cap:"128GB", cor:"Verde", preco:"3.999"},
-{modelo:"16 Pro", bat:91, cap:"128GB", cor:"Desert", preco:"4.799"},
 {modelo:"16 Pro", bat:91, cap:"128GB", cor:"Preto", preco:"4.799"},
+{modelo:"16 Pro", bat:91, cap:"128GB", cor:"Titânio Deserto", preco:"4.799"},
 {modelo:"16 Pro", bat:92, cap:"256GB", cor:"Cinza", preco:"5.199"},
-{modelo:"16 Pro Max", bat:89, cap:"256GB", cor:"Preto", preco:"5.799"},
+{modelo:"16 Pro Max", bat:93, cap:"256GB", cor:"Titânio Deserto", preco:"5.799"},
+{modelo:"16 Pro Max", bat:91, cap:"256GB", cor:"Titânio Deserto", preco:"5.799"},
 {modelo:"16 Pro Max", bat:89, cap:"256GB", cor:"Cinza", preco:"5.799"},
-{modelo:"16 Pro Max", bat:91, cap:"256GB", cor:"Desert", preco:"5.799"},
+{modelo:"16 Pro Max", bat:89, cap:"256GB", cor:"Preto", preco:"5.799"},
+{modelo:"17", bat:100, cap:"256GB", cor:"Preto", preco:"4.990"},
+{modelo:"17 Pro", bat:93, cap:"256GB", cor:"Branco", preco:"6.590"},
+{modelo:"17 Pro", bat:100, cap:"256GB", cor:"Prateado", preco:"7.290"},
+{modelo:"SE", bat:73, cap:"64GB", cor:"Branco", preco:"799"},
 ];
 
 // NOVOS LACRADOS — não têm bateria (use 0). cor pode ficar "" se não souber.
@@ -361,6 +369,18 @@ const CORES = {
 "Titânio Preto": {body:"#2a2a2d", frame:"#454548", glass:"#1d1d20"},
 "Titânio Cinza": {body:"#8f9295", frame:"#6c6f73", glass:"#7d8083"},
 "Titânio Deserto": {body:"#c9aa82", frame:"#a98a62", glass:"#c0a078"},
+"Meia-noite": {body:"#232a35", frame:"#3b4250", glass:"#1b212b"},
+"Estelar": {body:"#f0e9dd", frame:"#cfc6b6", glass:"#f7f2ea"},
+"Prateado": {body:"#dfe3e6", frame:"#b9bfc4", glass:"#eef1f3"},
+"Grafite": {body:"#4a4b4f", frame:"#34353a", glass:"#3f4044"},
+"Rosa": {body:"#efc9cf", frame:"#cfa3aa", glass:"#e8bcc3"},
+"Amarelo": {body:"#f1dd8f", frame:"#cdb86a", glass:"#ead482"},
+"Laranja-cósmico": {body:"#d98a4e", frame:"#b56a30", glass:"#cf8044"},
+"Azul-profundo": {body:"#2f3d58", frame:"#223047", glass:"#29364f"},
+"Azul-névoa": {body:"#b9c9dc", frame:"#97aac0", glass:"#aebfd3"},
+"Lavanda": {body:"#cdc3de", frame:"#a99fc0", glass:"#c3b8d6"},
+"Sálvia": {body:"#b7c6b4", frame:"#93a68f", glass:"#aebfaa"},
+"Azul-céu": {body:"#aac2d6", frame:"#88a4bb", glass:"#9fbace"},
 };
 </script>
 <!-- ======== DAQUI PRA BAIXO NÃO PRECISA MEXER ============== -->
@@ -454,7 +474,7 @@ return total/n;
 
 // ---- REGRA AUTOMÁTICA DE PREÇO (iPhone 13 pra cima, semi-novos) ----
 // Descobre o "nível" do modelo pela ordem. 13 = índice do "13".
-const ORDEM_MODELOS=["XR","SE","11","11 Pro","11 Pro Max","12","12 Pro","12 Pro Max","13","13 Pro","13 Pro Max","14","14 Plus","14 Pro","14 Pro Max","15","15 Plus","15 Pro","15 Pro Max","16","16e","16 Plus","16 Pro","16 Pro Max","17","17 Plus","17 Air","17 Pro","17 Pro Max"];
+const ORDEM_MODELOS=["XR","SE","11","11 Pro","11 Pro Max","12","12 Pro","12 Pro Max","13","13 Pro","13 Pro Max","14","14 Plus","14 Pro","14 Pro Max","15","15 Plus","15 Pro","15 Pro Max","16","16e","16 Plus","16 Pro","16 Pro Max","17e","17","17 Plus","17 Air","Air","17 Pro","17 Pro Max","18","18 Pro","18 Pro Max","Duo"];
 const idxModelo=m=>{const i=ORDEM_MODELOS.indexOf(m);return i===-1?999:i;};
 // Converte capacidade em número pra ordenar (64GB<128GB<256GB<512GB<1TB)
 const capNum=c=>{const s=String(c).toUpperCase();const n=parseFloat(s)||0;return s.includes('TB')?n*1024:n;};
@@ -563,7 +583,7 @@ const menor=itens.reduce((m,i)=>precoAjustado(i)<precoAjustado(m)?i:m,itens[0]);
 const totalModelo=itens.length;
 const block=document.createElement('div');
 block.className='model-block';
-block.innerHTML=`<div class="model-head"><h3>iPhone ${modelo}</h3><span class="count">${totalModelo} ${totalModelo>1?'unidades':'unidade'}</span><span class="from">a partir de <b>${precoTexto(menor)}</b></span></div><div class="grid"></div>`;
+block.innerHTML=`<div class="model-head"><h3>iPhone ${modelo}</h3>${ehNovo?'':`<span class="count">${totalModelo} ${totalModelo>1?'unidades':'unidade'}</span>`}<span class="from">a partir de <b>${precoTexto(menor)}</b></span></div><div class="grid"></div>`;
 const grid=block.querySelector('.grid');
 itens.forEach(it=>{
 const pTxt=precoTexto(it);
@@ -578,7 +598,6 @@ if(!ehNovo){
 if(it.bat===100) flags+=`<span class="flag perfect">🔋 100% bateria</span>`;
 else if(it.bat>=90) flags+=`<span class="flag high">Bateria alta</span>`;
 }
-if(it.obs) flags+=`<span class="flag last">⚠ ${it.obs}</span>`;
 // selo de parcelamento (18x com juros reais da PagBank)
 const parcela18 = valorParcela(precoAjustado(it), 18);
 const parcela = `18x R$ ${fmt2(parcela18)}`;
@@ -593,6 +612,7 @@ card.innerHTML=`${flags?`<div class="card-flags">${flags}</div>`:''}
 <div class="cchip" style="background:linear-gradient(135deg,${c.frame},${c.body})"></div>
 <div class="cinfo"><div class="ctop"><span class="colr">${it.cor||'—'}</span><span class="cap">${it.cap}</span></div>
 ${selo}
+${it.obs?`<div class="cobs">⚠ ${it.obs}</div>`:''}
 <div class="price"><small>R$ </small>${pTxt}</div>
 <div class="parcela">ou <b>${parcela}</b> · Pix à vista</div>
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${msg}">${WA}Tenho interesse</a></div>`;
