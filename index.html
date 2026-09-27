@@ -211,6 +211,29 @@ footer{flex-direction:column;gap:6px;text-align:center;padding:24px 16px 0}
 .buy svg{display:none}
 }
 .cobs{font-size:12px;line-height:1.35;color:#f0b35a;margin:6px 0 2px;overflow-wrap:anywhere}
+/* foto do aparelho (só aparece se existir em fotos/) */
+.cphoto{display:block;width:calc(100% + 32px);max-width:none;margin:-16px -16px 0;aspect-ratio:1/1;object-fit:contain;background:#0e1319;border-bottom:1px solid var(--line)}
+/* parcelamento clicável */
+.price .pix{font-size:11px;color:var(--mut);font-weight:600;margin-left:2px}
+.parcela b{white-space:nowrap}
+.card .cinfo{flex:1}
+.card .buy{margin-top:auto}
+.parc{margin-top:-6px}
+.parc summary{list-style:none;cursor:pointer;font-size:11.5px;font-weight:700;color:var(--gold);padding:3px 0;display:inline-flex;align-items:center;gap:4px;user-select:none}
+.parc summary::-webkit-details-marker{display:none}
+.parc summary::after{content:'▾';font-size:10px;transition:transform .15s}
+.parc[open] summary::after{transform:rotate(180deg)}
+.parc ul{list-style:none;margin:6px 0 2px;padding:8px 10px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:4px}
+.parc li{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--mut)}
+.parc li b{color:var(--txt);font-weight:700;white-space:nowrap}
+.parc .ptot{display:block;text-align:right;font-size:10px;color:var(--mut);font-weight:500}
+@media(max-width:640px){
+.cphoto{width:calc(100% + 24px);margin:-12px -12px 0}
+.parc summary{font-size:10.5px}
+.parc ul{padding:7px 8px}
+.parc li{font-size:11px}
+.parc .ptot{display:none}
+}
 </style>
 </head>
 <body>
@@ -462,6 +485,31 @@ const TAXAS_CARTAO={
 13:13.64, 14:14.23, 15:14.81, 16:15.39, 17:15.96, 18:16.53
 };
 const MAX_PARCELAS=18;
+
+// ---- FOTOS DOS APARELHOS ----
+// As fotos ficam na pasta fotos/ do GitHub, em .webp, com o nome "modelo-cor".
+// Ex.: fotos/15-pro-max-cinza.webp  ·  fotos/13-branco.webp
+// Também vale uma foto só do modelo (serve pra qualquer cor): fotos/15-pro-max.webp
+// Coloque aqui o nome de cada foto que existe na pasta (sem o .webp).
+// Aparelho sem foto continua mostrando só a faixa de cor.
+const FOTOS=[
+];
+const slug=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/^\s*iphone\s*/,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function fotoDe(it){
+const m=slug(it.modelo), mc=m+'-'+slug(it.cor);
+if(FOTOS.includes(mc)) return `fotos/${mc}.webp`;
+if(FOTOS.includes(m)) return `fotos/${m}.webp`;
+return '';
+}
+// lista de parcelas de 1x a 18x (juros da PagBank)
+function listaParcelas(v){
+let li='';
+for(let n=1;n<=MAX_PARCELAS;n++){
+const p=valorParcela(v,n);
+li+=`<li><span>${n}x</span><b>R$ ${fmt2(p)}<span class="ptot">total R$ ${fmt2(p*n)}</span></b></li>`;
+}
+return li;
+}
 // calcula o valor de cada parcela em N vezes (com juros)
 function valorParcela(precoVista, n){
 const taxa=TAXAS_CARTAO[n];
@@ -597,9 +645,11 @@ if(!ehNovo){
 if(it.bat===100) flags+=`<span class="flag perfect">🔋 100% bateria</span>`;
 else if(it.bat>=90) flags+=`<span class="flag high">Bateria alta</span>`;
 }
-// selo de parcelamento (18x com juros reais da PagBank)
-const parcela18 = valorParcela(precoAjustado(it), 18);
-const parcela = `18x R$ ${fmt2(parcela18)}`;
+// parcelamento (juros reais da PagBank): mostra 12x e 18x + lista clicável de 1x a 18x
+const vista = precoAjustado(it);
+const p12 = `12x R$ ${fmt2(valorParcela(vista,12))}`;
+const p18 = `18x R$ ${fmt2(valorParcela(vista,18))}`;
+const foto = fotoDe(it);
 
 const selo = ehNovo
 ? `<span class="bat" style="color:var(--gold)">✔ Lacrado · Garantia Apple 1 ano</span>`
@@ -608,12 +658,14 @@ const selo = ehNovo
 const card=document.createElement('div');
 card.className='card'+(!ehNovo && it.bat===100?' perfect':'');
 card.innerHTML=`${flags?`<div class="card-flags">${flags}</div>`:''}
+${foto?`<img class="cphoto" src="${foto}" alt="iPhone ${it.modelo} ${it.cor}" loading="lazy" decoding="async">`:''}
 <div class="cchip" style="background:linear-gradient(135deg,${c.frame},${c.body})"></div>
 <div class="cinfo"><div class="ctop"><span class="colr">${it.cor||'—'}</span><span class="cap">${it.cap}</span></div>
 ${selo}
 ${it.obs?`<div class="cobs">⚠ ${it.obs}</div>`:''}
-<div class="price"><small>R$ </small>${pTxt}</div>
-<div class="parcela">ou <b>${parcela}</b> · Pix à vista</div>
+<div class="price"><small>R$ </small>${pTxt}<span class="pix">no Pix</span></div>
+<div class="parcela">ou <b>${p12}</b> · <b>${p18}</b></div>
+<details class="parc"><summary>ver parcelas</summary><ul>${listaParcelas(vista)}</ul></details>
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${msg}">${WA}Tenho interesse</a></div>`;
 grid.appendChild(card);
 });
