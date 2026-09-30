@@ -42,7 +42,7 @@ for pid, p in produtos.items():
     obs = [limpa(p.get("obs"))] + [limpa(m.get("desc")) for m in (p.get("manut") or []) if m.get("desc")]
     obs = "; ".join(o for o in obs if o and not re.fullmatch(r"(tudo\s*)?ok|perfeito|sem detalhes?", o, re.I))[:80]
     itens.append(dict(modelo=modelo_cat(p.get("modelo")), bat=int(num(p.get("bateria"))), cap=limpa(p.get("armazenamento")),
-                      cor=limpa(p.get("cor")), preco=f"{preco:,}".replace(",", "."), obs=obs))
+                      cor=(lambda c: c[:1].upper() + c[1:])(limpa(p.get("cor"))), preco=f"{preco:,}".replace(",", "."), obs=obs))
 
 itens.sort(key=lambda i: (i["modelo"], int(i["preco"].replace(".", "")), -i["bat"], i["cor"]))
 linhas = []
