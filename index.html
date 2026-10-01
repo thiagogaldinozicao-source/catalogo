@@ -306,6 +306,10 @@ body.noscroll .wafloat{display:none}
 .tcard p{font-size:13px;color:var(--mut);margin-top:4px;line-height:1.4}
 footer .ig{color:var(--gold)}
 @media(max-width:640px){.trust{padding:0 16px;margin-top:40px}.trust-grid{grid-template-columns:repeat(2,1fr);gap:10px}.tcard{padding:13px}.tcard p{font-size:12px}}
+.brand-logo{height:64px;width:auto;display:block}
+.brand{flex-direction:column;align-items:flex-start;gap:4px}
+@media(max-width:640px){.brand-logo{height:52px}}
+@media(max-width:380px){.brand span{display:block}}
 </style>
 </head>
 <body>
@@ -363,8 +367,8 @@ const CORES = {
 <!-- ======== DAQUI PRA BAIXO NÃO PRECISA MEXER ============== -->
 <header>
 <div class="brand">
-<div class="logo">Z</div>
-<div><h1>Zicão Store</h1><span>Itaú de Minas · MG</span></div>
+<img class="brand-logo" src="logo.png" alt="Zicão Store" width="640" height="291">
+<span>Itaú de Minas · MG</span>
 </div>
 <div class="tags">
 <span class="pill g">✔ Pronta entrega</span>
