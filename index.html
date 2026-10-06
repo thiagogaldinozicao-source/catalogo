@@ -133,6 +133,7 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 .price small{font-size:13px;color:var(--mut);font-weight:600}
 .parcela{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:-4px}
 .parcela b{color:var(--txt)}
+.share{display:block;width:100%;margin-top:8px;padding:9px;border-radius:10px;border:1px solid rgba(245,179,1,.45);background:transparent;color:var(--gold);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
 .buy{margin-top:4px;text-align:center;text-decoration:none;font-size:13.5px;font-weight:700;padding:9px;border-radius:10px;background:var(--gold);color:#1a1205;transition:.15s}
 .buy:hover{background:#ffcf4d}
 footer{max-width:1160px;margin:50px auto 0;padding:26px 22px 0;border-top:1px solid var(--line);color:var(--mut);font-size:13.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
@@ -540,6 +541,10 @@ const ls=linhasDe(sec,grp);
 if(ls.length>1&&linha!==ls[0]) h+='-'+linha;
 return '#'+h;
 }
+/* link de um produto: #p-<id> (o id vem do estoque.json; o Zicão Gestão copia o mesmo link) */
+const hashProduto=()=>{const h=decodeURIComponent(location.hash.replace('#',''));return h.startsWith('p-')?h.slice(2):'';};
+function irProduto(id){const it=ITENS.find(x=>x.i===id);if(!it)return null;sec=it.s;grp=it.g;linha=ehAparelho(it)?(it.cond==='novo'?'novos':'semi'):'';ajusta();return it;}
+function linkProduto(it){return location.origin+location.pathname+'#p-'+encodeURIComponent(it.i);}
 function lerHash(){
 let h=decodeURIComponent(location.hash.replace('#','')).toLowerCase();
 let l='';
@@ -691,7 +696,10 @@ let tBusca;
 searchInput.addEventListener('input',e=>{clearTimeout(tBusca);tBusca=setTimeout(()=>{termoBusca=e.target.value.trim();filtroModelo='all';filtroPreco='all';desenha();},150);});
 function limpaBusca(){termoBusca='';searchInput.value='';}
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{linha=t.dataset.linha;navega();});
-window.addEventListener('hashchange',()=>{if(!ITENS.length)return;lerHash();limpaBusca();filtroModelo='all';filtroPreco='all';history.replaceState(null,'',hashAtual());desenha();});
+window.addEventListener('hashchange',()=>{if(!ITENS.length)return;
+const pid=hashProduto();if(pid){const it=irProduto(pid);if(it){limpaBusca();desenha();if(det.hidden)abrirDetalhe(it);}else{limpaBusca();history.replaceState(null,'',hashAtual());desenha();catalog.insertAdjacentHTML('afterbegin',`<div class="noresult">Esse produto já foi vendido 😕 Olha os parecidos aqui embaixo ou chama no WhatsApp.</div>`);}return;}
+if(pulaHash){pulaHash=false;return;}
+lerHash();limpaBusca();filtroModelo='all';filtroPreco='all';history.replaceState(null,'',hashAtual());desenha();});
 
 $('wlink').href=`https://wa.me/${WHATS}`;
 $('wafloat').href=`https://wa.me/${WHATS}`;
@@ -712,9 +720,11 @@ ${d.vista>=PARCELA_MIN?`<div class="parcela">ou <b>12x R$ ${fmt2(valorParcela(d.
 <div class="det-gar">${esc(garantia(it))}</div>
 ${d.vista>=PARCELA_MIN?`<div class="det-tit">Parcelas no cartão</div><div class="parc"><ul>${listaParcelas(d.vista)}</ul></div>`:''}
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}Tenho interesse</a>
+${it.i?`<button class="share" type="button" data-share>🔗 Enviar link deste produto</button>`:''}
 </div>`;
+detBody._it=it;
 det.hidden=false;det.querySelector('.det-box').scrollTop=0;document.body.classList.add('noscroll');
-history.pushState({det:1},'',location.hash||hashAtual());
+history.pushState({det:1},'',it.i?'#p-'+encodeURIComponent(it.i):(location.hash||hashAtual()));
 det.querySelector('.det-x').focus({preventScroll:true});
 }
 function fecharDetalhe(veioDoVoltar){
@@ -722,15 +732,21 @@ if(det.hidden)return;
 det.hidden=true;document.body.classList.remove('noscroll');
 if(!veioDoVoltar&&history.state&&history.state.det)history.back();
 }
-det.addEventListener('click',e=>{if(e.target.closest('[data-close]'))fecharDetalhe();});
+det.addEventListener('click',e=>{if(e.target.closest('[data-close]'))fecharDetalhe();
+const sh=e.target.closest('[data-share]');if(sh&&detBody._it){const it=detBody._it,url=linkProduto(it),tit=[nomeDe(it),it.cap,it.cor].filter(Boolean).join(' ');
+if(navigator.share){navigator.share({title:tit,text:tit+' — Zicão Store',url}).catch(()=>{});}
+else{(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>{sh.textContent='✓ Link copiado';setTimeout(()=>sh.textContent='🔗 Enviar link deste produto',1800);}).catch(()=>prompt('Copie o link:',url));}}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')fecharDetalhe();});
-window.addEventListener('popstate',()=>fecharDetalhe(true));
+let pulaHash=false;
+window.addEventListener('popstate',()=>{if(!det.hidden){pulaHash=true;setTimeout(()=>pulaHash=false,300);}fecharDetalhe(true);});
 
 // ---- carrega o estoque (gerado toda noite a partir do Zicão Gestão) ----
 fetch('estoque.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
 ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&Number(i.preco)>0);
 if(d.atualizado){const t=new Date(d.atualizado);if(!isNaN(t))$('footdate').textContent=`Atualizado em ${String(t.getDate()).padStart(2,'0')}/${String(t.getMonth()+1).padStart(2,'0')}`;}
-lerHash();history.replaceState(null,'',hashAtual());desenha();
+const pid=hashProduto();const alvo=pid?irProduto(pid):null;
+if(alvo){history.replaceState(null,'',hashAtual());desenha();abrirDetalhe(alvo);}
+else{lerHash();history.replaceState(null,'',hashAtual());desenha();if(pid)catalog.insertAdjacentHTML('afterbegin',`<div class="noresult">Esse produto já foi vendido 😕 Olha os parecidos aqui embaixo ou chama no WhatsApp.</div>`);}
 }).catch(()=>{catalog.innerHTML=`<div class="noresult">Não consegui carregar o estoque agora. Atualiza a página ou chama no WhatsApp. 😊</div>`;});
 </script>
 </body>

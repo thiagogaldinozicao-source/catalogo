@@ -10,7 +10,7 @@ Entra no catálogo tudo que está em estoque, com preço, fora do técnico e sem
 a caixinha "Esconder do catálogo". Lacrados iguais viram um card só (sem
 mostrar quantidade). Nunca grava custo, IMEI, série ou dados de cliente.
 """
-import json, glob, os, re, sys
+import json, glob, os, re, sys, unicodedata
 from collections import Counter
 from datetime import datetime, timezone
 
@@ -43,6 +43,20 @@ def num(v):
 
 def limpa(s):
     return re.sub(r"\s+", " ", str(s or "")).strip()
+
+
+def slug(s):
+    s = unicodedata.normalize("NFD", str(s or "")).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+
+
+def cat_id(pid, p, it):
+    """id do card no link do catálogo (#p-<id>); o Zicão Gestão calcula igual (catId)."""
+    if it.get("cond") == "novo":
+        return "n-" + slug(" ".join(x for x in [it.get("marca"), it["modelo"], it.get("cap"), it.get("cor")] if x))
+    if it.get("tipo") not in APARELHOS and not p.get("imei"):
+        return "a-" + slug(" ".join(x for x in [it["modelo"], it.get("cor")] if x))
+    return pid
 
 
 def cap1(s):
@@ -118,6 +132,7 @@ for pid, p in produtos.items():
         if k in vistos:
             continue
         vistos.add(k)
+    it["i"] = cat_id(pid, p, it)
     itens.append(it)
 
 ORD_S = {"apple": 0, "android": 1, "acessorios": 2}
