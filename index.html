@@ -464,6 +464,7 @@ const PARCELA_MIN=200; // abaixo disso não mostra 12x/18x (fica só "no cartão
 const FOTOS=[
 ];
 function fotoDe(it){
+if(it.f) return 'fotos/'+it.f; // foto tirada na loja (Zicão Gestão)
 const m=slug(it.modelo), mc=m+'-'+slug(it.cor);
 if(FOTOS.includes(mc)) return `fotos/${mc}.webp`;
 if(FOTOS.includes(m)) return `fotos/${m}.webp`;
@@ -665,7 +666,7 @@ const desc=[nome,it.cap,it.cor].filter(Boolean).join(' ')+(estado?` (${estado})`
 const msg=encodeURIComponent(`Olá! Tenho interesse ${ap?'no':'em'} ${desc} — R$ ${pTxt}. Ainda tem?`);
 let flags='';
 if(ap&&it.cond==='semi'){if(it.bat===100)flags=`<span class="flag perfect">🔋 100% bateria</span>`;else if(it.bat>=90)flags=`<span class="flag high">Bateria alta</span>`;}
-return {ap,nome,pTxt,vista,msg,flags,foto:fotoDe(it),c:corDe(it.cor),selo:seloDe(it)};
+return {ap,nome,pTxt,vista,msg,flags,foto:fotoDe(it),fotoG:it.fg?'fotos/'+it.fg:fotoDe(it),c:corDe(it.cor),selo:seloDe(it)};
 }
 function parcelasHtml(vista){
 if(vista<PARCELA_MIN) return `<div class="parcela">ou no cartão</div>`;
@@ -709,7 +710,7 @@ const det=$('det'), detBody=$('detBody');
 function abrirDetalhe(it){
 const d=dadosCard(it);
 detBody.innerHTML=`${d.flags?`<div class="det-flags">${d.flags}</div>`:''}
-${d.foto?`<img class="det-img" src="${d.foto}" alt="${esc(d.nome)}">`:''}
+${d.fotoG?`<img class="det-img" src="${d.fotoG}" alt="${esc(d.nome)}">`:''}
 <div class="cchip det-cor${d.c?'':' neutro'}" style="${d.c?`background:linear-gradient(135deg,${d.c.frame},${d.c.body});`:''}${d.foto?'height:8px;border-radius:0;margin:0':'border-radius:0;margin:0'}"></div>
 <div class="det-in">
 <h3>${esc(d.nome)}</h3>

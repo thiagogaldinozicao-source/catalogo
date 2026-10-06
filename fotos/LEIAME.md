@@ -1,15 +1,8 @@
 # Fotos dos aparelhos
 
-As fotos que aparecem nos cards do catálogo ficam nesta pasta.
-
-- Formato: `.webp`, quadrada, com uns 600 px de lado (fica leve e carrega rápido).
-- Nome: `modelo-cor.webp`, tudo minúsculo, sem acento, com hífen.
-  - `15-pro-max-cinza.webp`
-  - `13-branco.webp`
-  - `17-pro-max-branco.webp`
-- Foto só do modelo (vale pra qualquer cor): `15-pro-max.webp`.
-- Depois de subir a foto, o nome dela (sem `.webp`) entra na lista `FOTOS` do `index.html`.
-  Aparelho sem foto continua mostrando só a faixa de cor.
-
-O nome da cor precisa ser o mesmo que está cadastrado no Zicão Gestão
-(ex.: "Azul Claro" vira `azul-claro`, "Laranja-cósmico" vira `laranja-cosmico`).
+- `fotos/p/` — fotos tiradas na loja pelo Zicão Gestão (Estoque › produto › Foto pro catálogo).
+  São geradas sozinhas toda noite pelo `sync/estoque_para_catalogo.py --fotos`: miniatura (~25 KB)
+  pro card e grande (~100 KB) só quando o cliente abre o produto. Foto de produto vendido é apagada.
+  Não mexa nessa pasta na mão.
+- Fotos antigas por modelo (opcional, lista `FOTOS` do `index.html`): `.webp` quadrada de ~600 px,
+  nome `modelo-cor.webp` (ex.: `15-pro-max-cinza.webp`) ou só `modelo.webp`. A foto da loja tem prioridade.

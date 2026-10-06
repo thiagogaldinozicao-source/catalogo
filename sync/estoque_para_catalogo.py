@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Gera o estoque.json do catálogo a partir do estoque do Zicão Gestão.
 
-Uso: python3 sync/estoque_para_catalogo.py <pasta_produtos> <pasta_vendas> [saida]
+Uso: python3 sync/estoque_para_catalogo.py <pasta_produtos> <pasta_vendas> [saida] [--fotos <pasta_fotos>]
+  - --fotos: pasta com a coleção "fotos" do Zicão Gestão. Cada foto vira um .jpg em
+    fotos/p/ (miniatura e grande). Foto que não é mais usada é apagada.
   - As pastas têm um .json por documento (o nome do arquivo é o id).
   - saida: caminho do estoque.json (padrão: estoque.json na raiz do repo).
     Se passar um .html, grava o estoque.json na mesma pasta dele.
@@ -10,13 +12,17 @@ Entra no catálogo tudo que está em estoque, com preço, fora do técnico e sem
 a caixinha "Esconder do catálogo". Lacrados iguais viram um card só (sem
 mostrar quantidade). Nunca grava custo, IMEI, série ou dados de cliente.
 """
-import json, glob, os, re, sys, unicodedata
+import json, glob, os, re, sys, unicodedata, base64, hashlib
 from collections import Counter
 from datetime import datetime, timezone
 
-prod_dir, vend_dir = sys.argv[1], sys.argv[2]
+args = sys.argv[1:]
+fotos_dir = None
+if "--fotos" in args:
+    i = args.index("--fotos"); fotos_dir = args[i + 1]; del args[i:i + 2]
+prod_dir, vend_dir = args[0], args[1]
 raiz = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-saida = sys.argv[3] if len(sys.argv) > 3 else os.path.join(raiz, "estoque.json")
+saida = args[2] if len(args) > 2 else os.path.join(raiz, "estoque.json")
 if saida.endswith(".html"):
     saida = os.path.join(os.path.dirname(saida), "estoque.json")
 
@@ -57,6 +63,43 @@ def cat_id(pid, p, it):
     if it.get("tipo") not in APARELHOS and not p.get("imei"):
         return "a-" + slug(" ".join(x for x in [it["modelo"], it.get("cor")] if x))
     return pid
+
+
+def foto_modelo_key(p):
+    """mesma chave do Zicão Gestão (fotoModeloKey): marca (Android) + modelo + cor"""
+    marca = p.get("marca") if p.get("tipo") == "Android" and p.get("marca") and p.get("marca") != "Outra" else ""
+    return "m-" + slug(" ".join(x for x in [marca, limpa(p.get("modelo")), limpa(p.get("cor"))] if x))
+
+
+fotos = {}
+if fotos_dir and os.path.isdir(fotos_dir):
+    for f in glob.glob(os.path.join(fotos_dir, "*.json")):
+        try:
+            d = json.load(open(f, encoding="utf-8"))
+            m = re.match(r"data:image/(jpeg|jpg|png|webp);base64,(.+)$", d.get("img") or "", re.S)
+            if m:
+                fotos[os.path.basename(f)[:-5]] = (m.group(1).replace("jpeg", "jpg"), base64.b64decode(m.group(2)))
+        except Exception:
+            pass
+pasta_fotos = os.path.join(os.path.dirname(os.path.abspath(saida)), "fotos", "p")
+fotos_usadas = set()
+
+
+def grava_foto(key):
+    """grava miniatura e grande; devolve (miniatura, grande) relativos a fotos/"""
+    if key not in fotos:
+        return None
+    out = []
+    for k in (key, key + "-g"):
+        ext, b = fotos.get(k) or fotos[key]
+        nome = f"{k}-{hashlib.sha1(b).hexdigest()[:8]}.{ext}"
+        os.makedirs(pasta_fotos, exist_ok=True)
+        caminho = os.path.join(pasta_fotos, nome)
+        if not os.path.exists(caminho):
+            open(caminho, "wb").write(b)
+        fotos_usadas.add(nome)
+        out.append("p/" + nome)
+    return out
 
 
 def cap1(s):
@@ -133,14 +176,26 @@ for pid, p in produtos.items():
             continue
         vistos.add(k)
     it["i"] = cat_id(pid, p, it)
+    fs = None
+    if fotos:
+        if it.get("cond") == "semi" and p.get("foto"):
+            fs = grava_foto(p["foto"])
+        fs = fs or grava_foto(foto_modelo_key(p))
+    if fs:
+        it["f"], it["fg"] = fs
     itens.append(it)
 
 ORD_S = {"apple": 0, "android": 1, "acessorios": 2}
 itens.sort(key=lambda i: (ORD_S[i["s"]], i["g"], i.get("marca") or "", i["modelo"], i["preco"], -i.get("bat", 0), i.get("cor") or ""))
+
+if fotos_dir is not None and os.path.isdir(pasta_fotos):
+    for nome in os.listdir(pasta_fotos):
+        if nome not in fotos_usadas:
+            os.remove(os.path.join(pasta_fotos, nome))
 
 doc = {"atualizado": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "itens": itens}
 with open(saida, "w", encoding="utf-8") as f:
     json.dump(doc, f, ensure_ascii=False, separators=(",", ":"))
     f.write("\n")
 c = Counter(f'{i["s"]}/{i.get("cond", "-")}' for i in itens)
-print(f"estoque.json: {len(itens)} itens", dict(c))
+print(f"estoque.json: {len(itens)} itens", dict(c), f"· {sum(1 for i in itens if i.get('f'))} com foto")
