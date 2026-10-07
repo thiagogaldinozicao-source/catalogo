@@ -190,6 +190,23 @@ for pid, p in produtos.items():
         it["f"], it["fg"] = fs
     itens.append(it)
 
+# aparelhos por encomenda (sync/encomenda.json): entram como lacrado com a marca "enc"
+_enc = os.path.join(os.path.dirname(os.path.abspath(__file__)), "encomenda.json")
+if os.path.exists(_enc):
+    tem = {(i["modelo"].lower(), (i.get("cap") or "").lower(), (i.get("cor") or "").lower()) for i in itens if i.get("cond") == "novo"}
+    for e in json.load(open(_enc, encoding="utf-8")).get("itens", []):
+        k = (e["modelo"].lower(), (e.get("cap") or "").lower(), (e.get("cor") or "").lower())
+        if k in tem or not e.get("preco"):
+            continue
+        it = {"s": "apple", "g": "iPhone", "tipo": "iPhone", "modelo": e["modelo"], "preco": round(num(e["preco"])),
+              "cor": cap1(e["cor"]), "cond": "novo", "cap": e["cap"], "enc": 1}
+        it["i"] = "n-" + slug(" ".join([e["modelo"], e["cap"], e["cor"]]))
+        if fotos:
+            fs = grava_foto("m-" + slug(" ".join([e["modelo"], e["cor"]])))
+            if fs:
+                it["f"], it["fg"] = fs
+        itens.append(it)
+
 ORD_S = {"apple": 0, "android": 1, "acessorios": 2}
 itens.sort(key=lambda i: (ORD_S[i["s"]], i["g"], i.get("marca") or "", i["modelo"], i["preco"], -i.get("bat", 0), i.get("cor") or ""))
 

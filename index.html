@@ -120,6 +120,7 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 .flag{font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:8px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
 .flag.perfect{background:linear-gradient(135deg,var(--gold),#ffcf4d);color:#1a1205;box-shadow:0 3px 10px rgba(245,179,1,.4)}
 .flag.high{background:rgba(53,208,127,.16);border:1px solid rgba(53,208,127,.4);color:var(--green)}
+.flag.enc{background:rgba(120,160,255,.16);border:1px solid rgba(120,160,255,.45);color:#9fb8ff}
 .flag.last{background:rgba(255,90,90,.16);border:1px solid rgba(255,90,90,.5);color:#ff7a7a}
 
 .cchip{height:6px;border-radius:6px;margin-bottom:4px}
@@ -334,6 +335,7 @@ const CORES = {
 "Branco": {body:"#eceae4", frame:"#c9c6bd", glass:"#f6f5f1"},
 "Cinza": {body:"#8f9295", frame:"#6c6f73", glass:"#7d8083"},
 "Prata": {body:"#dfe3e6", frame:"#b9bfc4", glass:"#eef1f3"},
+"Bordô": {body:"#6b2430", frame:"#4e1822", glass:"#5c1e29"},
 "Dourado": {body:"#e6cfa4", frame:"#c3a26d", glass:"#dcc298"},
 "Laranja": {body:"#d98a4e", frame:"#b56a30", glass:"#cf8044"},
 "Vermelho": {body:"#a5262c", frame:"#7f1c22", glass:"#8f2026"},
@@ -663,8 +665,8 @@ function dadosCard(it){
 const ap=ehAparelho(it), nome=nomeDe(it), pTxt=precoTexto(it), vista=precoAjustado(it);
 const estado=!ap?'':it.cond==='novo'?'novo lacrado':it.bat?`semi-novo, bateria ${it.bat}%`:'semi-novo';
 const desc=[nome,it.cap,it.cor].filter(Boolean).join(' ')+(estado?` (${estado})`:'');
-const msg=encodeURIComponent(`Olá! Tenho interesse ${ap?'no':'em'} ${desc} — R$ ${pTxt}. Ainda tem?`);
-let flags='';
+const msg=encodeURIComponent(it.enc?`Olá! Tenho interesse no ${desc}, por encomenda — R$ ${pTxt}. Qual o prazo?`:`Olá! Tenho interesse ${ap?'no':'em'} ${desc} — R$ ${pTxt}. Ainda tem?`);
+let flags=it.enc?`<span class="flag enc">📦 Por encomenda</span>`:'';
 if(ap&&it.cond==='semi'){if(it.bat===100)flags=`<span class="flag perfect">🔋 100% bateria</span>`;else if(it.bat>=90)flags=`<span class="flag high">Bateria alta</span>`;}
 return {ap,nome,pTxt,vista,msg,flags,foto:fotoDe(it),fotoG:it.fg?'fotos/'+it.fg:fotoDe(it),c:corDe(it.cor),selo:seloDe(it)};
 }
@@ -718,7 +720,7 @@ ${d.fotoG?'':`<div class="cchip det-cor${d.c?'':' neutro'}" style="${d.c?`backgr
 ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
 <div class="det-price"><small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${d.vista>=PARCELA_MIN?`<div class="parcela">ou <b>12x R$ ${fmt2(valorParcela(d.vista,12))}</b> · <b>18x R$ ${fmt2(valorParcela(d.vista,18))}</b></div>`:''}
-<div class="det-gar">${esc(garantia(it))}</div>
+<div class="det-gar">${esc(garantia(it))}${it.enc?'<br>📦 Por encomenda: chama no WhatsApp pra saber o prazo.':''}</div>
 ${d.vista>=PARCELA_MIN?`<div class="det-tit">Parcelas no cartão</div><div class="parc"><ul>${listaParcelas(d.vista)}</ul></div>`:''}
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}Tenho interesse</a>
 ${it.i?`<button class="share" type="button" data-share>🔗 Enviar link deste produto</button>`:''}

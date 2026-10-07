@@ -1,0 +1,13 @@
+{
+  "_leia": "Aparelhos POR ENCOMENDA que aparecem no catálogo mesmo sem estar no estoque. Se o mesmo modelo/GB/cor entrar no estoque do Zicão Gestão, vale o do estoque. Pra tirar, apague a linha.",
+  "itens": [
+    {"modelo": "iPhone 18 Pro Max", "cap": "256GB", "cor": "Prateado", "preco": 9299},
+    {"modelo": "iPhone 18 Pro Max", "cap": "256GB", "cor": "Preto", "preco": 9299},
+    {"modelo": "iPhone 18 Pro Max", "cap": "256GB", "cor": "Azul", "preco": 9499},
+    {"modelo": "iPhone 18 Pro Max", "cap": "256GB", "cor": "Bordô", "preco": 10299},
+    {"modelo": "iPhone 18 Pro", "cap": "256GB", "cor": "Preto", "preco": 7999},
+    {"modelo": "iPhone 18 Pro", "cap": "256GB", "cor": "Azul", "preco": 7999},
+    {"modelo": "iPhone 18 Pro", "cap": "256GB", "cor": "Prateado", "preco": 7999},
+    {"modelo": "iPhone 18 Pro", "cap": "256GB", "cor": "Bordô", "preco": 8799}
+  ]
+}
