@@ -679,7 +679,7 @@ el.className='card'+(d.ap&&it.cond==='semi'&&it.bat===100?' perfect':'');
 const topo=d.ap?`<div class="ctop"><span class="colr">${esc(it.cor||'—')}</span>${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}</div>`:`<div class="cnome">${esc(d.nome)}</div>${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}`;
 el.innerHTML=`${d.flags?`<div class="card-flags">${d.flags}</div>`:''}
 ${d.foto?`<img class="cphoto" src="${d.foto}" alt="${esc(d.nome)}" loading="lazy" decoding="async">`:''}
-${d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d.c.frame},${d.c.body})"></div>`:`<div class="cchip neutro"></div>`}
+${d.foto?'':d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d.c.frame},${d.c.body})"></div>`:`<div class="cchip neutro"></div>`}
 <div class="cinfo">${topo}
 ${d.selo}
 ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
@@ -711,7 +711,7 @@ function abrirDetalhe(it){
 const d=dadosCard(it);
 detBody.innerHTML=`${d.flags?`<div class="det-flags">${d.flags}</div>`:''}
 ${d.fotoG?`<img class="det-img" src="${d.fotoG}" alt="${esc(d.nome)}">`:''}
-<div class="cchip det-cor${d.c?'':' neutro'}" style="${d.c?`background:linear-gradient(135deg,${d.c.frame},${d.c.body});`:''}${d.foto?'height:8px;border-radius:0;margin:0':'border-radius:0;margin:0'}"></div>
+${d.fotoG?'':`<div class="cchip det-cor${d.c?'':' neutro'}" style="${d.c?`background:linear-gradient(135deg,${d.c.frame},${d.c.body});`:''}border-radius:0;margin:0"></div>`}
 <div class="det-in">
 <h3>${esc(d.nome)}</h3>
 <div class="det-sub">${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}${d.ap?d.selo:''}</div>
