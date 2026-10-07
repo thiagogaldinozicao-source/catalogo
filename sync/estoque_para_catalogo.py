@@ -145,7 +145,12 @@ for pid, p in produtos.items():
     if not unico and num(p.get("qtd")) <= 0:
         continue
     s, g = secao(p)
-    it = {"s": s, "g": g, "tipo": tipo, "modelo": limpa(p.get("modelo")), "preco": preco}
+    modelo = limpa(p.get("modelo"))
+    if tipo in APARELHOS:  # cadastro com GB/cor no nome ("iPhone 11 64GB Preto") vira só o modelo, pra cair no grupo certo
+        for extra in (p.get("cor"), p.get("armazenamento")):
+            if extra and modelo.lower().endswith(" " + limpa(extra).lower()):
+                modelo = modelo[: -len(limpa(extra))].strip()
+    it = {"s": s, "g": g, "tipo": tipo, "modelo": modelo, "preco": preco}
     if p.get("cor"):
         it["cor"] = cap1(p["cor"])
     if tipo in APARELHOS:
