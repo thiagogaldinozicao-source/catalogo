@@ -99,6 +99,13 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 .fbtn{font-family:'Inter';font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);transition:.15s}
 .fbtn:hover{background:var(--card-h);color:var(--txt)}
 .fbtn.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
+.fbtn .dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1px solid rgba(255,255,255,.35)}
+.pgl{list-style:none;margin:6px 0 2px;padding:6px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:2px}
+.pgl button{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;padding:7px 8px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--mut);font:inherit;font-size:12.5px;cursor:pointer;text-align:left}
+.pgl button b{color:var(--txt);font-weight:700;white-space:nowrap;text-align:right}
+.pgl button .ptot{display:block;font-size:10px;color:var(--mut);font-weight:500}
+.pgl button.on{border-color:var(--gold);background:rgba(235,181,51,.12);color:var(--txt)}
+.pgl button.on b{color:var(--gold)}
 /* faixa de preço em outra cor pra diferenciar */
 .filter.price .fbtn.active{background:var(--green);color:#06231a;border-color:var(--green)}
 
@@ -419,6 +426,9 @@ const CORES = {
 <div class="filter-label" id="lblModelo">Modelo</div>
 <div class="filter" id="filter"></div>
 
+<div class="filter-label" id="lblCor">Cor</div>
+<div class="filter cor" id="corFilter"></div>
+
 <div class="filter-label" id="lblPreco">Faixa de preço</div>
 <div class="filter price" id="priceFilter"></div>
 
@@ -442,7 +452,7 @@ const CORES = {
 function batIco(){return `<svg class="ico" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="17" height="10" rx="2.5" stroke="currentColor" stroke-width="2"/><rect x="4" y="9" width="11" height="6" rx="1" fill="currentColor"/><rect x="20" y="10" width="2.5" height="4" rx="1" fill="currentColor"/></svg>`;}
 const WA = `<svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-3px;margin-right:5px" fill="#1a1205"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.42 1.27 4.86L2 22l5.25-1.38A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>`;
 const $=id=>document.getElementById(id);
-const catalog=$('catalog'), filterBar=$('filter'), priceBar=$('priceFilter'), searchInput=$('search');
+const catalog=$('catalog'), filterBar=$('filter'), corBar=$('corFilter'), priceBar=$('priceFilter'), searchInput=$('search');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Number(n).toLocaleString('pt-BR');
 const fmt2=n=>Number(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -473,6 +483,7 @@ if(FOTOS.includes(m)) return `fotos/${m}.webp`;
 return '';
 }
 function valorParcela(v,n){const t=TAXAS_CARTAO[n];return t?v/(1-t/100)/n:v/n;}
+function listaPagamento(v,pTxt){let h=`<button type="button" class="on" data-pg="pix"><span>Pix à vista</span><b>R$ ${pTxt}</b></button>`;for(let n=1;n<=MAX_PARCELAS;n++){const p=valorParcela(v,n);h+=`<button type="button" data-pg="${n}"><span>${n}x no cartão</span><b>R$ ${fmt2(p)}<span class="ptot">total R$ ${fmt2(p*n)}</span></b></button>`;}return h;}
 function listaParcelas(v){let li='';for(let n=1;n<=MAX_PARCELAS;n++){const p=valorParcela(v,n);li+=`<li><span>${n}x</span><b>R$ ${fmt2(p)}<span class="ptot">total R$ ${fmt2(p*n)}</span></b></li>`;}return li;}
 
 // ---- ORDEM DOS iPHONES ----
@@ -514,7 +525,7 @@ return it.bat?`<span class="bat">${batIco()} ${it.bat}%</span>`:`<span class="ba
 }
 
 let ITENS=[];
-let sec='apple', grp='iPhone', linha='novos', filtroModelo='all', filtroPreco='all', termoBusca='';
+let sec='apple', grp='iPhone', linha='novos', filtroModelo='all', filtroCor='all', filtroPreco='all', termoBusca='';
 
 function gruposDe(s){
 const its=ITENS.filter(i=>i.s===s);
@@ -561,7 +572,7 @@ else{const g=Object.keys(GSLUG).find(k=>GSLUG[k]===h);if(g){grp=g;sec=SECOES.fin
 linha=l||'novos';
 ajusta();
 }
-function navega(){ajusta();filtroModelo='all';filtroPreco='all';history.replaceState(null,'',hashAtual());desenha();}
+function navega(){ajusta();filtroModelo='all';filtroCor='all';filtroPreco='all';history.replaceState(null,'',hashAtual());desenha();}
 
 function chip(bar,label,ativo,on,cls='fbtn'){const b=document.createElement('button');b.className=cls+(ativo?' active':'');b.innerHTML=label;b.onclick=on;bar.appendChild(b);return b;}
 
@@ -623,7 +634,14 @@ const modelos=termoBusca?[]:[...new Set([...ap].sort((a,b)=>idxModelo(a)-idxMode
 filterBar.innerHTML='';
 const mostraM=modelos.length>1;
 $('lblModelo').hidden=filterBar.hidden=!mostraM;
-if(mostraM){chip(filterBar,'Todos',filtroModelo==='all',()=>{filtroModelo='all';desenha();});modelos.forEach(m=>chip(filterBar,esc(m),filtroModelo===m,()=>{filtroModelo=m;desenha();}));}
+if(mostraM){chip(filterBar,'Todos',filtroModelo==='all',()=>{filtroModelo='all';filtroCor='all';desenha();});modelos.forEach(m=>chip(filterBar,esc(m),filtroModelo===m,()=>{filtroModelo=m;filtroCor='all';desenha();}));}
+corBar.innerHTML='';
+const doModelo=ap.filter(i=>filtroModelo==='all'||nomeCurto(i)===filtroModelo);
+const cores=[...new Map(doModelo.filter(i=>i.cor).map(i=>[norm(i.cor),i.cor])).entries()].sort((a,b)=>a[1].localeCompare(b[1],'pt'));
+if(filtroCor!=='all'&&!cores.some(([k])=>k===filtroCor)) filtroCor='all';
+const mostraC=cores.length>1;
+$('lblCor').hidden=corBar.hidden=!mostraC;
+if(mostraC){chip(corBar,'Todas',filtroCor==='all',()=>{filtroCor='all';desenha();});cores.forEach(([k,nome])=>{const c=corDe(nome);chip(corBar,`${c?`<span class="dot" style="background:linear-gradient(135deg,${c.frame},${c.body})"></span>`:''}${esc(nome)}`,filtroCor===k,()=>{filtroCor=k;desenha();});});}
 priceBar.innerHTML='';
 const mostraP=base.length>6;
 $('lblPreco').hidden=priceBar.hidden=!mostraP;
@@ -634,7 +652,7 @@ function desenha(){
 desenhaNav();desenhaTopo();
 const base=listaAtual().filter(i=>!termoBusca.trim()||casaBusca(i,termoBusca));
 desenhaFiltros(base);
-const lista=base.filter(i=>(filtroModelo==='all'||nomeCurto(i)===filtroModelo)&&dentroDaFaixa(i));
+const lista=base.filter(i=>(filtroModelo==='all'||nomeCurto(i)===filtroModelo)&&(filtroCor==='all'||(ehAparelho(i)&&norm(i.cor)===filtroCor))&&dentroDaFaixa(i));
 catalog.innerHTML='';
 if(!lista.length){
 const nada=!termoBusca&&!listaAtual().length;
@@ -661,11 +679,19 @@ const k=CORES_KEYS().find(x=>norm(x)===n)||CORES_KEYS().sort((a,b)=>b.length-a.l
 return k?CORES[k]:null;
 }
 
+// mensagem do WhatsApp: produto + forma de pagamento escolhida + código (final do IMEI) pra achar no estoque
+function msgDe(it,pg){
+const ap=ehAparelho(it), vista=precoAjustado(it);
+const estado=!ap?'':it.cond==='novo'?'novo lacrado':it.bat?`semi-novo, bateria ${it.bat}%`:'semi-novo';
+const desc=[nomeDe(it),it.cap,it.cor].filter(Boolean).join(' ')+(estado?` (${estado})`:'');
+const n=Number(pg);
+const pag=n?`no cartão em ${n}x de R$ ${fmt2(valorParcela(vista,n))} (total R$ ${fmt2(valorParcela(vista,n)*n)})`:`R$ ${precoTexto(it)} no Pix`;
+const cod=it.k?` Cód. ${it.k}.`:'';
+return encodeURIComponent(it.enc?`Olá! Tenho interesse no ${desc}, por encomenda — ${pag}. Qual o prazo?`:`Olá! Tenho interesse ${ap?'no':'em'} ${desc} — ${pag}.${cod} Ainda tem?`);
+}
 function dadosCard(it){
 const ap=ehAparelho(it), nome=nomeDe(it), pTxt=precoTexto(it), vista=precoAjustado(it);
-const estado=!ap?'':it.cond==='novo'?'novo lacrado':it.bat?`semi-novo, bateria ${it.bat}%`:'semi-novo';
-const desc=[nome,it.cap,it.cor].filter(Boolean).join(' ')+(estado?` (${estado})`:'');
-const msg=encodeURIComponent(it.enc?`Olá! Tenho interesse no ${desc}, por encomenda — R$ ${pTxt}. Qual o prazo?`:`Olá! Tenho interesse ${ap?'no':'em'} ${desc} — R$ ${pTxt}. Ainda tem?`);
+const msg=msgDe(it,'pix');
 let flags=it.enc?`<span class="flag enc">📦 Por encomenda</span>`:'';
 if(ap&&it.cond==='semi'){if(it.bat===100)flags=`<span class="flag perfect">🔋 100% bateria</span>`;else if(it.bat>=90)flags=`<span class="flag high">Bateria alta</span>`;}
 return {ap,nome,pTxt,vista,msg,flags,foto:fotoDe(it),fotoG:it.fg?'fotos/'+it.fg:fotoDe(it),c:corDe(it.cor),selo:seloDe(it)};
@@ -696,13 +722,13 @@ return el;
 }
 
 let tBusca;
-searchInput.addEventListener('input',e=>{clearTimeout(tBusca);tBusca=setTimeout(()=>{termoBusca=e.target.value.trim();filtroModelo='all';filtroPreco='all';desenha();},150);});
+searchInput.addEventListener('input',e=>{clearTimeout(tBusca);tBusca=setTimeout(()=>{termoBusca=e.target.value.trim();filtroModelo='all';filtroCor='all';filtroPreco='all';desenha();},150);});
 function limpaBusca(){termoBusca='';searchInput.value='';}
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{linha=t.dataset.linha;navega();});
 window.addEventListener('hashchange',()=>{if(!ITENS.length)return;
 const pid=hashProduto();if(pid){const it=irProduto(pid);if(it){limpaBusca();desenha();if(det.hidden)abrirDetalhe(it);}else{limpaBusca();history.replaceState(null,'',hashAtual());desenha();catalog.insertAdjacentHTML('afterbegin',`<div class="noresult">Esse produto já foi vendido 😕 Olha os parecidos aqui embaixo ou chama no WhatsApp.</div>`);}return;}
 if(pulaHash){pulaHash=false;return;}
-lerHash();limpaBusca();filtroModelo='all';filtroPreco='all';history.replaceState(null,'',hashAtual());desenha();});
+lerHash();limpaBusca();filtroModelo='all';filtroCor='all';filtroPreco='all';history.replaceState(null,'',hashAtual());desenha();});
 
 $('wlink').href=`https://wa.me/${WHATS}`;
 $('wafloat').href=`https://wa.me/${WHATS}`;
@@ -721,8 +747,8 @@ ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
 <div class="det-price"><small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${d.vista>=PARCELA_MIN?`<div class="parcela">ou <b>12x R$ ${fmt2(valorParcela(d.vista,12))}</b> · <b>18x R$ ${fmt2(valorParcela(d.vista,18))}</b></div>`:''}
 <div class="det-gar">${esc(garantia(it))}${it.enc?'<br>📦 Por encomenda: chama no WhatsApp pra saber o prazo.':''}</div>
-${d.vista>=PARCELA_MIN?`<div class="det-tit">Parcelas no cartão</div><div class="parc"><ul>${listaParcelas(d.vista)}</ul></div>`:''}
-<a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}Tenho interesse</a>
+${d.vista>=PARCELA_MIN?`<div class="det-tit">Como vai pagar? <span style="text-transform:none;font-weight:600">(toque pra escolher)</span></div><div class="pgl" id="pgl">${listaPagamento(d.vista,d.pTxt)}</div>`:''}
+<a class="buy" id="detBuy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}<span id="detBuyTx">${d.vista>=PARCELA_MIN?'Tenho interesse · Pix':'Tenho interesse'}</span></a>
 ${it.i?`<button class="share" type="button" data-share>🔗 Enviar link deste produto</button>`:''}
 </div>`;
 detBody._it=it;
@@ -736,6 +762,7 @@ det.hidden=true;document.body.classList.remove('noscroll');
 if(!veioDoVoltar&&history.state&&history.state.det)history.back();
 }
 det.addEventListener('click',e=>{if(e.target.closest('[data-close]'))fecharDetalhe();
+const pgb=e.target.closest('[data-pg]');if(pgb&&detBody._it){const it=detBody._it,pg=pgb.dataset.pg;detBody.querySelectorAll('[data-pg]').forEach(b=>b.classList.toggle('on',b===pgb));$('detBuy').href=`https://wa.me/${WHATS}?text=${msgDe(it,pg)}`;$('detBuyTx').textContent='Tenho interesse · '+(pg==='pix'?'Pix':pg+'x');return;}
 const sh=e.target.closest('[data-share]');if(sh&&detBody._it){const it=detBody._it,url=linkProduto(it),tit=[nomeDe(it),it.cap,it.cor].filter(Boolean).join(' ');
 if(navigator.share){navigator.share({title:tit,text:tit+' — Zicão Store',url}).catch(()=>{});}
 else{(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>{sh.textContent='✓ Link copiado';setTimeout(()=>sh.textContent='🔗 Enviar link deste produto',1800);}).catch(()=>prompt('Copie o link:',url));}}});
