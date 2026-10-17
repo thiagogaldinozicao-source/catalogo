@@ -10,7 +10,8 @@ Uso: python3 sync/estoque_para_catalogo.py <pasta_produtos> <pasta_vendas> [said
 
 Entra no catálogo tudo que está em estoque, com preço, fora do técnico e sem
 a caixinha "Esconder do catálogo". Lacrados iguais viram um card só (sem
-mostrar quantidade). Nunca grava custo, IMEI, série ou dados de cliente.
+mostrar quantidade). Nunca grava custo, IMEI inteiro (só os 4 últimos, como
+código do seminovo), série ou dados de cliente.
 """
 import json, glob, os, re, sys, unicodedata, base64, hashlib
 from collections import Counter
@@ -173,6 +174,9 @@ for pid, p in produtos.items():
                 it["obs"] = o
             if p.get("condicao") == "Vitrine / Recondicionado":
                 it["vitrine"] = True
+            imei = re.sub(r"\D", "", str(p.get("imei") or ""))
+            if len(imei) >= 4:  # código pro atendente achar no estoque (só os 4 últimos, nunca o IMEI inteiro)
+                it["k"] = imei[-4:]
     else:
         if p.get("garantiaDias") not in (None, ""):
             it["garDias"] = int(num(p.get("garantiaDias")))
