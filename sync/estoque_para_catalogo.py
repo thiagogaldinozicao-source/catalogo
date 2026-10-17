@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Gera o estoque.json do catálogo a partir do estoque do Zicão Gestão.
 
+A tarefa agendada NÃO roda esta cópia do repo (o modo automático bloqueia código
+baixado): o texto do script vai dentro da própria tarefa. Mudou aqui? Atualize lá também.
+
 Uso: python3 sync/estoque_para_catalogo.py <pasta_produtos> <pasta_vendas> [saida] [--fotos <pasta_fotos>]
   - --fotos: pasta com a coleção "fotos" do Zicão Gestão. Cada foto vira um .jpg em
     fotos/p/ (miniatura e grande). Foto que não é mais usada é apagada.
@@ -174,6 +177,11 @@ for pid, p in produtos.items():
                 it["obs"] = o
             if p.get("condicao") == "Vitrine / Recondicionado":
                 it["vitrine"] = True
+            for k in ("acomp", "pecas"):  # campos do Zicão Gestão v1.82 (lista ou texto "a,b")
+                v = p.get(k)
+                l = [limpa(x) for x in (v if isinstance(v, list) else str(v or "").split(",")) if limpa(x)]
+                if l:
+                    it[k] = l
             imei = re.sub(r"\D", "", str(p.get("imei") or ""))
             if len(imei) >= 4:  # código pro atendente achar no estoque (só os 4 últimos, nunca o IMEI inteiro)
                 it["k"] = imei[-4:]
@@ -195,7 +203,7 @@ for pid, p in produtos.items():
     itens.append(it)
 
 # aparelhos por encomenda (sync/encomenda.json): entram como lacrado com a marca "enc"
-_enc = os.path.join(os.path.dirname(os.path.abspath(__file__)), "encomenda.json")
+_enc = os.path.join(os.path.dirname(os.path.abspath(saida)), "sync", "encomenda.json")  # lido do repo, funciona com o script em qualquer pasta
 if os.path.exists(_enc):
     tem = {(i["modelo"].lower(), (i.get("cap") or "").lower(), (i.get("cor") or "").lower()) for i in itens if i.get("cond") == "novo"}
     for e in json.load(open(_enc, encoding="utf-8")).get("itens", []):

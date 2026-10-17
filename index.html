@@ -264,6 +264,8 @@ body.noscroll{overflow:hidden}
 .det-price small{font-size:15px;color:var(--mut);font-weight:600}
 .det-price .pix{font-size:13px;color:var(--mut);font-weight:600;margin-left:6px}
 body.noscroll .wafloat{display:none}
+.det-ficha{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--txt);margin-top:6px}
+.det-ficha b{color:var(--mut);font-weight:700}
 .det-gar{font-size:12.5px;color:var(--mut);font-weight:600}
 .det-tit{font-size:12px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--mut);margin-top:6px}
 .det .parc ul{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;row-gap:6px;margin:0}
@@ -735,6 +737,12 @@ $('wafloat').href=`https://wa.me/${WHATS}`;
 
 // ---- produto em destaque ----
 const det=$('det'), detBody=$('detBody');
+function fichaHtml(it){
+const l=[];
+if(it.acomp&&it.acomp.length) l.push(`<div><b>📦 Acompanha:</b> ${esc(it.acomp.join(', ').toLowerCase().replace(/^./,c=>c.toUpperCase()))}</div>`);
+if(it.pecas&&it.pecas.length) l.push(`<div><b>🔧 Peças:</b> ${esc(it.pecas.map(x=>x==='Tudo original'?'tudo original':x.toLowerCase()+' trocada').join(', ').replace(/^./,c=>c.toUpperCase()))}</div>`);
+return l.length?`<div class="det-ficha">${l.join('')}</div>`:'';
+}
 function abrirDetalhe(it){
 const d=dadosCard(it);
 detBody.innerHTML=`${d.flags?`<div class="det-flags">${d.flags}</div>`:''}
@@ -743,7 +751,7 @@ ${d.fotoG?'':`<div class="cchip det-cor${d.c?'':' neutro'}" style="${d.c?`backgr
 <div class="det-in">
 <h3>${esc(d.nome)}</h3>
 <div class="det-sub">${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}${d.ap?d.selo:''}</div>
-${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
+${fichaHtml(it)}${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
 <div class="det-price"><small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${d.vista>=PARCELA_MIN?`<div class="parcela">ou <b>12x R$ ${fmt2(valorParcela(d.vista,12))}</b> · <b>18x R$ ${fmt2(valorParcela(d.vista,18))}</b></div>`:''}
 <div class="det-gar">${esc(garantia(it))}${it.enc?'<br>📦 Por encomenda: chama no WhatsApp pra saber o prazo.':''}</div>
