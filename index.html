@@ -35,6 +35,8 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{overflow-x:hidden;-webkit-text-size-adjust:100%}
+/* clip corta igual o hidden, mas sem virar "caixa de rolagem" — é o que deixa a barra de busca grudar no topo */
+@supports (overflow-x:clip){html,body{overflow-x:clip}}
 body{font-family:'Inter',sans-serif;background:radial-gradient(1200px 600px at 20% -5%,#1a2431 0%,var(--bg) 55%);color:var(--txt);min-height:100vh;padding-bottom:60px}
 header{max-width:1160px;margin:0 auto;padding:34px 22px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .brand{display:flex;align-items:center;gap:14px}
@@ -45,57 +47,42 @@ header{max-width:1160px;margin:0 auto;padding:34px 22px 18px;display:flex;align-
 .pill{font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:20px;background:var(--bg2);border:1px solid var(--line);color:var(--txt)}
 .pill.g{background:rgba(53,208,127,.12);border-color:rgba(53,208,127,.3);color:var(--green)}
 .headline{max-width:1160px;margin:8px auto 0;padding:0 22px}
-.headline h2{font-family:'Sora';font-size:clamp(24px,5vw,38px);font-weight:800;line-height:1.05}
+.headline h2{font-family:'Sora';font-size:clamp(20px,3.4vw,27px);font-weight:800;line-height:1.1}
 .headline h2 .hl{color:var(--gold)}
-.headline p{color:var(--mut);margin-top:8px;font-size:15px}
-.tabs{max-width:1160px;margin:24px auto 0;padding:0 22px;display:flex;gap:12px;justify-content:center}
+.headline p{color:var(--mut);margin-top:4px;font-size:14px}
+.tabs{max-width:1160px;margin:12px auto 0;padding:0 22px;display:flex;gap:8px}
 .tab{
-font-family:'Sora';font-size:17px;font-weight:800;cursor:pointer;
-padding:16px 34px;border-radius:14px;border:2px solid var(--line);
+font-family:'Sora';font-size:14.5px;font-weight:800;cursor:pointer;
+padding:10px 22px;border-radius:11px;border:1px solid var(--line);
 background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
 }
 .tab:hover{color:var(--txt);border-color:rgba(245,179,1,.4)}
-.tab.active{background:var(--gold);color:#1a1205;border-color:var(--gold);box-shadow:0 4px 16px rgba(245,179,1,.3)}
+.tab.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
 
-/* Banner de garantia (aba Novos) */
-.warranty-banner{
-max-width:1160px;margin:18px auto 0;padding:0 22px;display:none;
-}
-.warranty-banner.show{display:block}
-.warranty-inner{
-background:linear-gradient(135deg,rgba(53,208,127,.18),rgba(53,208,127,.06));
-border:1.5px solid rgba(53,208,127,.45);border-radius:16px;
-padding:18px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
-}
-.warranty-inner .big-ico{
-width:48px;height:48px;border-radius:12px;background:var(--green);
-display:grid;place-items:center;flex-shrink:0;
-}
-.warranty-inner .wtxt h4{font-family:'Sora';font-size:19px;font-weight:800;color:var(--green);line-height:1.1}
-.warranty-inner .wtxt p{font-size:14px;color:var(--txt);margin-top:3px}
-
-/* Filtros de pagamento fixos (topo) */
-.pay-strip{
-max-width:1160px;margin:16px auto 0;padding:0 22px;
-display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
-}
-.pay-badge{
-font-size:13px;font-weight:700;padding:8px 16px;border-radius:12px;
-background:rgba(245,179,1,.1);border:1px solid rgba(245,179,1,.35);color:var(--gold);
-display:inline-flex;align-items:center;gap:6px;
-}
-.pay-badge.pix{background:rgba(53,208,127,.1);border-color:rgba(53,208,127,.35);color:var(--green)}
-
-.searchbar{max-width:1160px;margin:20px auto 0;padding:0 22px}
+/* Barra de ferramentas (busca + filtros), gruda no topo ao rolar */
+.ferr{position:sticky;top:0;z-index:40;margin-top:12px;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 10px 22px rgba(5,7,10,.55)}
+.ferr-in{max-width:1160px;margin:0 auto;padding:10px 22px;display:flex;gap:8px;align-items:center}
+.searchbar{flex:1 1 auto;min-width:0}
 .searchbar input{
-width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line);
+width:100%;padding:11px 14px;border-radius:11px;border:1px solid var(--line);
 background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outline:none;transition:.15s;
 }
 .searchbar input:focus{border-color:var(--gold)}
 .searchbar input::placeholder{color:var(--mut)}
+.fopen{flex:none;display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;padding:11px 15px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--txt);transition:.15s}
+.fopen:hover{border-color:rgba(245,179,1,.45)}
+.fopen[aria-expanded="true"],.fopen.tem{border-color:var(--gold);color:var(--gold)}
+.fopen .fn{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:var(--gold);color:#1a1205;font-size:11.5px;font-weight:800}
+.fpanel{max-width:1160px;margin:0 auto;padding:0 22px 12px;max-height:62vh;overflow-y:auto;overscroll-behavior:contain}
+.fpanel[hidden]{display:none}
+.fpanel-fim{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:14px;margin-top:14px;border-top:1px solid var(--line)}
+.fpanel-fim .cnt{font-size:13px;color:var(--mut);font-weight:600}
+.fpanel-fim .cnt b{color:var(--txt)}
+.flimpa{font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--mut)}
+.flimpa:hover{color:var(--txt);border-color:rgba(245,179,1,.4)}
 
-.filter-label{max-width:1160px;margin:18px auto 0;padding:0 22px 6px;font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
-.filter{max-width:1160px;margin:0 auto;padding:0 22px;display:flex;gap:8px;flex-wrap:wrap}
+.filter-label{max-width:1160px;margin:14px auto 0;padding:0 0 6px;font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.filter{max-width:1160px;margin:0 auto;padding:0;display:flex;gap:8px;flex-wrap:wrap}
 .fbtn{font-family:'Inter';font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);transition:.15s}
 .fbtn:hover{background:var(--card-h);color:var(--txt)}
 .fbtn.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
@@ -170,23 +157,15 @@ header{padding:20px 16px 10px;gap:12px}
 .headline{padding:0 16px}
 .headline p{font-size:13.5px}
 /* abas ocupam a largura toda, lado a lado */
-.tabs{padding:0 16px;gap:8px;margin-top:18px}
-.tab{flex:1 1 0;padding:13px 8px;font-size:14px;text-align:center}
-/* banner garantia */
-.warranty-banner{padding:0 16px;margin-top:14px}
-.warranty-inner{padding:14px 16px;gap:12px}
-.warranty-inner .big-ico{width:40px;height:40px}
-.warranty-inner .wtxt h4{font-size:16px}
-.warranty-inner .wtxt p{font-size:12.5px}
-/* pagamento */
-.pay-strip{padding:0 16px;gap:8px}
-.pay-badge{font-size:11.5px;padding:7px 12px}
-/* busca */
-.searchbar{padding:0 16px}
-.searchbar input{padding:12px 14px;font-size:15px}
+.tabs{padding:0 16px;gap:8px;margin-top:10px}
+.tab{flex:1 1 0;padding:10px 8px;font-size:13.5px;text-align:center}
+/* busca + filtros */
+.ferr-in{padding:9px 16px;gap:7px}
+.searchbar input{padding:11px 13px;font-size:16px}
+.fopen{padding:11px 13px;font-size:13.5px;gap:6px}
+.fpanel{padding:0 16px 12px}
 /* filtros */
-.filter-label{padding:0 16px 6px}
-.filter{padding:0 16px;gap:6px}
+.filter{gap:6px}
 .fbtn{font-size:12.5px;padding:7px 12px}
 /* catálogo */
 .wrap{padding:0 16px}
@@ -288,7 +267,7 @@ body.noscroll .wafloat{display:none}
 .sec.active{background:rgba(245,179,1,.12);color:var(--gold);border-color:var(--gold)}
 .grps{max-width:1160px;margin:12px auto 0;padding:0 22px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .grps::-webkit-scrollbar{display:none}
-.grps[hidden],.filter[hidden],.filter-label[hidden],.tabs[hidden],.tab[hidden]{display:none}
+.grps[hidden],.filter[hidden],.filter-label[hidden],.tabs[hidden],.tab[hidden],.fopen[hidden],.fn[hidden]{display:none}
 .grp{flex:none;font-family:'Inter';font-size:14px;font-weight:700;cursor:pointer;padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);color:var(--mut);transition:.15s;white-space:nowrap}
 .grp:hover{color:var(--txt)}
 .grp.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
@@ -371,6 +350,8 @@ const CORES = {
 "Laranja-cósmico": {body:"#d98a4e", frame:"#b56a30", glass:"#cf8044"},
 "Azul-profundo": {body:"#2f3d58", frame:"#223047", glass:"#29364f"},
 "Azul-névoa": {body:"#b9c9dc", frame:"#97aac0", glass:"#aebfd3"},
+"Azul-glacial": {body:"#cfe0ea", frame:"#a8c2d2", glass:"#dcebf3"},
+"Borgonha": {body:"#5a1f2b", frame:"#40141d", glass:"#4c1a24"},
 "Lavanda": {body:"#cdc3de", frame:"#a99fc0", glass:"#c3b8d6"},
 "Sálvia": {body:"#b7c6b4", frame:"#93a68f", glass:"#aebfaa"},
 "Azul-céu": {body:"#aac2d6", frame:"#88a4bb", glass:"#9fbace"},
@@ -380,12 +361,7 @@ const CORES = {
 <header>
 <div class="brand">
 <img class="brand-logo" src="logo.png" alt="Zicão Store" width="640" height="291">
-<span>Itaú de Minas · MG</span>
-</div>
-<div class="tags">
-<span class="pill g">✔ Pronta entrega</span>
-<span class="pill">Apple e Xiaomi</span>
-<span class="pill">Garantia</span>
+<span>Itaú de Minas · MG <span class="pill g">✔ Pronta entrega</span></span>
 </div>
 </header>
 
@@ -402,29 +378,15 @@ const CORES = {
 <button class="tab" data-linha="semi">Semi-novos</button>
 </div>
 
-<!-- Banner grande de garantia (só nos lacrados) -->
-<div class="warranty-banner" id="warrantyBanner">
-<div class="warranty-inner">
-<div class="big-ico">
-<svg viewBox="0 0 24 24" width="28" height="28" fill="none"><path d="M12 2l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V5l7-3z" stroke="#06231a" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#06231a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</div>
-<div class="wtxt">
-<h4 id="wTit"></h4>
-<p id="wTxt"></p>
-</div>
-</div>
-</div>
-
-<!-- Formas de pagamento -->
-<div class="pay-strip">
-<span class="pay-badge">💳 Cartão em até <b>18x</b> (com taxas)</span>
-<span class="pay-badge pix">⚡ Pix à vista</span>
-</div>
-
+<!-- Busca + filtros (os filtros ficam guardados até a pessoa pedir) -->
+<div class="ferr">
+<div class="ferr-in">
 <div class="searchbar">
-<input id="search" type="search" placeholder="🔍 Buscar em tudo... (ex: 13 preto, redmi, capinha)" autocomplete="off">
+<input id="search" type="search" placeholder="🔍 Buscar (ex: 13 preto, capinha)" autocomplete="off">
 </div>
-
+<button class="fopen" id="fopen" type="button" aria-expanded="false" aria-controls="fpanel">Filtrar <span id="fnum" class="fn" hidden></span></button>
+</div>
+<div class="fpanel" id="fpanel" hidden>
 <div class="filter-label" id="lblModelo">Modelo</div>
 <div class="filter" id="filter"></div>
 
@@ -433,6 +395,13 @@ const CORES = {
 
 <div class="filter-label" id="lblPreco">Faixa de preço</div>
 <div class="filter price" id="priceFilter"></div>
+
+<div class="fpanel-fim">
+<span class="cnt" id="fcnt"></span>
+<button class="flimpa" id="flimpa" type="button">Limpar filtros</button>
+</div>
+</div>
+</div>
 
 <div class="wrap" id="catalog"><div class="noresult">Carregando o estoque…</div></div>
 <a class="wafloat" id="wafloat" href="#" target="_blank" title="Falar no WhatsApp">
@@ -591,23 +560,20 @@ function desenhaTopo(){
 const tabs=$('tabs'), ls=termoBusca?[]:linhasDe(sec,grp);
 tabs.hidden=ls.length<2;
 tabs.querySelectorAll('.tab').forEach(t=>{t.hidden=!ls.includes(t.dataset.linha);t.classList.toggle('active',t.dataset.linha===linha);});
-const wb=$('warrantyBanner');
-let tit='',sub='',wb1='',wb2='';
+let tit='',sub='';
 if(termoBusca){tit=`Busca: <span class="hl">${esc(termoBusca)}</span>`;sub='Procurando em tudo que tem na loja.';}
 else if(!grp){tit=`<span class="hl">${SECOES.find(s=>s.k===sec).nome}</span>`;sub='';}
 else{
 const nomeG=sec==='acessorios'?(grp==='Todos'?'Acessórios':'Acessórios · <span class="hl">'+esc(grp)+'</span>'):esc(TITULO_G[grp]||grp);
 const temAp=ITENS.some(i=>i.s===sec&&(grp==='Todos'||i.g===grp)&&ehAparelho(i));
 if(temAp&&linha){
-tit=`${nomeG} <span class="hl">${linha==='novos'?'Novos (Lacrados)':'Semi-novos'}</span>`;
-if(linha==='novos'){
-if(sec==='apple'){sub='Lacrados, com Nota Fiscal e Garantia Apple de 1 ano. Pronta entrega.';wb1='Garantia Apple de 1 ANO';wb2='Aparelhos lacrados de fábrica, com Nota Fiscal. Garantia direto com a Apple — a maior segurança que existe.';}
-else{sub='Lacrados, com Nota Fiscal. Pronta entrega.';wb1='Lacrados com Nota Fiscal';wb2='Realme: garantia de fábrica de 1 ano. Xiaomi e outras marcas: 3 meses de garantia direto na loja.';}
-}else sub='Todos testados, com bateria conferida. Garantia de 90 dias da loja. Chama no WhatsApp que te ajudo a escolher.';
-}else{tit=sec==='acessorios'?nomeG:`${nomeG}`;sub='Originais e de qualidade, com garantia da loja. Pronta entrega.';}
+// as abas já dizem Novos/Semi-novos: o título só repete isso quando elas não aparecem
+tit=tabs.hidden?`${nomeG} <span class="hl">${linha==='novos'?'Novos (Lacrados)':'Semi-novos'}</span>`:nomeG;
+if(linha==='novos') sub=sec==='apple'?'Lacrados, com Nota Fiscal e garantia Apple de 1 ano.':'Lacrados, com Nota Fiscal e garantia de fábrica.';
+else sub='Testados, com bateria conferida e 90 dias de garantia da loja.';
+}else{tit=nomeG;sub='Originais e de qualidade, com garantia da loja.';}
 }
 $('htitle').innerHTML=tit;$('hsub').textContent=sub;
-wb.classList.toggle('show',!!wb1);$('wTit').textContent=wb1;$('wTxt').textContent=wb2;
 }
 
 function faixasDe(lista){
@@ -615,7 +581,8 @@ const max=Math.max(0,...lista.map(precoAjustado));
 if(max<=400) return [["Todos","all"],["Até R$ 50","0-50"],["R$ 50 – 150","50-150"],["Acima de R$ 150","150-999999"]];
 return [["Todos","all"],["Até R$ 1.500","0-1500"],["R$ 1.500 – 3.000","1500-3000"],["Acima de R$ 3.000","3000-999999"]];
 }
-const dentroDaFaixa=it=>{if(filtroPreco==='all')return true;const [a,b]=filtroPreco.split('-').map(Number);const p=precoAjustado(it);return p>=a&&p<=b;};
+const dentro=(faixa,p)=>{const [a,b]=String(faixa).split('-').map(Number);return p>=a&&p<=b;};
+const dentroDaFaixa=it=>filtroPreco==='all'||dentro(filtroPreco,precoAjustado(it));
 const casaBusca=(it,termo)=>{const alvo=norm(`${it.tipo==='iPhone'?'iphone':''} ${nomeDe(it)} ${it.g} ${it.cor||''} ${it.cap||''} ${it.cond==='novo'?'novo lacrado':it.cond==='semi'?'seminovo semi usado':''} ${precoTexto(it)}`);return norm(termo).split(/\s+/).filter(Boolean).every(t=>alvo.includes(t));};
 
 // agrupa em blocos: aparelho por modelo; acessório por categoria
@@ -645,9 +612,19 @@ const mostraC=cores.length>1;
 $('lblCor').hidden=corBar.hidden=!mostraC;
 if(mostraC){chip(corBar,'Todas',filtroCor==='all',()=>{filtroCor='all';desenha();});cores.forEach(([k,nome])=>{const c=corDe(nome);chip(corBar,`${c?`<span class="dot" style="background:linear-gradient(135deg,${c.frame},${c.body})"></span>`:''}${esc(nome)}`,filtroCor===k,()=>{filtroCor=k;desenha();});});}
 priceBar.innerHTML='';
-const mostraP=base.length>6;
+// faixa de preço só ajuda quando os preços são espalhados (em lacrado cai tudo na mesma faixa)
+const faixas=faixasDe(base), usadas=new Set(base.map(i=>faixas.findIndex(([,v],n)=>n>0&&dentro(v,precoAjustado(i)))));
+const mostraP=base.length>6&&usadas.size>1;
 $('lblPreco').hidden=priceBar.hidden=!mostraP;
-if(mostraP) faixasDe(base).forEach(([l,v])=>chip(priceBar,l,filtroPreco===v,()=>{filtroPreco=v;desenha();}));
+if(!mostraP&&filtroPreco!=='all') filtroPreco='all';
+if(mostraP) faixas.forEach(([l,v])=>chip(priceBar,l,filtroPreco===v,()=>{filtroPreco=v;desenha();}));
+// botão "Filtrar": some quando não tem nada pra filtrar e mostra quantos filtros estão ligados
+const ligados=[filtroModelo!=='all',filtroCor!=='all',filtroPreco!=='all'].filter(Boolean).length;
+const temFiltro=mostraM||mostraC||mostraP;
+fopen.hidden=!temFiltro;
+fopen.classList.toggle('tem',ligados>0);
+$('fnum').hidden=!ligados;$('fnum').textContent=ligados;
+if(!temFiltro) fechaPainel();
 }
 
 function desenha(){
@@ -655,6 +632,7 @@ desenhaNav();desenhaTopo();
 const base=listaAtual().filter(i=>!termoBusca.trim()||casaBusca(i,termoBusca));
 desenhaFiltros(base);
 const lista=base.filter(i=>(filtroModelo==='all'||nomeCurto(i)===filtroModelo)&&(filtroCor==='all'||(ehAparelho(i)&&norm(i.cor)===filtroCor))&&dentroDaFaixa(i));
+$('fcnt').innerHTML=`<b>${lista.length}</b> ${lista.length===1?'resultado':'resultados'}`;
 catalog.innerHTML='';
 if(!lista.length){
 const nada=!termoBusca&&!listaAtual().length;
@@ -723,6 +701,12 @@ el.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target===
 return el;
 }
 
+// ---- painel de filtros (fica fechado até a pessoa pedir) ----
+const fopen=$('fopen'), fpanel=$('fpanel');
+function fechaPainel(){fpanel.hidden=true;fopen.setAttribute('aria-expanded','false');}
+fopen.onclick=()=>{const abre=fpanel.hidden;fpanel.hidden=!abre;fopen.setAttribute('aria-expanded',abre?'true':'false');};
+$('flimpa').onclick=()=>{filtroModelo='all';filtroCor='all';filtroPreco='all';desenha();};
+
 let tBusca;
 searchInput.addEventListener('input',e=>{clearTimeout(tBusca);tBusca=setTimeout(()=>{termoBusca=e.target.value.trim();filtroModelo='all';filtroCor='all';filtroPreco='all';desenha();},150);});
 function limpaBusca(){termoBusca='';searchInput.value='';}
@@ -767,7 +751,9 @@ det.querySelector('.det-x').focus({preventScroll:true});
 function fecharDetalhe(veioDoVoltar){
 if(det.hidden)return;
 det.hidden=true;document.body.classList.remove('noscroll');
-if(!veioDoVoltar&&history.state&&history.state.det)history.back();
+// fechar no X/fundo também volta no histórico: avisa o hashchange pra NÃO redesenhar
+// (redesenhar jogava a pessoa pro começo da lista e limpava busca/filtros)
+if(!veioDoVoltar&&history.state&&history.state.det){pulaHash=true;setTimeout(()=>pulaHash=false,300);history.back();}
 }
 det.addEventListener('click',e=>{if(e.target.closest('[data-close]'))fecharDetalhe();
 const pgb=e.target.closest('[data-pg]');if(pgb&&detBody._it){const it=detBody._it,pg=pgb.dataset.pg;detBody.querySelectorAll('[data-pg]').forEach(b=>b.classList.toggle('on',b===pgb));$('detBuy').href=`https://wa.me/${WHATS}?text=${msgDe(it,pg)}`;$('detBuyTx').textContent='Tenho interesse · '+(pg==='pix'?'Pix':pg+'x');return;}
