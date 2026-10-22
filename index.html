@@ -78,6 +78,8 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 .fpanel-fim{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:14px;margin-top:14px;border-top:1px solid var(--line)}
 .fpanel-fim .cnt{font-size:13px;color:var(--mut);font-weight:600}
 .fpanel-fim .cnt b{color:var(--txt)}
+.fbtn .qt{opacity:.5;font-weight:600;font-size:12px;margin-left:2px}
+.flimpa[hidden]{display:none}
 .flimpa{font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--mut)}
 .flimpa:hover{color:var(--txt);border-color:rgba(245,179,1,.4)}
 
@@ -164,8 +166,11 @@ header{padding:20px 16px 10px;gap:12px}
 .searchbar input{padding:11px 13px;font-size:16px}
 .fopen{padding:11px 13px;font-size:13.5px;gap:6px}
 .fpanel{padding:0 16px 12px}
-/* filtros */
-.filter{gap:6px}
+/* filtros: cada um numa linha só que desliza pro lado (no celular, empilhado fica poluído) */
+.filter{gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.filter::-webkit-scrollbar{display:none}
+.filter .fbtn{flex:none}
+.filter-label{margin-top:12px}
 .fbtn{font-size:12.5px;padding:7px 12px}
 /* catálogo */
 .wrap{padding:0 16px}
@@ -603,27 +608,30 @@ const modelos=termoBusca?[]:[...new Set([...ap].sort((a,b)=>idxModelo(a)-idxMode
 filterBar.innerHTML='';
 const mostraM=modelos.length>1;
 $('lblModelo').hidden=filterBar.hidden=!mostraM;
-if(mostraM){chip(filterBar,'Todos',filtroModelo==='all',()=>{filtroModelo='all';filtroCor='all';desenha();});modelos.forEach(m=>chip(filterBar,esc(m),filtroModelo===m,()=>{filtroModelo=m;filtroCor='all';desenha();}));}
+if(mostraM){chip(filterBar,'Todos',filtroModelo==='all',()=>{filtroModelo='all';filtroCor='all';desenha();});modelos.forEach(m=>chip(filterBar,`${esc(m)} <span class="qt">${ap.filter(i=>nomeCurto(i)===m).length}</span>`,filtroModelo===m,()=>{filtroModelo=m;filtroCor='all';desenha();}));}
 corBar.innerHTML='';
 const doModelo=ap.filter(i=>filtroModelo==='all'||nomeCurto(i)===filtroModelo);
 const cores=[...new Map(doModelo.filter(i=>i.cor).map(i=>[norm(i.cor),i.cor])).entries()].sort((a,b)=>a[1].localeCompare(b[1],'pt'));
 if(filtroCor!=='all'&&!cores.some(([k])=>k===filtroCor)) filtroCor='all';
 const mostraC=cores.length>1;
 $('lblCor').hidden=corBar.hidden=!mostraC;
-if(mostraC){chip(corBar,'Todas',filtroCor==='all',()=>{filtroCor='all';desenha();});cores.forEach(([k,nome])=>{const c=corDe(nome);chip(corBar,`${c?`<span class="dot" style="background:linear-gradient(135deg,${c.frame},${c.body})"></span>`:''}${esc(nome)}`,filtroCor===k,()=>{filtroCor=k;desenha();});});}
+if(mostraC){chip(corBar,'Todas',filtroCor==='all',()=>{filtroCor='all';desenha();});cores.forEach(([k,nome])=>{const c=corDe(nome),n=doModelo.filter(i=>norm(i.cor)===k).length;chip(corBar,`${c?`<span class="dot" style="background:linear-gradient(135deg,${c.frame},${c.body})"></span>`:''}${esc(nome)} <span class="qt">${n}</span>`,filtroCor===k,()=>{filtroCor=k;desenha();});});}
 priceBar.innerHTML='';
 // faixa de preço só ajuda quando os preços são espalhados (em lacrado cai tudo na mesma faixa)
 const faixas=faixasDe(base), usadas=new Set(base.map(i=>faixas.findIndex(([,v],n)=>n>0&&dentro(v,precoAjustado(i)))));
 const mostraP=base.length>6&&usadas.size>1;
 $('lblPreco').hidden=priceBar.hidden=!mostraP;
 if(!mostraP&&filtroPreco!=='all') filtroPreco='all';
-if(mostraP) faixas.forEach(([l,v])=>chip(priceBar,l,filtroPreco===v,()=>{filtroPreco=v;desenha();}));
+if(mostraP) faixas.forEach(([l,v])=>chip(priceBar,v==='all'?l:`${l} <span class="qt">${base.filter(i=>dentro(v,precoAjustado(i))).length}</span>`,filtroPreco===v,()=>{filtroPreco=v;desenha();}));
 // botão "Filtrar": some quando não tem nada pra filtrar e mostra quantos filtros estão ligados
 const ligados=[filtroModelo!=='all',filtroCor!=='all',filtroPreco!=='all'].filter(Boolean).length;
 const temFiltro=mostraM||mostraC||mostraP;
 fopen.hidden=!temFiltro;
 fopen.classList.toggle('tem',ligados>0);
 $('fnum').hidden=!ligados;$('fnum').textContent=ligados;
+$('flimpa').hidden=!ligados;
+// linha que desliza: traz o filtro escolhido pra vista
+[filterBar,corBar,priceBar].forEach(bar=>{const a=bar.querySelector('.active');if(a&&bar.scrollWidth>bar.clientWidth)bar.scrollLeft=Math.max(0,a.offsetLeft-12);});
 if(!temFiltro) fechaPainel();
 }
 
