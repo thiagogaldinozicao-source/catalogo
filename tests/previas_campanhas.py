@@ -17,7 +17,7 @@ AUDIT = """()=>{ const W=innerWidth, ruins=[];
     const t=(e.matches('.price,.p,.n,.t,button,a,.camp-b *,.camp-cd,h1,h2,h3')); if(t && e.scrollWidth>e.clientWidth+1 && cs.overflow!=='visible')
       ruins.push('cortado: '+(e.className||e.tagName)+' "'+e.textContent.trim().slice(0,40)+'"'); });
   return {ruins:[...new Set(ruins)].slice(0,25), docW:document.documentElement.scrollWidth, W}; }"""
-CASOS = [("original", "2026-11-20T15:00:00+00:00"), ("black", "2026-11-28T15:00:00+00:00"), ("natal", "2026-12-10T15:00:00+00:00")]
+CASOS = [("original", "2026-11-14T15:00:00+00:00"), ("black", "2026-11-28T15:00:00+00:00"), ("natal", "2026-12-10T15:00:00+00:00")]
 TELAS = [("se", 375, 667), ("iphone", 390, 844), ("mini", 320, 640)]
 os.makedirs(OUT, exist_ok=True); res = {}
 with sync_playwright() as p:

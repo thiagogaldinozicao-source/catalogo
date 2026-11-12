@@ -1,8 +1,8 @@
 # Temas Black / Natal 2026 — branch `temas-2026` (NÃO publicado)
 
-- **Black Zicão Store:** 27/11/2026 00:00 → 30/11/2026 23:59:59 (Brasília). Preto, dourado e vermelho; banner, contagem regressiva até o fim real e "Ofertas da Black".
+- **Black Zicão Store:** 16/11/2026 00:00 → 30/11/2026 23:59:59 (Brasília). Preto, dourado e vermelho; banner, contagem regressiva até o fim real e "Ofertas da Black".
 - **Natal Zicão Store:** 01/12/2026 00:00 → 25/12/2026 23:59:59. Verde-esmeralda, dourado, vermelho discreto; banner, "Ofertas de Natal" e "Pra presentear".
-- Fora das datas: **visual original**, sem nenhuma classe/cor extra (o tema só existe dentro de `body.tema-black` / `body.tema-natal`; o `:root` original não foi tocado).
+- Fora das datas: **visual original** (volta sozinho em 26/12), sem nenhuma classe/cor extra (o tema só existe dentro de `body.tema-black` / `body.tema-natal`; o `:root` original não foi tocado).
 
 Como funciona
 - O navegador do cliente calcula a data de Brasília (`hojeBR`, Intl `America/Sao_Paulo`) ao abrir e a cada 20 s: virou o dia com o catálogo aberto, troca/volta o tema e os preços sozinho. Não depende de ninguém abrir o Gestão nem da tarefa agendada.
@@ -26,8 +26,8 @@ Testes: `python3 -m http.server 8766` e `python3 tests/test_temas.py` (estoque F
 - **Foto ilustrativa:** a mesma foto usada em mais de uma unidade (hoje: 9 iPhone 13 pretos com a mesma foto, 5 iPhone 14 pretos etc. — 38 unidades com foto, só 14 fotos diferentes) ou foto do modelo aparece com "📷 Foto ilustrativa do modelo" no card, no detalhe e no carrossel. Foto exclusiva da unidade continua sem aviso.
 - **Pix × cartão:** o carrossel das campanhas agora mostra "no Pix" e, à parte, "ou 12x R$ … no cartão" (antes mostrava só "R$ …"). O detalhe mostra o "de R$" com a mesma regra do card (só com desconto real e histórico, sem `sd`).
 - **Texto:** selo "Última unidade" / "Últimas unidades" (antes "Últimas unidade").
-- Natal não mostra preço da Black (promo de 27–30/11 volta ao normal em 01/12), "Pra presentear" com foto real ou quadro neutro.
-- Testes: `tests/test_r6_catalogo.py` (foto ilustrativa, Pix/cartão, Natal sem Black, 320/375/390 px sem vazamento e sem preço/botão cortado), com o estoque FICTÍCIO `tests/estoque-previa-campanhas.json` (promos inventadas só pra prévia: Black 27–30/11, Natal 01–25/12). Prévias: `python3 tests/previas_campanhas.py` → `tests/previas/`.
+- Natal não mostra preço da Black (promo de 16–30/11 volta ao normal em 01/12), "Pra presentear" com foto real ou quadro neutro.
+- Testes: `tests/test_r6_catalogo.py` (foto ilustrativa, Pix/cartão, Natal sem Black, 320/375/390 px sem vazamento e sem preço/botão cortado), com o estoque FICTÍCIO `tests/estoque-previa-campanhas.json` (promos inventadas só pra prévia: Black 16–30/11, Natal 01–25/12). Prévias: `python3 tests/previas_campanhas.py` → `tests/previas/`.
 - O R$ 1.099 das prévias antigas era do estoque fictício de teste (`tests/estoque-ficticio.json`, promo inventada nos iPhone 11). O index.html não tem preço nenhum embutido: só lê o estoque.json; os arquivos de teste nunca são carregados pelo site.
 
 ## Testar no Safari do iPhone sem publicar

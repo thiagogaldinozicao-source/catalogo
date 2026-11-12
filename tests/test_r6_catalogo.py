@@ -14,7 +14,7 @@ def abre(b, inst, w=375, h=667):
     pg.clock.set_fixed_time(datetime.fromisoformat(inst)); pg.goto(URL); pg.wait_for_timeout(1300); return ctx, pg, errs
 with sync_playwright() as p:
     b = p.chromium.launch(executable_path=CHROME, args=["--no-sandbox"])
-    ctx, pg, errs = abre(b, "2026-11-20T15:00:00+00:00")
+    ctx, pg, errs = abre(b, "2026-11-14T15:00:00+00:00")
     r = pg.evaluate("""()=>{ const c={}; ITENS.forEach(x=>{const h=fotoHash(x.f); if(h) c[h]=(c[h]||0)+1;});
       const ruim=ITENS.filter(x=>x.f).filter(x=>fotoIlustrativa(x)!==(c[fotoHash(x.f)]>1)).length;
       const rep=ITENS.find(x=>x.f&&c[fotoHash(x.f)]>1), uni=ITENS.find(x=>x.f&&c[fotoHash(x.f)]===1);
@@ -40,7 +40,7 @@ with sync_playwright() as p:
     ck("Natal: 'Pra presentear' presente; sem foto = quadro neutro", r["presentear"] and r["neutro"] > 0, r)
     ck("Natal: sem erro JS", not errs, errs[:2]); ctx.close()
     for w in (320, 375, 390):
-        for inst, nm in (("2026-11-20T15:00:00+00:00", "original"), ("2026-11-28T15:00:00+00:00", "Black"), ("2026-12-10T15:00:00+00:00", "Natal")):
+        for inst, nm in (("2026-11-14T15:00:00+00:00", "original"), ("2026-11-28T15:00:00+00:00", "Black"), ("2026-12-10T15:00:00+00:00", "Natal")):
             ctx, pg, errs = abre(b, inst, w, 700)
             r = pg.evaluate("""()=>({docW:document.documentElement.scrollWidth, W:innerWidth,
               cortes:[...document.querySelectorAll('.price,.det-price,.camp-ib .p,.buy,.camp-b a,.camp-b button,.sec,.grp')].filter(e=>e.offsetParent&&e.scrollWidth>e.clientWidth+1).map(e=>e.className+':'+e.textContent.trim().slice(0,30))})""")

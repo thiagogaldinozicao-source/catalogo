@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Catálogo: preço da promoção pela data de Brasília no navegador, ao abrir e com a aba aberta na virada.
-Estoque FICTÍCIO (tests/estoque-ficticio.json: 4 itens com pp = preço − 200 de 27/11 a 25/12). O estoque.json real não é usado.
+Estoque FICTÍCIO (tests/estoque-ficticio.json: 4 itens com pp = preço − 200 de 16/11 a 25/12). O estoque.json real não é usado.
 Uso: python3 -m http.server 8767 e python3 tests/test_preco_data.py"""
 import json, os, sys
 from datetime import datetime
@@ -21,11 +21,11 @@ with sync_playwright() as p:
         pg.evaluate("()=>{window._nd=0;const o=desenha;desenha=function(){window._nd++;return o.apply(this,arguments)}}")
         return pg, errs
     for tz in ("America/Sao_Paulo", "Asia/Tokyo", "UTC"):
-        for inst, br, promo in [("2026-11-27T02:59:59+00:00", "26/11 23:59:59", False), ("2026-11-27T03:00:01+00:00", "27/11 00:00:01", True),
+        for inst, br, promo in [("2026-11-16T02:59:59+00:00", "15/11 23:59:59", False), ("2026-11-16T03:00:01+00:00", "16/11 00:00:01", True),
                                 ("2026-12-26T02:59:59+00:00", "25/12 23:59:59", True), ("2026-12-26T03:00:01+00:00", "26/12 00:00:01", False)]:
             pg, errs = abre(inst, tz); e = pg.evaluate(LE)
             ck(f"[{tz}] abrir em {br} Brasília → {'promo' if promo else 'normal'}", e["preco"] == (e["pp"] if promo else e["pn"]) and not errs, json.dumps(e)); pg.close()
-    for inst, br, de, para in [("2026-11-27T02:59:30+00:00", "26/11→27/11", "normal", "promo"), ("2026-12-26T02:59:30+00:00", "25/12→26/12", "promo", "normal")]:
+    for inst, br, de, para in [("2026-11-16T02:59:30+00:00", "15/11→16/11", "normal", "promo"), ("2026-12-26T02:59:30+00:00", "25/12→26/12", "promo", "normal")]:
         pg, errs = abre(inst, "Asia/Tokyo", andando=True); a = pg.evaluate(LE); pg.clock.run_for(65000); pg.wait_for_timeout(300); d = pg.evaluate(LE)
         okA = a["preco"] == (a["pp"] if de == "promo" else a["pn"]); okD = d["preco"] == (d["pp"] if para == "promo" else d["pn"])
         ck(f"aba aberta na virada {br}: {de} → {para} sem recarregar (lista redesenhada {d['redesenhos']}x)", okA and okD and d['redesenhos'] >= 1 and not errs, f"{a['preco']} → {d['preco']}"); pg.close()

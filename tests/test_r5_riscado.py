@@ -5,9 +5,9 @@ import json, os
 from datetime import datetime
 from playwright.sync_api import sync_playwright
 URL = os.environ.get("URL", "http://localhost:8767/index.html"); CHROME = os.environ.get("CHROME", "/usr/bin/google-chrome")
-P = {"pi": "2026-11-27", "pf": "2026-11-30"}
+P = {"pi": "2026-11-16", "pf": "2026-11-30"}
 B = lambda i, **k: {"s": "apple", "g": "iPhone", "tipo": "iPhone", "cond": "semi", "cap": "128GB", "cor": "Preto", "bat": 85, "i": i, **k}
-FX = json.dumps({"atualizado": "2026-11-27T03:00:00Z", "itens": [
+FX = json.dumps({"atualizado": "2026-11-16T03:00:00Z", "itens": [
     B("com", modelo="iPhone 14", preco=2499, pn=2499, pp=2349, k="0001", **P),
     B("sem", modelo="iPhone 15", preco=3290, pn=3290, pp=3090, k="0002", sd=1, **P),
     B("maior", modelo="iPhone 13", preco=1899, pn=1899, pp=1949, k="0003", **P)]})
