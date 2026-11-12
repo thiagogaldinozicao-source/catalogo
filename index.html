@@ -37,22 +37,22 @@
 html,body{overflow-x:hidden;-webkit-text-size-adjust:100%}
 /* clip corta igual o hidden, mas sem virar "caixa de rolagem" — é o que deixa a barra de busca grudar no topo */
 @supports (overflow-x:clip){html,body{overflow-x:clip}}
-body{font-family:'Inter',sans-serif;background:radial-gradient(1200px 600px at 20% -5%,#1a2431 0%,var(--bg) 55%);color:var(--txt);min-height:100vh;padding-bottom:60px}
+body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:radial-gradient(1200px 600px at 20% -5%,#1a2431 0%,var(--bg) 55%);color:var(--txt);min-height:100vh;padding-bottom:60px}
 header{max-width:1160px;margin:0 auto;padding:34px 22px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .brand{display:flex;align-items:center;gap:14px}
-.logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#ffcf4d);display:grid;place-items:center;font-family:'Sora';font-weight:800;font-size:26px;color:#1a1205;box-shadow:0 6px 20px rgba(245,179,1,.35)}
-.brand h1{font-family:'Sora';font-size:22px;font-weight:800;letter-spacing:.3px;line-height:1}
+.logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#ffcf4d);display:grid;place-items:center;font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;font-size:26px;color:#1a1205;box-shadow:0 6px 20px rgba(245,179,1,.35)}
+.brand h1{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:22px;font-weight:800;letter-spacing:.3px;line-height:1}
 .brand span{font-size:13px;color:var(--mut)}
 .tags{display:flex;gap:8px;flex-wrap:wrap}
 .pill{font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:20px;background:var(--bg2);border:1px solid var(--line);color:var(--txt)}
 .pill.g{background:rgba(53,208,127,.12);border-color:rgba(53,208,127,.3);color:var(--green)}
 .headline{max-width:1160px;margin:8px auto 0;padding:0 22px}
-.headline h2{font-family:'Sora';font-size:clamp(20px,3.4vw,27px);font-weight:800;line-height:1.1}
+.headline h2{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:clamp(20px,3.4vw,27px);font-weight:800;line-height:1.1}
 .headline h2 .hl{color:var(--gold)}
 .headline p{color:var(--mut);margin-top:4px;font-size:14px}
 .tabs{max-width:1160px;margin:12px auto 0;padding:0 22px;display:flex;gap:8px}
 .tab{
-font-family:'Sora';font-size:14.5px;font-weight:800;cursor:pointer;
+font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14.5px;font-weight:800;cursor:pointer;
 padding:10px 22px;border-radius:11px;border:1px solid var(--line);
 background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
 }
@@ -65,7 +65,7 @@ background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
 .searchbar{flex:1 1 auto;min-width:0}
 .searchbar input{
 width:100%;padding:11px 14px;border-radius:11px;border:1px solid var(--line);
-background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outline:none;transition:.15s;
+background:var(--card);color:var(--txt);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;outline:none;transition:.15s;
 }
 .searchbar input:focus{border-color:var(--gold)}
 .searchbar input::placeholder{color:var(--mut)}
@@ -90,7 +90,7 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 
 .filter-label{max-width:1160px;margin:14px auto 0;padding:0 0 6px;font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
 .filter{max-width:1160px;margin:0 auto;padding:0;display:flex;gap:8px;flex-wrap:wrap}
-.fbtn{font-family:'Inter';font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);transition:.15s}
+.fbtn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);transition:.15s}
 .fbtn:hover{background:var(--card-h);color:var(--txt)}
 .fbtn.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
 .fbtn .dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1px solid rgba(255,255,255,.35)}
@@ -106,10 +106,10 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 .wrap{max-width:1160px;margin:24px auto 0;padding:0 22px}
 .model-block{margin-top:34px}
 .model-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-.model-head h3{font-family:'Sora';font-size:21px;font-weight:700}
+.model-head h3{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:21px;font-weight:700}
 .model-head .count{font-size:13px;color:var(--mut)}
 .model-head .from{margin-left:auto;font-size:13px;color:var(--mut)}
-.model-head .from b{color:var(--gold);font-family:'Sora'}
+.model-head .from b{color:var(--gold);font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;transition:.18s;position:relative;overflow:hidden}
 .card:hover{transform:translateY(-3px);background:var(--card-h);border-color:rgba(245,179,1,.3)}
@@ -131,7 +131,7 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 .cap{font-size:14px;font-weight:700;color:var(--txt);background:var(--bg2);padding:4px 12px;border-radius:8px;border:1px solid var(--line)}
 .bat{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--green)}
 .bat .ico{width:15px;height:15px;display:inline-block}
-.price{font-family:'Sora';font-weight:800;font-size:22px;margin-top:2px}
+.price{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;font-size:22px;margin-top:2px}
 .price small{font-size:13px;color:var(--mut);font-weight:600}
 .parcela{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:-4px}
 .parcela b{color:var(--txt)}
@@ -210,6 +210,10 @@ footer{flex-direction:column;gap:6px;text-align:center;padding:24px 16px 0}
 /* botões de compra sempre com o texto legível */
 .buy svg{display:none}
 }
+.fnota{font-size:11.5px;color:var(--mut);font-weight:600;margin:-2px 0 0}
+.camp-ib .pix{font-size:12px;color:var(--mut);font-weight:600;margin-left:5px;font-family:'Inter',system-ui,-apple-system,sans-serif}
+.camp-ib .parc{font-size:12px;color:var(--mut);margin-top:2px}
+.det-price .de{display:block;font-size:14px;color:var(--mut);font-weight:600}
 .cobs{font-size:12px;line-height:1.35;color:#f0b35a;margin:6px 0 2px;overflow-wrap:anywhere}
 /* foto do aparelho (só aparece se existir em fotos/) */
 .cphoto{display:block;width:calc(100% + 32px);max-width:none;margin:-16px -16px 0;aspect-ratio:1/1;object-fit:contain;background:#0e1319;border-bottom:1px solid var(--line)}
@@ -248,10 +252,10 @@ body.noscroll{overflow:hidden}
 .det-cor{height:96px}
 .det-flags{position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:2}
 .det-in{padding:18px 20px 22px;display:flex;flex-direction:column;gap:10px}
-.det-in h3{font-family:'Sora';font-size:23px;font-weight:800;line-height:1.15}
+.det-in h3{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:23px;font-weight:800;line-height:1.15}
 .det-sub{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .det-sub .colr{font-size:14.5px}
-.det-price{font-family:'Sora';font-weight:800;font-size:31px;margin-top:4px}
+.det-price{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;font-size:31px;margin-top:4px}
 .det-price small{font-size:15px;color:var(--mut);font-weight:600}
 .det-price .pix{font-size:13px;color:var(--mut);font-weight:600;margin-left:6px}
 body.noscroll .wafloat{display:none}
@@ -274,13 +278,13 @@ body.noscroll .wafloat{display:none}
 }
 /* ---- seções (Apple / Android / Acessórios) ---- */
 .secs{max-width:1160px;margin:6px auto 0;padding:0 22px;display:flex;gap:10px}
-.sec{flex:1 1 0;font-family:'Sora';font-size:16px;font-weight:800;cursor:pointer;padding:13px 10px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--mut);transition:.15s;display:flex;align-items:center;justify-content:center;gap:7px}
+.sec{flex:1 1 0;font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:16px;font-weight:800;cursor:pointer;padding:13px 10px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--mut);transition:.15s;display:flex;align-items:center;justify-content:center;gap:7px}
 .sec:hover{color:var(--txt);border-color:rgba(245,179,1,.4)}
 .sec.active{background:rgba(245,179,1,.12);color:var(--gold);border-color:var(--gold)}
 .grps{max-width:1160px;margin:12px auto 0;padding:0 22px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .grps::-webkit-scrollbar{display:none}
 .grps[hidden],.filter[hidden],.filter-label[hidden],.tabs[hidden],.tab[hidden],.fopen[hidden],.fn[hidden]{display:none}
-.grp{flex:none;font-family:'Inter';font-size:14px;font-weight:700;cursor:pointer;padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);color:var(--mut);transition:.15s;white-space:nowrap}
+.grp{flex:none;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;font-weight:700;cursor:pointer;padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);color:var(--mut);transition:.15s;white-space:nowrap}
 .grp:hover{color:var(--txt)}
 .grp.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
 .headline{margin-top:20px}
@@ -299,12 +303,12 @@ body.noscroll .wafloat{display:none}
 
 /* ---- por que comprar aqui (veio do site zicaostore) ---- */
 .trust{max-width:1160px;margin:56px auto 0;padding:0 22px}
-.trust h3{font-family:'Sora';font-size:21px;font-weight:800;margin-bottom:14px}
+.trust h3{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:21px;font-weight:800;margin-bottom:14px}
 .trust h3 .hl{color:var(--gold)}
 .trust-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
 .tcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
 .tcard .ti{font-size:24px;line-height:1}
-.tcard b{display:block;font-family:'Sora';font-size:15px;margin-top:10px}
+.tcard b{display:block;font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;margin-top:10px}
 .tcard p{font-size:13px;color:var(--mut);margin-top:4px;line-height:1.4}
 footer .ig{color:var(--gold)}
 @media(max-width:640px){.trust{padding:0 16px;margin-top:40px}.trust-grid{grid-template-columns:repeat(2,1fr);gap:10px}.tcard{padding:13px}.tcard p{font-size:12px}}
@@ -312,6 +316,56 @@ footer .ig{color:var(--gold)}
 .brand{flex-direction:column;align-items:flex-start;gap:4px}
 @media(max-width:640px){.brand-logo{height:52px}}
 @media(max-width:380px){.brand span{display:block}}
+
+/* ===== CAMPANHAS 2026 (Black / Natal) — só valem com body.tema-*; sem classe = visual ORIGINAL intacto ===== */
+body.tema-black{--bg:#060607;--bg2:#120b0c;--card:#141012;--card-h:#1d1517;--line:rgba(232,180,74,.16);--gold:#e8b44a;--acc:#e0303b;background:radial-gradient(900px 420px at 90% -10%,rgba(224,48,59,.20) 0%,transparent 60%),radial-gradient(1100px 600px at 10% -8%,rgba(232,180,74,.12) 0%,var(--bg) 55%)}
+body.tema-natal{--bg:#04120d;--bg2:#0a2018;--card:#0c261c;--card-h:#113324;--line:rgba(227,192,107,.18);--gold:#e3c06b;--acc:#b8323a;background:radial-gradient(1000px 460px at 85% -12%,rgba(227,192,107,.14) 0%,transparent 60%),radial-gradient(1100px 600px at 10% -8%,#0f3a2a 0%,var(--bg) 58%)}
+.camp,.camp2{display:none;max-width:1180px;margin:0 auto;padding:0 14px}
+body.tema-black .camp,body.tema-natal .camp,body.tema-black .camp2,body.tema-natal .camp2{display:block}
+.camp{margin-top:8px}
+.camp-b{position:relative;overflow:hidden;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;border:1px solid rgba(232,180,74,.55)}
+body.tema-black .camp-b{background:linear-gradient(115deg,#0a0a0b 0%,#151012 45%,#3a0b10 100%);box-shadow:0 10px 30px rgba(224,48,59,.12),inset 0 1px 0 rgba(255,255,255,.04)}
+body.tema-black .camp-b::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 22px,rgba(232,180,74,.05) 22px 23px);pointer-events:none}
+body.tema-natal .camp-b{background:linear-gradient(115deg,#062519 0%,#0b3526 55%,#0f4430 100%);border-color:rgba(227,192,107,.6)}
+body.tema-natal .camp-b::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 12% 30%,rgba(255,255,255,.08) 0 1.5px,transparent 2px),radial-gradient(circle at 70% 20%,rgba(255,255,255,.07) 0 1.5px,transparent 2px),radial-gradient(circle at 40% 80%,rgba(255,255,255,.06) 0 1.5px,transparent 2px),radial-gradient(circle at 88% 70%,rgba(255,255,255,.07) 0 1.5px,transparent 2px);background-size:180px 120px;pointer-events:none}
+.camp-tx{flex:1;min-width:0;position:relative}
+.camp-k{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.camp-t{font-size:clamp(22px,6.4vw,34px);font-weight:900;line-height:1;margin:4px 0 2px;letter-spacing:-.01em}
+.camp-t em{font-style:normal;color:var(--acc)}
+body.tema-natal .camp-t em{color:var(--gold)}
+.camp-s{color:var(--mut);font-size:12.5px;line-height:1.35}
+.camp-cd{display:flex;gap:5px;margin-top:8px;align-items:center;font-size:11px;color:var(--mut)}
+.camp-cd b{min-width:34px;text-align:center;padding:4px 5px;border-radius:8px;background:rgba(0,0,0,.35);border:1px solid rgba(232,180,74,.35);color:#fff;font-size:14px}
+.camp-cta{position:relative;flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#140f02;font-weight:900;font-size:13.5px;padding:11px 14px;border-radius:12px;text-decoration:none;box-shadow:0 6px 18px rgba(232,180,74,.25);border:0;cursor:pointer}
+body.tema-black .camp-cta{background:linear-gradient(180deg,#f2c25a,#d79d2a)}
+.camp-orn{position:absolute;right:10px;bottom:-14px;font-size:58px;opacity:.10;pointer-events:none;line-height:1}
+.camp-prev{position:fixed;left:50%;transform:translateX(-50%);top:8px;z-index:99;background:#e0303b;color:#fff;font-weight:800;font-size:12px;padding:6px 12px;border-radius:99px;letter-spacing:.08em}
+.camp2{margin-top:6px}
+.camp-sec{margin-top:12px;scroll-margin-top:12px}
+.camp-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.camp-h h3{font-size:16px;font-weight:800}
+.camp-nav{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:12px}
+.camp-nav button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;cursor:pointer;line-height:1}
+.camp-wrap{position:relative}
+.camp-wrap::after{content:"";position:absolute;top:0;right:-14px;bottom:8px;width:36px;background:linear-gradient(90deg,transparent,var(--bg));pointer-events:none}
+.camp-l{display:flex;gap:10px;overflow-x:auto;padding:2px 14px 10px 0;scroll-snap-type:x mandatory;scroll-padding-left:0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.camp-l::-webkit-scrollbar{display:none}
+.camp-i{flex:0 0 min(58vw,220px);scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.camp-ft{aspect-ratio:1/1;max-height:180px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.camp-ft img{width:100%;height:100%;object-fit:contain}
+.camp-ft.neutro{background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border-bottom:1px solid var(--line);flex-direction:column;gap:4px;color:var(--mut);font-size:12px;text-align:center;padding:10px}
+.camp-ft.neutro img{width:46%;height:auto;opacity:.55;object-fit:contain}
+.camp-ib{padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
+.camp-i .n{font-weight:800;font-size:14px;line-height:1.2}
+.camp-i .m{color:var(--mut);font-size:12px;line-height:1.3}
+.camp-i .p{font-weight:900;font-size:19px;margin-top:2px;color:var(--txt)}
+.camp-i .p s{display:block;color:var(--mut);font-size:12px;font-weight:500}
+.camp-i a{margin-top:8px;text-align:center;background:#25d366;color:#04140a;font-weight:800;border-radius:10px;padding:10px;text-decoration:none;font-size:13.5px}
+.price s.de{display:block;font-size:12px;color:var(--mut);font-weight:500}
+.flag.ult{background:rgba(224,48,59,.18);color:#ff8a8f;border:1px solid rgba(224,48,59,.4)}
+@media (min-width:900px){.camp-i{flex-basis:230px}}
+@media (max-width:380px){.camp-b{flex-wrap:wrap}.camp-cta{width:100%;justify-content:center}}
+@media (prefers-reduced-motion:reduce){.camp-l{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -376,10 +430,14 @@ const CORES = {
 <span>Itaú de Minas · MG <span class="pill g">✔ Pronta entrega</span></span>
 </div>
 </header>
+<!-- campanha do dia (Black/Natal): preenchida pelo script; vazia = visual original -->
+<section class="camp" id="camp" aria-live="polite"></section>
 
 <!-- Seções: Apple / Android / Acessórios -->
 <nav class="secs" id="secs" aria-label="Seções"></nav>
 <div class="grps" id="grps"></div>
+<!-- ofertas/presentes da campanha: depois das seções, pra categorias e busca ficarem no topo -->
+<section class="camp2" id="camp2"></section>
 
 <div class="headline">
 <h2 id="htitle"></h2>
@@ -456,6 +514,15 @@ const PARCELA_MIN=200; // abaixo disso não mostra 12x/18x (fica só "no cartão
 // ou só do modelo (vale pra qualquer cor). Coloque aqui o nome de cada foto (sem o .webp).
 const FOTOS=[
 ];
+/* r6: a mesma foto (mesmo hash no nome do arquivo) em mais de uma unidade, ou foto do modelo → "Foto ilustrativa" */
+let _fotoConta=null;
+const fotoHash=f=>{const m=String(f||'').match(/-([0-9a-f]{8})\.\w+$/i);return m?m[1]:'';};
+function fotoIlustrativa(it){
+if(!it.f) return !!fotoDe(it);
+if(!_fotoConta){_fotoConta={};(typeof ITENS!=='undefined'?ITENS:[]).forEach(x=>{const h=fotoHash(x.f);if(h)_fotoConta[h]=(_fotoConta[h]||0)+1;});}
+const h=fotoHash(it.f);return !!h&&(_fotoConta[h]||0)>1;
+}
+const fotoNota=it=>fotoIlustrativa(it)?'<div class="fnota">📷 Foto ilustrativa do modelo</div>':'';
 function fotoDe(it){
 if(it.f) return 'fotos/'+it.f; // foto tirada na loja (Zicão Gestão)
 const m=slug(it.modelo), mc=m+'-'+slug(it.cor);
@@ -473,7 +540,13 @@ const curto=m=>String(m||'').replace(/^\s*iphone\s*/i,'').replace(/\s*\(.*\)\s*$
 const idxModelo=it=>{if(it.tipo!=='iPhone')return 500;const i=ORDEM_MODELOS.indexOf(curto(it.modelo));return i===-1?999:i;};
 const capNum=c=>{const s=String(c||'').toUpperCase();const n=parseFloat(s)||0;return s.includes('TB')?n*1024:n;};
 // preço que aparece (a regra automática de bateria está desligada: preço exato do sistema)
-const precoAjustado=it=>Number(it.preco)||0;
+/* preço pela data de Brasília, calculado no navegador do cliente (independe da tarefa agendada):
+   pp = preço da promoção de pi até pf (inclusive); pn = preço normal. Sem esses campos vale o "preco" de sempre. */
+const hojeBR=(t=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(t);
+/* r5: promo só vale se for menor que o preço normal (pn) */
+const promoAtiva=(it,dia=hojeBR())=>Number(it.pp)>0&&(!Number(it.pn)||Number(it.pp)<Number(it.pn))&&!!it.pi&&!!it.pf&&dia>=it.pi&&dia<=it.pf;
+const precoNormal=it=>Number(it.pn)||Number(it.preco)||0;
+const precoAjustado=it=>promoAtiva(it)?Number(it.pp):precoNormal(it);
 const precoTexto=it=>fmt(precoAjustado(it));
 
 // ---- SEÇÕES E GRUPOS ----
@@ -709,13 +782,14 @@ const d=dadosCard(it);
 const el=document.createElement('div');
 el.className='card'+(d.ap&&it.cond==='semi'&&it.bat===100?' perfect':'');
 const topo=d.ap?`<div class="ctop"><span class="colr">${esc(it.cor||'—')}</span>${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}</div>`:`<div class="cnome">${esc(d.nome)}</div>${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}`;
-el.innerHTML=`${d.flags?`<div class="card-flags">${d.flags}</div>`:''}
+const ult=Number(it.q)>0&&Number(it.q)<=2&&(it.cond==='novo'||!d.ap)?`<span class="flag ult">${it.q===1?'Última unidade':'Últimas unidades'}</span>`:'';
+el.innerHTML=`${d.flags||ult?`<div class="card-flags">${d.flags||''}${ult}</div>`:''}
 ${d.foto?`<img class="cphoto" src="${d.foto}" alt="${esc(d.nome)}" loading="lazy" decoding="async">`:''}
 ${d.foto?'':d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d.c.frame},${d.c.body})"></div>`:`<div class="cchip neutro"></div>`}
-<div class="cinfo">${topo}
+<div class="cinfo">${d.foto?fotoNota(it):''}${topo}
 ${d.selo}
 ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
-<div class="price"><small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
+<div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${parcelasHtml(d.vista)}
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}Tenho interesse</a></div>`;
 el.tabIndex=0;
@@ -759,10 +833,10 @@ detBody.innerHTML=`${d.flags?`<div class="det-flags">${d.flags}</div>`:''}
 ${d.fotoG?`<img class="det-img" src="${d.fotoG}" alt="${esc(d.nome)}">`:''}
 ${d.fotoG?'':`<div class="cchip det-cor${d.c?'':' neutro'}" style="${d.c?`background:linear-gradient(135deg,${d.c.frame},${d.c.body});`:''}border-radius:0;margin:0"></div>`}
 <div class="det-in">
-<h3>${esc(d.nome)}</h3>
+${d.fotoG?fotoNota(it):''}<h3>${esc(d.nome)}</h3>
 <div class="det-sub">${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}${d.ap?d.selo:''}</div>
 ${fichaHtml(it)}${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
-<div class="det-price"><small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
+<div class="det-price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${d.vista>=PARCELA_MIN?`<div class="parcela">ou <b>12x R$ ${fmt2(valorParcela(d.vista,12))}</b> · <b>18x R$ ${fmt2(valorParcela(d.vista,18))}</b></div>`:''}
 <div class="det-gar">${esc(garantia(it))}${it.enc?'<br>📦 Por encomenda: chama no WhatsApp pra saber o prazo.':''}</div>
 ${d.vista>=PARCELA_MIN?`<div class="det-tit">Como vai pagar? <span style="text-transform:none;font-weight:600">(toque pra escolher)</span></div><div class="pgl" id="pgl">${listaPagamento(d.vista,d.pTxt)}</div>`:''}
@@ -790,9 +864,61 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')fecharDetalhe();});
 let pulaHash=false;
 window.addEventListener('popstate',()=>{if(!det.hidden){pulaHash=true;setTimeout(()=>pulaHash=false,300);}fecharDetalhe(true);});
 
+// virada do dia em Brasília com a aba aberta: redesenha a lista com o preço que vale agora (confere a cada 20 s)
+let diaPreco=null;
+setInterval(()=>{const d=hojeBR();if(diaPreco===null){diaPreco=d;return;}if(d!==diaPreco){diaPreco=d;if(ITENS.length){desenha();if(typeof aplicaCampanha==='function')aplicaCampanha();if(!det.hidden&&detBody._it){const ps=history.pushState;history.pushState=()=>{};try{abrirDetalhe(detBody._it);}finally{history.pushState=ps;}}}}},20000);
+
+// ===== CAMPANHAS 2026: tema pela data de Brasília; volta sozinho pro ORIGINAL; nunca mexe em preço =====
+// datas padrão (o Zicão Gestão pode mandar outras em estoque.json → "campanhas")
+let CAMPANHAS=[{id:'black',ativo:true,ini:'2026-11-27',fim:'2026-11-30'},{id:'natal',ativo:true,ini:'2026-12-01',fim:'2026-12-25'}];
+const CAMP_TXT={
+black:{k:'Black Zicão Store',t:'BLACK <em>FRIDAY</em>',s:'Ofertas reais em iPhone e acessórios. Só enquanto durar o estoque.',orn:'✦',cd:true,ofertas:'🔥 Ofertas da Black'},
+natal:{k:'Natal Zicão Store',t:'Natal <em>Zicão</em>',s:'Presentes que todo mundo quer, com garantia e pronta entrega.',orn:'❄',cd:false,ofertas:'🎄 Ofertas de Natal',presentes:'🎁 Pra presentear'}};
+const PREVIA=(new URLSearchParams(location.search).get('tema')||'').toLowerCase();
+function campanhaDoDia(dia=hojeBR()){
+if(PREVIA==='original')return null;
+if(PREVIA&&CAMP_TXT[PREVIA])return CAMPANHAS.find(c=>c.id===PREVIA)||{id:PREVIA,ini:dia,fim:dia};
+return CAMPANHAS.find(c=>c.ativo!==false&&CAMP_TXT[c.id]&&c.ini&&c.fim&&dia>=c.ini&&dia<=c.fim)||null;}
+const fimBR=c=>Date.parse(c.fim+'T23:59:59-03:00');
+function contagem(c){const ms=fimBR(c)-Date.now();if(!(ms>0))return '';const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
+return `<div class="camp-cd">Termina em <b>${d}d</b><b>${String(h).padStart(2,'0')}h</b><b>${String(m).padStart(2,'0')}m</b></div>`;}
+function miniCamp(it){const n=precoNormal(it),v=precoAjustado(it),nm=[it.marca,it.modelo,it.cap].filter(Boolean).join(' '),f=fotoDe(it);
+const msg=encodeURIComponent(`Oi! Vi no catálogo: ${nm}${it.cor?' '+it.cor:''} por R$ ${fmt(v)}. Ainda tem?`);
+const det=[it.cor,it.cond==='novo'?'Lacrado':it.cond==='semi'?(it.bat?'Seminovo · bateria '+it.bat+'%':'Seminovo'):''].filter(Boolean).join(' · ');
+// foto real (da loja ou do modelo); sem foto = quadro neutro com o logo (não inventa imagem do aparelho)
+const ft=f?`<div class="camp-ft"><img loading="lazy" src="${f}" alt="${esc(nm)}"></div>`:`<div class="camp-ft neutro"><img src="logo.png" alt=""><span>${esc(it.g||'')}</span></div>`;
+return `<div class="camp-i">${ft}<div class="camp-ib">${f?fotoNota(it):''}<div class="n">${esc(nm)}</div><div class="m">${esc(det)}</div>
+<div class="p">${v<n&&!it.sd?`<s>de R$ ${fmt(n)}</s>`:''}R$ ${fmt(v)}<span class="pix">no Pix</span></div>${v>=PARCELA_MIN?`<div class="parc">ou 12x R$ ${fmt2(valorParcela(v,12))} no cartão</div>`:''}<a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div></div>`;}
+function secCamp(id,tit,lista){return `<div class="camp-sec" id="${id}"><div class="camp-h"><h3>${tit}</h3><div class="camp-nav"><span>arraste</span><button type="button" aria-label="Anterior" data-cl="${id}" data-d="-1">‹</button><button type="button" aria-label="Próximo" data-cl="${id}" data-d="1">›</button></div></div><div class="camp-wrap"><div class="camp-l">${lista.map(miniCamp).join('')}</div></div></div>`;}
+let campAtual='§';
+function aplicaCampanha(){
+const c=campanhaDoDia(),id=c?c.id:'';
+document.body.classList.remove('tema-black','tema-natal');if(id)document.body.classList.add('tema-'+id);
+const box=$('camp'),box2=$('camp2');
+if(!c){box.innerHTML='';box2.innerHTML='';campAtual=id;return;}
+const T=CAMP_TXT[id];
+// ofertas = só promoção REAL cadastrada no Gestão e valendo hoje (nada de desconto inventado)
+const ofertas=ITENS.filter(it=>promoAtiva(it)&&Number(it.pp)<precoNormal(it)).sort((a,b)=>(!!fotoDe(b)-!!fotoDe(a))||((precoNormal(b)-Number(b.pp))-(precoNormal(a)-Number(a.pp)))).slice(0,12);
+const PRES=/fone|watch|relógio|smartwatch|caixa de som|perfume|alexa|echo|power ?bank|tv box|óculos|airpods/i;
+const presentes=T.presentes?ITENS.filter(it=>(it.g==='AirPods e Watch'||PRES.test((it.g||'')+' '+(it.modelo||'')))&&precoAjustado(it)>=60).sort((a,b)=>(!!fotoDe(b)-!!fotoDe(a))||(precoAjustado(a)-precoAjustado(b))).slice(0,12):[];
+const alvo=ofertas.length?'camp-ofertas':presentes.length?'camp-presentes':'secs', rot=ofertas.length?'Ver ofertas':presentes.length?'Ver presentes':'Ver catálogo';
+box.innerHTML=`<div class="camp-b"><div class="camp-orn" aria-hidden="true">${T.orn}</div><div class="camp-tx"><div class="camp-k">${T.k}</div><div class="camp-t">${T.t}</div><div class="camp-s">${T.s}</div>${T.cd?contagem(c):''}</div><button type="button" class="camp-cta" data-ir="${alvo}">${rot} ›</button></div>${PREVIA?`<div class="camp-prev">PRÉVIA</div>`:''}`;
+box2.innerHTML=(ofertas.length?secCamp('camp-ofertas',T.ofertas,ofertas):'')+(presentes.length?secCamp('camp-presentes',T.presentes,presentes):'');
+campAtual=id;}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ir],[data-cl]');if(!b)return;
+if(b.dataset.ir){const el=$(b.dataset.ir);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});return;}
+const l=document.querySelector('#'+b.dataset.cl+' .camp-l');if(l)l.scrollBy({left:(l.clientWidth*.8)*Number(b.dataset.d),behavior:'smooth'});});
+// confere a cada 20 s: virou o dia em Brasília → troca/volta o tema e os preços na hora, mesmo com a página aberta
+let diaAtual=hojeBR();
+setInterval(()=>{const d=hojeBR(),c=campanhaDoDia(d),id=c?c.id:'';
+if(id!==campAtual){diaAtual=d;aplicaCampanha();}
+else if(c&&CAMP_TXT[id].cd){const el=document.querySelector('.camp-cd');if(el)el.outerHTML=contagem(c)||'';}},20000);
+
 // ---- carrega o estoque (gerado toda noite a partir do Zicão Gestão) ----
 fetch('estoque.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
-ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&Number(i.preco)>0);
+ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&Number(i.preco)>0);_fotoConta=null;
+if(Array.isArray(d.campanhas)&&d.campanhas.length)CAMPANHAS=d.campanhas.filter(c=>c&&CAMP_TXT[c.id]);
+aplicaCampanha();
 if(d.atualizado){const t=new Date(d.atualizado);if(!isNaN(t))$('footdate').textContent=`Atualizado em ${String(t.getDate()).padStart(2,'0')}/${String(t.getMonth()+1).padStart(2,'0')}`;}
 const pid=hashProduto();const alvo=pid?irProduto(pid):null;
 if(alvo){history.replaceState(null,'',hashAtual());desenha();abrirDetalhe(alvo);}
