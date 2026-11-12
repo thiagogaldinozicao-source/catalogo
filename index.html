@@ -314,33 +314,53 @@ footer .ig{color:var(--gold)}
 @media(max-width:380px){.brand span{display:block}}
 
 /* ===== CAMPANHAS 2026 (Black / Natal) — só valem com body.tema-*; sem classe = visual ORIGINAL intacto ===== */
-body.tema-black{--bg:#060607;--bg2:#120b0c;--card:#141012;--card-h:#1d1517;--line:rgba(232,180,74,.14);--gold:#e8b44a;--acc:#d42a33;background:radial-gradient(900px 500px at 85% -10%,rgba(212,42,51,.22) 0%,transparent 60%),radial-gradient(1100px 600px at 10% -8%,rgba(232,180,74,.14) 0%,var(--bg) 55%)}
-body.tema-natal{--bg:#05130e;--bg2:#0a2018;--card:#0d271d;--card-h:#123426;--line:rgba(227,192,107,.14);--gold:#e3c06b;--acc:#b8323a;background:radial-gradient(1000px 520px at 80% -10%,rgba(227,192,107,.16) 0%,transparent 60%),radial-gradient(1100px 600px at 10% -8%,#0f3a2a 0%,var(--bg) 58%)}
-.camp{display:none;margin:10px auto 4px;max-width:1180px;padding:0 14px}
-body.tema-black .camp,body.tema-natal .camp{display:block}
-.camp-b{position:relative;overflow:hidden;border:1px solid var(--gold);border-radius:18px;padding:18px 18px 16px;background:linear-gradient(135deg,rgba(0,0,0,.55),rgba(0,0,0,.2))}
-body.tema-black .camp-b{background:linear-gradient(120deg,#0b0b0d 0%,#1a0c0e 55%,#2a0d11 100%)}
-body.tema-natal .camp-b{background:linear-gradient(120deg,#07261b 0%,#0c3326 60%,#123d2d 100%)}
-.camp-k{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700}
-.camp-t{font-size:clamp(22px,6vw,34px);font-weight:900;line-height:1.05;margin:6px 0 4px}
+body.tema-black{--bg:#060607;--bg2:#120b0c;--card:#141012;--card-h:#1d1517;--line:rgba(232,180,74,.16);--gold:#e8b44a;--acc:#e0303b;background:radial-gradient(900px 420px at 90% -10%,rgba(224,48,59,.20) 0%,transparent 60%),radial-gradient(1100px 600px at 10% -8%,rgba(232,180,74,.12) 0%,var(--bg) 55%)}
+body.tema-natal{--bg:#04120d;--bg2:#0a2018;--card:#0c261c;--card-h:#113324;--line:rgba(227,192,107,.18);--gold:#e3c06b;--acc:#b8323a;background:radial-gradient(1000px 460px at 85% -12%,rgba(227,192,107,.14) 0%,transparent 60%),radial-gradient(1100px 600px at 10% -8%,#0f3a2a 0%,var(--bg) 58%)}
+.camp,.camp2{display:none;max-width:1180px;margin:0 auto;padding:0 14px}
+body.tema-black .camp,body.tema-natal .camp,body.tema-black .camp2,body.tema-natal .camp2{display:block}
+.camp{margin-top:8px}
+.camp-b{position:relative;overflow:hidden;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;border:1px solid rgba(232,180,74,.55)}
+body.tema-black .camp-b{background:linear-gradient(115deg,#0a0a0b 0%,#151012 45%,#3a0b10 100%);box-shadow:0 10px 30px rgba(224,48,59,.12),inset 0 1px 0 rgba(255,255,255,.04)}
+body.tema-black .camp-b::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 22px,rgba(232,180,74,.05) 22px 23px);pointer-events:none}
+body.tema-natal .camp-b{background:linear-gradient(115deg,#062519 0%,#0b3526 55%,#0f4430 100%);border-color:rgba(227,192,107,.6)}
+body.tema-natal .camp-b::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 12% 30%,rgba(255,255,255,.08) 0 1.5px,transparent 2px),radial-gradient(circle at 70% 20%,rgba(255,255,255,.07) 0 1.5px,transparent 2px),radial-gradient(circle at 40% 80%,rgba(255,255,255,.06) 0 1.5px,transparent 2px),radial-gradient(circle at 88% 70%,rgba(255,255,255,.07) 0 1.5px,transparent 2px);background-size:180px 120px;pointer-events:none}
+.camp-tx{flex:1;min-width:0;position:relative}
+.camp-k{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.camp-t{font-size:clamp(22px,6.4vw,34px);font-weight:900;line-height:1;margin:4px 0 2px;letter-spacing:-.01em}
 .camp-t em{font-style:normal;color:var(--acc)}
 body.tema-natal .camp-t em{color:var(--gold)}
-.camp-s{color:var(--mut);font-size:14px}
-.camp-cd{display:inline-flex;gap:6px;margin-top:12px;align-items:center;font-size:12px;color:var(--mut)}
-.camp-cd b{display:inline-block;min-width:38px;text-align:center;padding:6px 6px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--txt);font-size:16px}
-.camp-orn{position:absolute;right:-6px;top:-6px;font-size:64px;opacity:.16;pointer-events:none;line-height:1}
-.camp-prev{position:fixed;left:50%;transform:translateX(-50%);top:8px;z-index:99;background:var(--acc,#d42a33);color:#fff;font-weight:800;font-size:12px;padding:6px 12px;border-radius:99px;letter-spacing:.08em}
-.camp-sec{margin-top:14px}
-.camp-sec h3{font-size:15px;margin-bottom:8px}
-.camp-l{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
-.camp-i{flex:0 0 220px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px}
-.camp-i .n{font-weight:700;font-size:14px;line-height:1.2}
-.camp-i .m{color:var(--mut);font-size:12px}
-.camp-i .p{font-weight:800;font-size:18px}
-.camp-i s{color:var(--mut);font-size:12px;font-weight:500}
-.camp-i a{margin-top:auto;text-align:center;background:#25d366;color:#04140a;font-weight:800;border-radius:10px;padding:9px;text-decoration:none;font-size:13px}
+.camp-s{color:var(--mut);font-size:12.5px;line-height:1.35}
+.camp-cd{display:flex;gap:5px;margin-top:8px;align-items:center;font-size:11px;color:var(--mut)}
+.camp-cd b{min-width:34px;text-align:center;padding:4px 5px;border-radius:8px;background:rgba(0,0,0,.35);border:1px solid rgba(232,180,74,.35);color:#fff;font-size:14px}
+.camp-cta{position:relative;flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#140f02;font-weight:900;font-size:13.5px;padding:11px 14px;border-radius:12px;text-decoration:none;box-shadow:0 6px 18px rgba(232,180,74,.25);border:0;cursor:pointer}
+body.tema-black .camp-cta{background:linear-gradient(180deg,#f2c25a,#d79d2a)}
+.camp-orn{position:absolute;right:10px;bottom:-14px;font-size:58px;opacity:.10;pointer-events:none;line-height:1}
+.camp-prev{position:fixed;left:50%;transform:translateX(-50%);top:8px;z-index:99;background:#e0303b;color:#fff;font-weight:800;font-size:12px;padding:6px 12px;border-radius:99px;letter-spacing:.08em}
+.camp2{margin-top:6px}
+.camp-sec{margin-top:12px;scroll-margin-top:12px}
+.camp-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.camp-h h3{font-size:16px;font-weight:800}
+.camp-nav{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:12px}
+.camp-nav button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;cursor:pointer;line-height:1}
+.camp-wrap{position:relative}
+.camp-wrap::after{content:"";position:absolute;top:0;right:-14px;bottom:8px;width:36px;background:linear-gradient(90deg,transparent,var(--bg));pointer-events:none}
+.camp-l{display:flex;gap:10px;overflow-x:auto;padding:2px 14px 10px 0;scroll-snap-type:x mandatory;scroll-padding-left:0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.camp-l::-webkit-scrollbar{display:none}
+.camp-i{flex:0 0 min(58vw,220px);scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.camp-ft{aspect-ratio:1/1;max-height:180px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.camp-ft img{width:100%;height:100%;object-fit:contain}
+.camp-ft.neutro{background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border-bottom:1px solid var(--line);flex-direction:column;gap:4px;color:var(--mut);font-size:12px;text-align:center;padding:10px}
+.camp-ft.neutro img{width:46%;height:auto;opacity:.55;object-fit:contain}
+.camp-ib{padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
+.camp-i .n{font-weight:800;font-size:14px;line-height:1.2}
+.camp-i .m{color:var(--mut);font-size:12px;line-height:1.3}
+.camp-i .p{font-weight:900;font-size:19px;margin-top:2px;color:var(--txt)}
+.camp-i .p s{display:block;color:var(--mut);font-size:12px;font-weight:500}
+.camp-i a{margin-top:8px;text-align:center;background:#25d366;color:#04140a;font-weight:800;border-radius:10px;padding:10px;text-decoration:none;font-size:13.5px}
 .price s.de{display:block;font-size:12px;color:var(--mut);font-weight:500}
-.flag.ult{background:rgba(212,42,51,.18);color:#ff8a8f;border:1px solid rgba(212,42,51,.4)}
+.flag.ult{background:rgba(224,48,59,.18);color:#ff8a8f;border:1px solid rgba(224,48,59,.4)}
+@media (min-width:900px){.camp-i{flex-basis:230px}}
+@media (max-width:380px){.camp-b{flex-wrap:wrap}.camp-cta{width:100%;justify-content:center}}
 @media (prefers-reduced-motion:reduce){.camp-l{scroll-behavior:auto}}
 </style>
 </head>
@@ -412,6 +432,8 @@ const CORES = {
 <!-- Seções: Apple / Android / Acessórios -->
 <nav class="secs" id="secs" aria-label="Seções"></nav>
 <div class="grps" id="grps"></div>
+<!-- ofertas/presentes da campanha: depois das seções, pra categorias e busca ficarem no topo -->
+<section class="camp2" id="camp2"></section>
 
 <div class="headline">
 <h2 id="htitle"></h2>
@@ -836,7 +858,7 @@ setInterval(()=>{const d=hojeBR();if(diaPreco===null){diaPreco=d;return;}if(d!==
 // datas padrão (o Zicão Gestão pode mandar outras em estoque.json → "campanhas")
 let CAMPANHAS=[{id:'black',ativo:true,ini:'2026-11-27',fim:'2026-11-30'},{id:'natal',ativo:true,ini:'2026-12-01',fim:'2026-12-25'}];
 const CAMP_TXT={
-black:{k:'Black Zicão Store',t:'BLACK <em>FRIDAY</em>',s:'Ofertas de verdade em iPhone e acessórios, só enquanto durar o estoque.',orn:'✦',cd:true,ofertas:'🔥 Ofertas da Black'},
+black:{k:'Black Zicão Store',t:'BLACK <em>FRIDAY</em>',s:'Ofertas reais em iPhone e acessórios. Só enquanto durar o estoque.',orn:'✦',cd:true,ofertas:'🔥 Ofertas da Black'},
 natal:{k:'Natal Zicão Store',t:'Natal <em>Zicão</em>',s:'Presentes que todo mundo quer, com garantia e pronta entrega.',orn:'❄',cd:false,ofertas:'🎄 Ofertas de Natal',presentes:'🎁 Pra presentear'}};
 const PREVIA=(new URLSearchParams(location.search).get('tema')||'').toLowerCase();
 function campanhaDoDia(dia=hojeBR()){
@@ -846,25 +868,32 @@ return CAMPANHAS.find(c=>c.ativo!==false&&CAMP_TXT[c.id]&&c.ini&&c.fim&&dia>=c.i
 const fimBR=c=>Date.parse(c.fim+'T23:59:59-03:00');
 function contagem(c){const ms=fimBR(c)-Date.now();if(!(ms>0))return '';const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
 return `<div class="camp-cd">Termina em <b>${d}d</b><b>${String(h).padStart(2,'0')}h</b><b>${String(m).padStart(2,'0')}m</b></div>`;}
-function miniCamp(it){const n=precoNormal(it),v=precoAjustado(it),nm=[it.marca,it.modelo,it.cap].filter(Boolean).join(' ');
+function miniCamp(it){const n=precoNormal(it),v=precoAjustado(it),nm=[it.marca,it.modelo,it.cap].filter(Boolean).join(' '),f=fotoDe(it);
 const msg=encodeURIComponent(`Oi! Vi no catálogo: ${nm}${it.cor?' '+it.cor:''} por R$ ${fmt(v)}. Ainda tem?`);
-return `<div class="camp-i"><div class="n">${esc(nm)}</div><div class="m">${esc([it.cor,it.cond==='semi'&&it.bat?'bateria '+it.bat+'%':''].filter(Boolean).join(' · '))}</div>
-<div class="p">${v<n?`<s>de R$ ${fmt(n)}</s><br>`:''}R$ ${fmt(v)}</div><a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div>`;}
+const det=[it.cor,it.cond==='novo'?'Lacrado':it.cond==='semi'?(it.bat?'Seminovo · bateria '+it.bat+'%':'Seminovo'):''].filter(Boolean).join(' · ');
+// foto real (da loja ou do modelo); sem foto = quadro neutro com o logo (não inventa imagem do aparelho)
+const ft=f?`<div class="camp-ft"><img loading="lazy" src="${f}" alt="${esc(nm)}"></div>`:`<div class="camp-ft neutro"><img src="logo.png" alt=""><span>${esc(it.g||'')}</span></div>`;
+return `<div class="camp-i">${ft}<div class="camp-ib"><div class="n">${esc(nm)}</div><div class="m">${esc(det)}</div>
+<div class="p">${v<n?`<s>de R$ ${fmt(n)}</s>`:''}R$ ${fmt(v)}</div><a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div></div>`;}
+function secCamp(id,tit,lista){return `<div class="camp-sec" id="${id}"><div class="camp-h"><h3>${tit}</h3><div class="camp-nav"><span>arraste</span><button type="button" aria-label="Anterior" data-cl="${id}" data-d="-1">‹</button><button type="button" aria-label="Próximo" data-cl="${id}" data-d="1">›</button></div></div><div class="camp-wrap"><div class="camp-l">${lista.map(miniCamp).join('')}</div></div></div>`;}
 let campAtual='§';
-function aplicaCampanha(forcar){
+function aplicaCampanha(){
 const c=campanhaDoDia(),id=c?c.id:'';
 document.body.classList.remove('tema-black','tema-natal');if(id)document.body.classList.add('tema-'+id);
-const box=$('camp');
-if(!c){box.innerHTML='';campAtual=id;return;}
+const box=$('camp'),box2=$('camp2');
+if(!c){box.innerHTML='';box2.innerHTML='';campAtual=id;return;}
 const T=CAMP_TXT[id];
-const ofertas=ITENS.filter(it=>promoAtiva(it)&&Number(it.pp)<precoNormal(it)).sort((a,b)=>(precoNormal(b)-Number(b.pp))-(precoNormal(a)-Number(a.pp))).slice(0,10);
+// ofertas = só promoção REAL cadastrada no Gestão e valendo hoje (nada de desconto inventado)
+const ofertas=ITENS.filter(it=>promoAtiva(it)&&Number(it.pp)<precoNormal(it)).sort((a,b)=>(!!fotoDe(b)-!!fotoDe(a))||((precoNormal(b)-Number(b.pp))-(precoNormal(a)-Number(a.pp)))).slice(0,12);
 const PRES=/fone|watch|relógio|smartwatch|caixa de som|perfume|alexa|echo|power ?bank|tv box|óculos|airpods/i;
-const presentes=T.presentes?ITENS.filter(it=>(it.g==='AirPods e Watch'||PRES.test((it.g||'')+' '+(it.modelo||'')))&&precoAjustado(it)>=60).sort((a,b)=>precoAjustado(a)-precoAjustado(b)).slice(0,10):[];
-box.innerHTML=`<div class="camp-b"><div class="camp-orn" aria-hidden="true">${T.orn}</div><div class="camp-k">${T.k}</div><div class="camp-t">${T.t}</div><div class="camp-s">${T.s}</div>${T.cd?contagem(c):''}</div>
-${ofertas.length?`<div class="camp-sec"><h3>${T.ofertas}</h3><div class="camp-l">${ofertas.map(miniCamp).join('')}</div></div>`:''}
-${presentes.length?`<div class="camp-sec"><h3>${T.presentes}</h3><div class="camp-l">${presentes.map(miniCamp).join('')}</div></div>`:''}
-${PREVIA?`<div class="camp-prev">PRÉVIA</div>`:''}`;
+const presentes=T.presentes?ITENS.filter(it=>(it.g==='AirPods e Watch'||PRES.test((it.g||'')+' '+(it.modelo||'')))&&precoAjustado(it)>=60).sort((a,b)=>(!!fotoDe(b)-!!fotoDe(a))||(precoAjustado(a)-precoAjustado(b))).slice(0,12):[];
+const alvo=ofertas.length?'camp-ofertas':presentes.length?'camp-presentes':'secs', rot=ofertas.length?'Ver ofertas':presentes.length?'Ver presentes':'Ver catálogo';
+box.innerHTML=`<div class="camp-b"><div class="camp-orn" aria-hidden="true">${T.orn}</div><div class="camp-tx"><div class="camp-k">${T.k}</div><div class="camp-t">${T.t}</div><div class="camp-s">${T.s}</div>${T.cd?contagem(c):''}</div><button type="button" class="camp-cta" data-ir="${alvo}">${rot} ›</button></div>${PREVIA?`<div class="camp-prev">PRÉVIA</div>`:''}`;
+box2.innerHTML=(ofertas.length?secCamp('camp-ofertas',T.ofertas,ofertas):'')+(presentes.length?secCamp('camp-presentes',T.presentes,presentes):'');
 campAtual=id;}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ir],[data-cl]');if(!b)return;
+if(b.dataset.ir){const el=$(b.dataset.ir);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});return;}
+const l=document.querySelector('#'+b.dataset.cl+' .camp-l');if(l)l.scrollBy({left:(l.clientWidth*.8)*Number(b.dataset.d),behavior:'smooth'});});
 // confere a cada 20 s: virou o dia em Brasília → troca/volta o tema e os preços na hora, mesmo com a página aberta
 let diaAtual=hojeBR();
 setInterval(()=>{const d=hojeBR(),c=campanhaDoDia(d),id=c?c.id:'';

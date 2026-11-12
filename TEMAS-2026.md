@@ -12,3 +12,11 @@ Como funciona
 - Prévia: `?tema=black`, `?tema=natal`, `?tema=original` (selo PRÉVIA; não muda preço).
 
 Testes: `python3 -m http.server 8766` e `python3 tests/test_temas.py` (estoque FICTÍCIO em tests/estoque-ficticio.json; o estoque.json real não é usado nem alterado). Prévias em `tests/previas/`.
+
+## Acabamento (12/11)
+- Integrado em cima de `preco-por-data`: uma única lógica de preço (`hojeBR/promoAtiva/precoAjustado`). O tema só cuida do visual; na virada do dia o módulo de preço redesenha a lista e refaz a campanha.
+- Banner compacto (não ocupa a primeira tela): Black com faixas douradas sutis e vermelho; Natal esmeralda com pontos de neve discretos. Botão **Ver ofertas** (ou **Ver presentes** / **Ver catálogo** se não houver promoção real) rola até a seção.
+- Ofertas e "Pra presentear" ficam **depois** das seções Apple/Android/Acessórios, então categorias e busca continuam no topo.
+- Carrossel com o próximo card aparecendo, "arraste" e botões ‹ ›; nada vaza da tela no iPhone.
+- Foto **real** do catálogo (da loja ou do modelo). Sem foto: quadro neutro com o logo e a categoria, nunca imagem inventada. Hoje os acessórios não têm foto no catálogo, então "Pra presentear" aparece com o quadro neutro até alguém fotografar esses produtos no Gestão.
+- Testes: `tests/test_temas.py` (inclui iPhone 13 emulado no Chrome) e `tests/test_preco_data.py`. O WebKit (motor do Safari) não pôde ser baixado neste ambiente (bloqueado), então falta conferir num iPhone de verdade.

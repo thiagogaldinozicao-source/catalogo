@@ -48,6 +48,19 @@ with sync_playwright() as p:
     # campanha desativada pelo Master não aparece
     pg, errs = abre(b, "2026-11-28T15:00:00+00:00"); pg.evaluate("()=>{CAMPANHAS=CAMPANHAS.map(c=>c.id==='black'?{...c,ativo:false}:c);aplicaCampanha();}")
     ck("Black desativada → visual original", pg.evaluate(ESTADO)["tema"] == "original"); pg.close()
+    # iPhone 13 (emulação: tela, toque e user-agent do Safari no Chrome; o WebKit de verdade não pôde ser baixado neste ambiente)
+    dev = {k: v for k, v in p.devices["iPhone 13"].items() if k != "default_browser_type"}
+    for inst, esp in [("2026-11-28T15:00:00+00:00", "tema-black"), ("2026-12-10T15:00:00+00:00", "tema-natal")]:
+        ctx = b.new_context(**dev, timezone_id="America/Sao_Paulo"); pg = ctx.new_page(); errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
+        pg.route("**/estoque.json*", lambda r: r.fulfill(status=200, content_type="application/json", body=FX)); pg.clock.set_fixed_time(datetime.fromisoformat(inst))
+        pg.goto(URL); pg.wait_for_timeout(1200)
+        r = pg.evaluate("""()=>{const W=document.documentElement.clientWidth;const fora=[...document.querySelectorAll('body *')].filter(e=>{for(let a=e.parentElement;a;a=a.parentElement){const o=getComputedStyle(a).overflowX;if(o==='auto'||o==='scroll'||o==='hidden')return false;}const b=e.getBoundingClientRect();return b.width>0&&b.right>W+1}).map(e=>e.className).slice(0,3);
+          const secs=document.querySelector('#secs').getBoundingClientRect().top;const l=document.querySelector('.camp-l');const x0=l?l.scrollLeft:0;return {fora,secsTop:Math.round(secs),vh:innerHeight,x0,tema:document.body.className.match(/tema-\w+/)?.[0]}}""")
+        pg.click('[data-cl="camp-ofertas"][data-d="1"]'); pg.wait_for_timeout(700); x1 = pg.evaluate("()=>document.querySelector('#camp-ofertas .camp-l').scrollLeft")
+        pg.click(".camp-cta"); pg.wait_for_timeout(900); topo = pg.evaluate("()=>Math.round(document.querySelector('#camp-ofertas').getBoundingClientRect().top)")
+        ck(f"iPhone 13 {esp}: nada vazando da tela, categorias visíveis sem rolar (topo {r['secsTop']}px de {r['vh']}), carrossel anda ({r['x0']}→{x1}), 'Ver ofertas' leva às ofertas (topo {topo}px)",
+           r["tema"] == esp and not r["fora"] and r["secsTop"] < r["vh"] * 0.6 and x1 > r["x0"] and abs(topo) < 60 and not errs, json.dumps(r))
+        pg.close()
     if "--fotos" in sys.argv:
         os.makedirs("/tmp/previas", exist_ok=True)
         for nome, inst, vw, vh in [("black-celular", "2026-11-28T15:00:00+00:00", 390, 844), ("natal-celular", "2026-12-10T15:00:00+00:00", 390, 844),
