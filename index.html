@@ -37,22 +37,22 @@
 html,body{overflow-x:hidden;-webkit-text-size-adjust:100%}
 /* clip corta igual o hidden, mas sem virar "caixa de rolagem" — é o que deixa a barra de busca grudar no topo */
 @supports (overflow-x:clip){html,body{overflow-x:clip}}
-body{font-family:'Inter',sans-serif;background:radial-gradient(1200px 600px at 20% -5%,#1a2431 0%,var(--bg) 55%);color:var(--txt);min-height:100vh;padding-bottom:60px}
+body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:radial-gradient(1200px 600px at 20% -5%,#1a2431 0%,var(--bg) 55%);color:var(--txt);min-height:100vh;padding-bottom:60px}
 header{max-width:1160px;margin:0 auto;padding:34px 22px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .brand{display:flex;align-items:center;gap:14px}
-.logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#ffcf4d);display:grid;place-items:center;font-family:'Sora';font-weight:800;font-size:26px;color:#1a1205;box-shadow:0 6px 20px rgba(245,179,1,.35)}
-.brand h1{font-family:'Sora';font-size:22px;font-weight:800;letter-spacing:.3px;line-height:1}
+.logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#ffcf4d);display:grid;place-items:center;font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;font-size:26px;color:#1a1205;box-shadow:0 6px 20px rgba(245,179,1,.35)}
+.brand h1{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:22px;font-weight:800;letter-spacing:.3px;line-height:1}
 .brand span{font-size:13px;color:var(--mut)}
 .tags{display:flex;gap:8px;flex-wrap:wrap}
 .pill{font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:20px;background:var(--bg2);border:1px solid var(--line);color:var(--txt)}
 .pill.g{background:rgba(53,208,127,.12);border-color:rgba(53,208,127,.3);color:var(--green)}
 .headline{max-width:1160px;margin:8px auto 0;padding:0 22px}
-.headline h2{font-family:'Sora';font-size:clamp(20px,3.4vw,27px);font-weight:800;line-height:1.1}
+.headline h2{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:clamp(20px,3.4vw,27px);font-weight:800;line-height:1.1}
 .headline h2 .hl{color:var(--gold)}
 .headline p{color:var(--mut);margin-top:4px;font-size:14px}
 .tabs{max-width:1160px;margin:12px auto 0;padding:0 22px;display:flex;gap:8px}
 .tab{
-font-family:'Sora';font-size:14.5px;font-weight:800;cursor:pointer;
+font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14.5px;font-weight:800;cursor:pointer;
 padding:10px 22px;border-radius:11px;border:1px solid var(--line);
 background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
 }
@@ -65,7 +65,7 @@ background:var(--card);color:var(--mut);transition:.15s;flex:0 1 auto;
 .searchbar{flex:1 1 auto;min-width:0}
 .searchbar input{
 width:100%;padding:11px 14px;border-radius:11px;border:1px solid var(--line);
-background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outline:none;transition:.15s;
+background:var(--card);color:var(--txt);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;outline:none;transition:.15s;
 }
 .searchbar input:focus{border-color:var(--gold)}
 .searchbar input::placeholder{color:var(--mut)}
@@ -90,7 +90,7 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 
 .filter-label{max-width:1160px;margin:14px auto 0;padding:0 0 6px;font-size:12px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
 .filter{max-width:1160px;margin:0 auto;padding:0;display:flex;gap:8px;flex-wrap:wrap}
-.fbtn{font-family:'Inter';font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);transition:.15s}
+.fbtn{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;padding:8px 15px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--mut);transition:.15s}
 .fbtn:hover{background:var(--card-h);color:var(--txt)}
 .fbtn.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
 .fbtn .dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1px solid rgba(255,255,255,.35)}
@@ -106,10 +106,10 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 .wrap{max-width:1160px;margin:24px auto 0;padding:0 22px}
 .model-block{margin-top:34px}
 .model-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-.model-head h3{font-family:'Sora';font-size:21px;font-weight:700}
+.model-head h3{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:21px;font-weight:700}
 .model-head .count{font-size:13px;color:var(--mut)}
 .model-head .from{margin-left:auto;font-size:13px;color:var(--mut)}
-.model-head .from b{color:var(--gold);font-family:'Sora'}
+.model-head .from b{color:var(--gold);font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;transition:.18s;position:relative;overflow:hidden}
 .card:hover{transform:translateY(-3px);background:var(--card-h);border-color:rgba(245,179,1,.3)}
@@ -131,7 +131,7 @@ background:var(--card);color:var(--txt);font-family:'Inter';font-size:15px;outli
 .cap{font-size:14px;font-weight:700;color:var(--txt);background:var(--bg2);padding:4px 12px;border-radius:8px;border:1px solid var(--line)}
 .bat{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--green)}
 .bat .ico{width:15px;height:15px;display:inline-block}
-.price{font-family:'Sora';font-weight:800;font-size:22px;margin-top:2px}
+.price{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;font-size:22px;margin-top:2px}
 .price small{font-size:13px;color:var(--mut);font-weight:600}
 .parcela{font-size:11.5px;color:var(--mut);font-weight:600;margin-top:-4px}
 .parcela b{color:var(--txt)}
@@ -210,6 +210,10 @@ footer{flex-direction:column;gap:6px;text-align:center;padding:24px 16px 0}
 /* botões de compra sempre com o texto legível */
 .buy svg{display:none}
 }
+.fnota{font-size:11.5px;color:var(--mut);font-weight:600;margin:-2px 0 0}
+.camp-ib .pix{font-size:12px;color:var(--mut);font-weight:600;margin-left:5px;font-family:'Inter',system-ui,-apple-system,sans-serif}
+.camp-ib .parc{font-size:12px;color:var(--mut);margin-top:2px}
+.det-price .de{display:block;font-size:14px;color:var(--mut);font-weight:600}
 .cobs{font-size:12px;line-height:1.35;color:#f0b35a;margin:6px 0 2px;overflow-wrap:anywhere}
 /* foto do aparelho (só aparece se existir em fotos/) */
 .cphoto{display:block;width:calc(100% + 32px);max-width:none;margin:-16px -16px 0;aspect-ratio:1/1;object-fit:contain;background:#0e1319;border-bottom:1px solid var(--line)}
@@ -248,10 +252,10 @@ body.noscroll{overflow:hidden}
 .det-cor{height:96px}
 .det-flags{position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:2}
 .det-in{padding:18px 20px 22px;display:flex;flex-direction:column;gap:10px}
-.det-in h3{font-family:'Sora';font-size:23px;font-weight:800;line-height:1.15}
+.det-in h3{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:23px;font-weight:800;line-height:1.15}
 .det-sub{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .det-sub .colr{font-size:14.5px}
-.det-price{font-family:'Sora';font-weight:800;font-size:31px;margin-top:4px}
+.det-price{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;font-size:31px;margin-top:4px}
 .det-price small{font-size:15px;color:var(--mut);font-weight:600}
 .det-price .pix{font-size:13px;color:var(--mut);font-weight:600;margin-left:6px}
 body.noscroll .wafloat{display:none}
@@ -274,13 +278,13 @@ body.noscroll .wafloat{display:none}
 }
 /* ---- seções (Apple / Android / Acessórios) ---- */
 .secs{max-width:1160px;margin:6px auto 0;padding:0 22px;display:flex;gap:10px}
-.sec{flex:1 1 0;font-family:'Sora';font-size:16px;font-weight:800;cursor:pointer;padding:13px 10px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--mut);transition:.15s;display:flex;align-items:center;justify-content:center;gap:7px}
+.sec{flex:1 1 0;font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:16px;font-weight:800;cursor:pointer;padding:13px 10px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--mut);transition:.15s;display:flex;align-items:center;justify-content:center;gap:7px}
 .sec:hover{color:var(--txt);border-color:rgba(245,179,1,.4)}
 .sec.active{background:rgba(245,179,1,.12);color:var(--gold);border-color:var(--gold)}
 .grps{max-width:1160px;margin:12px auto 0;padding:0 22px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .grps::-webkit-scrollbar{display:none}
 .grps[hidden],.filter[hidden],.filter-label[hidden],.tabs[hidden],.tab[hidden],.fopen[hidden],.fn[hidden]{display:none}
-.grp{flex:none;font-family:'Inter';font-size:14px;font-weight:700;cursor:pointer;padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);color:var(--mut);transition:.15s;white-space:nowrap}
+.grp{flex:none;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;font-weight:700;cursor:pointer;padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);color:var(--mut);transition:.15s;white-space:nowrap}
 .grp:hover{color:var(--txt)}
 .grp.active{background:var(--gold);color:#1a1205;border-color:var(--gold)}
 .headline{margin-top:20px}
@@ -299,12 +303,12 @@ body.noscroll .wafloat{display:none}
 
 /* ---- por que comprar aqui (veio do site zicaostore) ---- */
 .trust{max-width:1160px;margin:56px auto 0;padding:0 22px}
-.trust h3{font-family:'Sora';font-size:21px;font-weight:800;margin-bottom:14px}
+.trust h3{font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:21px;font-weight:800;margin-bottom:14px}
 .trust h3 .hl{color:var(--gold)}
 .trust-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
 .tcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
 .tcard .ti{font-size:24px;line-height:1}
-.tcard b{display:block;font-family:'Sora';font-size:15px;margin-top:10px}
+.tcard b{display:block;font-family:'Sora',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;margin-top:10px}
 .tcard p{font-size:13px;color:var(--mut);margin-top:4px;line-height:1.4}
 footer .ig{color:var(--gold)}
 @media(max-width:640px){.trust{padding:0 16px;margin-top:40px}.trust-grid{grid-template-columns:repeat(2,1fr);gap:10px}.tcard{padding:13px}.tcard p{font-size:12px}}
@@ -510,6 +514,15 @@ const PARCELA_MIN=200; // abaixo disso não mostra 12x/18x (fica só "no cartão
 // ou só do modelo (vale pra qualquer cor). Coloque aqui o nome de cada foto (sem o .webp).
 const FOTOS=[
 ];
+/* r6: a mesma foto (mesmo hash no nome do arquivo) em mais de uma unidade, ou foto do modelo → "Foto ilustrativa" */
+let _fotoConta=null;
+const fotoHash=f=>{const m=String(f||'').match(/-([0-9a-f]{8})\.\w+$/i);return m?m[1]:'';};
+function fotoIlustrativa(it){
+if(!it.f) return !!fotoDe(it);
+if(!_fotoConta){_fotoConta={};(typeof ITENS!=='undefined'?ITENS:[]).forEach(x=>{const h=fotoHash(x.f);if(h)_fotoConta[h]=(_fotoConta[h]||0)+1;});}
+const h=fotoHash(it.f);return !!h&&(_fotoConta[h]||0)>1;
+}
+const fotoNota=it=>fotoIlustrativa(it)?'<div class="fnota">📷 Foto ilustrativa do modelo</div>':'';
 function fotoDe(it){
 if(it.f) return 'fotos/'+it.f; // foto tirada na loja (Zicão Gestão)
 const m=slug(it.modelo), mc=m+'-'+slug(it.cor);
@@ -769,11 +782,11 @@ const d=dadosCard(it);
 const el=document.createElement('div');
 el.className='card'+(d.ap&&it.cond==='semi'&&it.bat===100?' perfect':'');
 const topo=d.ap?`<div class="ctop"><span class="colr">${esc(it.cor||'—')}</span>${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}</div>`:`<div class="cnome">${esc(d.nome)}</div>${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}`;
-const ult=Number(it.q)>0&&Number(it.q)<=2&&(it.cond==='novo'||!d.ap)?`<span class="flag ult">Últimas ${it.q===1?'unidade':'unidades'}</span>`:'';
+const ult=Number(it.q)>0&&Number(it.q)<=2&&(it.cond==='novo'||!d.ap)?`<span class="flag ult">${it.q===1?'Última unidade':'Últimas unidades'}</span>`:'';
 el.innerHTML=`${d.flags||ult?`<div class="card-flags">${d.flags||''}${ult}</div>`:''}
 ${d.foto?`<img class="cphoto" src="${d.foto}" alt="${esc(d.nome)}" loading="lazy" decoding="async">`:''}
 ${d.foto?'':d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d.c.frame},${d.c.body})"></div>`:`<div class="cchip neutro"></div>`}
-<div class="cinfo">${topo}
+<div class="cinfo">${d.foto?fotoNota(it):''}${topo}
 ${d.selo}
 ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
 <div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
@@ -820,10 +833,10 @@ detBody.innerHTML=`${d.flags?`<div class="det-flags">${d.flags}</div>`:''}
 ${d.fotoG?`<img class="det-img" src="${d.fotoG}" alt="${esc(d.nome)}">`:''}
 ${d.fotoG?'':`<div class="cchip det-cor${d.c?'':' neutro'}" style="${d.c?`background:linear-gradient(135deg,${d.c.frame},${d.c.body});`:''}border-radius:0;margin:0"></div>`}
 <div class="det-in">
-<h3>${esc(d.nome)}</h3>
+${d.fotoG?fotoNota(it):''}<h3>${esc(d.nome)}</h3>
 <div class="det-sub">${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}${d.ap?d.selo:''}</div>
 ${fichaHtml(it)}${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
-<div class="det-price"><small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
+<div class="det-price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${d.vista>=PARCELA_MIN?`<div class="parcela">ou <b>12x R$ ${fmt2(valorParcela(d.vista,12))}</b> · <b>18x R$ ${fmt2(valorParcela(d.vista,18))}</b></div>`:''}
 <div class="det-gar">${esc(garantia(it))}${it.enc?'<br>📦 Por encomenda: chama no WhatsApp pra saber o prazo.':''}</div>
 ${d.vista>=PARCELA_MIN?`<div class="det-tit">Como vai pagar? <span style="text-transform:none;font-weight:600">(toque pra escolher)</span></div><div class="pgl" id="pgl">${listaPagamento(d.vista,d.pTxt)}</div>`:''}
@@ -874,8 +887,8 @@ const msg=encodeURIComponent(`Oi! Vi no catálogo: ${nm}${it.cor?' '+it.cor:''} 
 const det=[it.cor,it.cond==='novo'?'Lacrado':it.cond==='semi'?(it.bat?'Seminovo · bateria '+it.bat+'%':'Seminovo'):''].filter(Boolean).join(' · ');
 // foto real (da loja ou do modelo); sem foto = quadro neutro com o logo (não inventa imagem do aparelho)
 const ft=f?`<div class="camp-ft"><img loading="lazy" src="${f}" alt="${esc(nm)}"></div>`:`<div class="camp-ft neutro"><img src="logo.png" alt=""><span>${esc(it.g||'')}</span></div>`;
-return `<div class="camp-i">${ft}<div class="camp-ib"><div class="n">${esc(nm)}</div><div class="m">${esc(det)}</div>
-<div class="p">${v<n&&!it.sd?`<s>de R$ ${fmt(n)}</s>`:''}R$ ${fmt(v)}</div><a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div></div>`;}
+return `<div class="camp-i">${ft}<div class="camp-ib">${f?fotoNota(it):''}<div class="n">${esc(nm)}</div><div class="m">${esc(det)}</div>
+<div class="p">${v<n&&!it.sd?`<s>de R$ ${fmt(n)}</s>`:''}R$ ${fmt(v)}<span class="pix">no Pix</span></div>${v>=PARCELA_MIN?`<div class="parc">ou 12x R$ ${fmt2(valorParcela(v,12))} no cartão</div>`:''}<a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div></div>`;}
 function secCamp(id,tit,lista){return `<div class="camp-sec" id="${id}"><div class="camp-h"><h3>${tit}</h3><div class="camp-nav"><span>arraste</span><button type="button" aria-label="Anterior" data-cl="${id}" data-d="-1">‹</button><button type="button" aria-label="Próximo" data-cl="${id}" data-d="1">›</button></div></div><div class="camp-wrap"><div class="camp-l">${lista.map(miniCamp).join('')}</div></div></div>`;}
 let campAtual='§';
 function aplicaCampanha(){
@@ -903,7 +916,7 @@ else if(c&&CAMP_TXT[id].cd){const el=document.querySelector('.camp-cd');if(el)el
 
 // ---- carrega o estoque (gerado toda noite a partir do Zicão Gestão) ----
 fetch('estoque.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
-ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&Number(i.preco)>0);
+ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&Number(i.preco)>0);_fotoConta=null;
 if(Array.isArray(d.campanhas)&&d.campanhas.length)CAMPANHAS=d.campanhas.filter(c=>c&&CAMP_TXT[c.id]);
 aplicaCampanha();
 if(d.atualizado){const t=new Date(d.atualizado);if(!isNaN(t))$('footdate').textContent=`Atualizado em ${String(t.getDate()).padStart(2,'0')}/${String(t.getMonth()+1).padStart(2,'0')}`;}
