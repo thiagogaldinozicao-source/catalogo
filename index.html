@@ -875,7 +875,7 @@ const det=[it.cor,it.cond==='novo'?'Lacrado':it.cond==='semi'?(it.bat?'Seminovo 
 // foto real (da loja ou do modelo); sem foto = quadro neutro com o logo (não inventa imagem do aparelho)
 const ft=f?`<div class="camp-ft"><img loading="lazy" src="${f}" alt="${esc(nm)}"></div>`:`<div class="camp-ft neutro"><img src="logo.png" alt=""><span>${esc(it.g||'')}</span></div>`;
 return `<div class="camp-i">${ft}<div class="camp-ib"><div class="n">${esc(nm)}</div><div class="m">${esc(det)}</div>
-<div class="p">${v<n?`<s>de R$ ${fmt(n)}</s>`:''}R$ ${fmt(v)}</div><a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div></div>`;}
+<div class="p">${v<n&&!it.sd?`<s>de R$ ${fmt(n)}</s>`:''}R$ ${fmt(v)}</div><a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div></div>`;}
 function secCamp(id,tit,lista){return `<div class="camp-sec" id="${id}"><div class="camp-h"><h3>${tit}</h3><div class="camp-nav"><span>arraste</span><button type="button" aria-label="Anterior" data-cl="${id}" data-d="-1">‹</button><button type="button" aria-label="Próximo" data-cl="${id}" data-d="1">›</button></div></div><div class="camp-wrap"><div class="camp-l">${lista.map(miniCamp).join('')}</div></div></div>`;}
 let campAtual='§';
 function aplicaCampanha(){
