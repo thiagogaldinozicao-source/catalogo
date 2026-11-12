@@ -312,7 +312,36 @@ footer .ig{color:var(--gold)}
 .brand{flex-direction:column;align-items:flex-start;gap:4px}
 @media(max-width:640px){.brand-logo{height:52px}}
 @media(max-width:380px){.brand span{display:block}}
+
+/* ===== CAMPANHAS 2026 (Black / Natal) — só valem com body.tema-*; sem classe = visual ORIGINAL intacto ===== */
+body.tema-black{--bg:#060607;--bg2:#120b0c;--card:#141012;--card-h:#1d1517;--line:rgba(232,180,74,.14);--gold:#e8b44a;--acc:#d42a33;background:radial-gradient(900px 500px at 85% -10%,rgba(212,42,51,.22) 0%,transparent 60%),radial-gradient(1100px 600px at 10% -8%,rgba(232,180,74,.14) 0%,var(--bg) 55%)}
+body.tema-natal{--bg:#05130e;--bg2:#0a2018;--card:#0d271d;--card-h:#123426;--line:rgba(227,192,107,.14);--gold:#e3c06b;--acc:#b8323a;background:radial-gradient(1000px 520px at 80% -10%,rgba(227,192,107,.16) 0%,transparent 60%),radial-gradient(1100px 600px at 10% -8%,#0f3a2a 0%,var(--bg) 58%)}
+.camp{display:none;margin:10px auto 4px;max-width:1180px;padding:0 14px}
+body.tema-black .camp,body.tema-natal .camp{display:block}
+.camp-b{position:relative;overflow:hidden;border:1px solid var(--gold);border-radius:18px;padding:18px 18px 16px;background:linear-gradient(135deg,rgba(0,0,0,.55),rgba(0,0,0,.2))}
+body.tema-black .camp-b{background:linear-gradient(120deg,#0b0b0d 0%,#1a0c0e 55%,#2a0d11 100%)}
+body.tema-natal .camp-b{background:linear-gradient(120deg,#07261b 0%,#0c3326 60%,#123d2d 100%)}
+.camp-k{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.camp-t{font-size:clamp(22px,6vw,34px);font-weight:900;line-height:1.05;margin:6px 0 4px}
+.camp-t em{font-style:normal;color:var(--acc)}
+body.tema-natal .camp-t em{color:var(--gold)}
+.camp-s{color:var(--mut);font-size:14px}
+.camp-cd{display:inline-flex;gap:6px;margin-top:12px;align-items:center;font-size:12px;color:var(--mut)}
+.camp-cd b{display:inline-block;min-width:38px;text-align:center;padding:6px 6px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--txt);font-size:16px}
+.camp-orn{position:absolute;right:-6px;top:-6px;font-size:64px;opacity:.16;pointer-events:none;line-height:1}
+.camp-prev{position:fixed;left:50%;transform:translateX(-50%);top:8px;z-index:99;background:var(--acc,#d42a33);color:#fff;font-weight:800;font-size:12px;padding:6px 12px;border-radius:99px;letter-spacing:.08em}
+.camp-sec{margin-top:14px}
+.camp-sec h3{font-size:15px;margin-bottom:8px}
+.camp-l{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+.camp-i{flex:0 0 220px;scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.camp-i .n{font-weight:700;font-size:14px;line-height:1.2}
+.camp-i .m{color:var(--mut);font-size:12px}
+.camp-i .p{font-weight:800;font-size:18px}
+.camp-i s{color:var(--mut);font-size:12px;font-weight:500}
+.camp-i a{margin-top:auto;text-align:center;background:#25d366;color:#04140a;font-weight:800;border-radius:10px;padding:9px;text-decoration:none;font-size:13px}
 .price s.de{display:block;font-size:12px;color:var(--mut);font-weight:500}
+.flag.ult{background:rgba(212,42,51,.18);color:#ff8a8f;border:1px solid rgba(212,42,51,.4)}
+@media (prefers-reduced-motion:reduce){.camp-l{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -377,6 +406,8 @@ const CORES = {
 <span>Itaú de Minas · MG <span class="pill g">✔ Pronta entrega</span></span>
 </div>
 </header>
+<!-- campanha do dia (Black/Natal): preenchida pelo script; vazia = visual original -->
+<section class="camp" id="camp" aria-live="polite"></section>
 
 <!-- Seções: Apple / Android / Acessórios -->
 <nav class="secs" id="secs" aria-label="Seções"></nav>
@@ -715,7 +746,8 @@ const d=dadosCard(it);
 const el=document.createElement('div');
 el.className='card'+(d.ap&&it.cond==='semi'&&it.bat===100?' perfect':'');
 const topo=d.ap?`<div class="ctop"><span class="colr">${esc(it.cor||'—')}</span>${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}</div>`:`<div class="cnome">${esc(d.nome)}</div>${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}`;
-el.innerHTML=`${d.flags?`<div class="card-flags">${d.flags}</div>`:''}
+const ult=Number(it.q)>0&&Number(it.q)<=2&&(it.cond==='novo'||!d.ap)?`<span class="flag ult">Últimas ${it.q===1?'unidade':'unidades'}</span>`:'';
+el.innerHTML=`${d.flags||ult?`<div class="card-flags">${d.flags||''}${ult}</div>`:''}
 ${d.foto?`<img class="cphoto" src="${d.foto}" alt="${esc(d.nome)}" loading="lazy" decoding="async">`:''}
 ${d.foto?'':d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d.c.frame},${d.c.body})"></div>`:`<div class="cchip neutro"></div>`}
 <div class="cinfo">${topo}
@@ -798,10 +830,52 @@ window.addEventListener('popstate',()=>{if(!det.hidden){pulaHash=true;setTimeout
 
 // virada do dia em Brasília com a aba aberta: redesenha a lista com o preço que vale agora (confere a cada 20 s)
 let diaPreco=null;
-setInterval(()=>{const d=hojeBR();if(diaPreco===null){diaPreco=d;return;}if(d!==diaPreco){diaPreco=d;if(ITENS.length){desenha();if(!det.hidden&&detBody._it){const ps=history.pushState;history.pushState=()=>{};try{abrirDetalhe(detBody._it);}finally{history.pushState=ps;}}}}},20000);
+setInterval(()=>{const d=hojeBR();if(diaPreco===null){diaPreco=d;return;}if(d!==diaPreco){diaPreco=d;if(ITENS.length){desenha();if(typeof aplicaCampanha==='function')aplicaCampanha();if(!det.hidden&&detBody._it){const ps=history.pushState;history.pushState=()=>{};try{abrirDetalhe(detBody._it);}finally{history.pushState=ps;}}}}},20000);
+
+// ===== CAMPANHAS 2026: tema pela data de Brasília; volta sozinho pro ORIGINAL; nunca mexe em preço =====
+// datas padrão (o Zicão Gestão pode mandar outras em estoque.json → "campanhas")
+let CAMPANHAS=[{id:'black',ativo:true,ini:'2026-11-27',fim:'2026-11-30'},{id:'natal',ativo:true,ini:'2026-12-01',fim:'2026-12-25'}];
+const CAMP_TXT={
+black:{k:'Black Zicão Store',t:'BLACK <em>FRIDAY</em>',s:'Ofertas de verdade em iPhone e acessórios, só enquanto durar o estoque.',orn:'✦',cd:true,ofertas:'🔥 Ofertas da Black'},
+natal:{k:'Natal Zicão Store',t:'Natal <em>Zicão</em>',s:'Presentes que todo mundo quer, com garantia e pronta entrega.',orn:'❄',cd:false,ofertas:'🎄 Ofertas de Natal',presentes:'🎁 Pra presentear'}};
+const PREVIA=(new URLSearchParams(location.search).get('tema')||'').toLowerCase();
+function campanhaDoDia(dia=hojeBR()){
+if(PREVIA==='original')return null;
+if(PREVIA&&CAMP_TXT[PREVIA])return CAMPANHAS.find(c=>c.id===PREVIA)||{id:PREVIA,ini:dia,fim:dia};
+return CAMPANHAS.find(c=>c.ativo!==false&&CAMP_TXT[c.id]&&c.ini&&c.fim&&dia>=c.ini&&dia<=c.fim)||null;}
+const fimBR=c=>Date.parse(c.fim+'T23:59:59-03:00');
+function contagem(c){const ms=fimBR(c)-Date.now();if(!(ms>0))return '';const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4);
+return `<div class="camp-cd">Termina em <b>${d}d</b><b>${String(h).padStart(2,'0')}h</b><b>${String(m).padStart(2,'0')}m</b></div>`;}
+function miniCamp(it){const n=precoNormal(it),v=precoAjustado(it),nm=[it.marca,it.modelo,it.cap].filter(Boolean).join(' ');
+const msg=encodeURIComponent(`Oi! Vi no catálogo: ${nm}${it.cor?' '+it.cor:''} por R$ ${fmt(v)}. Ainda tem?`);
+return `<div class="camp-i"><div class="n">${esc(nm)}</div><div class="m">${esc([it.cor,it.cond==='semi'&&it.bat?'bateria '+it.bat+'%':''].filter(Boolean).join(' · '))}</div>
+<div class="p">${v<n?`<s>de R$ ${fmt(n)}</s><br>`:''}R$ ${fmt(v)}</div><a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div>`;}
+let campAtual='§';
+function aplicaCampanha(forcar){
+const c=campanhaDoDia(),id=c?c.id:'';
+document.body.classList.remove('tema-black','tema-natal');if(id)document.body.classList.add('tema-'+id);
+const box=$('camp');
+if(!c){box.innerHTML='';campAtual=id;return;}
+const T=CAMP_TXT[id];
+const ofertas=ITENS.filter(it=>promoAtiva(it)&&Number(it.pp)<precoNormal(it)).sort((a,b)=>(precoNormal(b)-Number(b.pp))-(precoNormal(a)-Number(a.pp))).slice(0,10);
+const PRES=/fone|watch|relógio|smartwatch|caixa de som|perfume|alexa|echo|power ?bank|tv box|óculos|airpods/i;
+const presentes=T.presentes?ITENS.filter(it=>(it.g==='AirPods e Watch'||PRES.test((it.g||'')+' '+(it.modelo||'')))&&precoAjustado(it)>=60).sort((a,b)=>precoAjustado(a)-precoAjustado(b)).slice(0,10):[];
+box.innerHTML=`<div class="camp-b"><div class="camp-orn" aria-hidden="true">${T.orn}</div><div class="camp-k">${T.k}</div><div class="camp-t">${T.t}</div><div class="camp-s">${T.s}</div>${T.cd?contagem(c):''}</div>
+${ofertas.length?`<div class="camp-sec"><h3>${T.ofertas}</h3><div class="camp-l">${ofertas.map(miniCamp).join('')}</div></div>`:''}
+${presentes.length?`<div class="camp-sec"><h3>${T.presentes}</h3><div class="camp-l">${presentes.map(miniCamp).join('')}</div></div>`:''}
+${PREVIA?`<div class="camp-prev">PRÉVIA</div>`:''}`;
+campAtual=id;}
+// confere a cada 20 s: virou o dia em Brasília → troca/volta o tema e os preços na hora, mesmo com a página aberta
+let diaAtual=hojeBR();
+setInterval(()=>{const d=hojeBR(),c=campanhaDoDia(d),id=c?c.id:'';
+if(id!==campAtual){diaAtual=d;aplicaCampanha();}
+else if(c&&CAMP_TXT[id].cd){const el=document.querySelector('.camp-cd');if(el)el.outerHTML=contagem(c)||'';}},20000);
+
 // ---- carrega o estoque (gerado toda noite a partir do Zicão Gestão) ----
 fetch('estoque.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
 ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&Number(i.preco)>0);
+if(Array.isArray(d.campanhas)&&d.campanhas.length)CAMPANHAS=d.campanhas.filter(c=>c&&CAMP_TXT[c.id]);
+aplicaCampanha();
 if(d.atualizado){const t=new Date(d.atualizado);if(!isNaN(t))$('footdate').textContent=`Atualizado em ${String(t.getDate()).padStart(2,'0')}/${String(t.getMonth()+1).padStart(2,'0')}`;}
 const pid=hashProduto();const alvo=pid?irProduto(pid):null;
 if(alvo){history.replaceState(null,'',hashAtual());desenha();abrirDetalhe(alvo);}
