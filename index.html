@@ -312,6 +312,7 @@ footer .ig{color:var(--gold)}
 .brand{flex-direction:column;align-items:flex-start;gap:4px}
 @media(max-width:640px){.brand-logo{height:52px}}
 @media(max-width:380px){.brand span{display:block}}
+.price s.de{display:block;font-size:12px;color:var(--mut);font-weight:500}
 </style>
 </head>
 <body>
@@ -473,7 +474,12 @@ const curto=m=>String(m||'').replace(/^\s*iphone\s*/i,'').replace(/\s*\(.*\)\s*$
 const idxModelo=it=>{if(it.tipo!=='iPhone')return 500;const i=ORDEM_MODELOS.indexOf(curto(it.modelo));return i===-1?999:i;};
 const capNum=c=>{const s=String(c||'').toUpperCase();const n=parseFloat(s)||0;return s.includes('TB')?n*1024:n;};
 // preço que aparece (a regra automática de bateria está desligada: preço exato do sistema)
-const precoAjustado=it=>Number(it.preco)||0;
+/* preço pela data de Brasília, calculado no navegador do cliente (independe da tarefa agendada):
+   pp = preço da promoção de pi até pf (inclusive); pn = preço normal. Sem esses campos vale o "preco" de sempre. */
+const hojeBR=(t=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(t);
+const promoAtiva=(it,dia=hojeBR())=>Number(it.pp)>0&&!!it.pi&&!!it.pf&&dia>=it.pi&&dia<=it.pf;
+const precoNormal=it=>Number(it.pn)||Number(it.preco)||0;
+const precoAjustado=it=>promoAtiva(it)?Number(it.pp):precoNormal(it);
 const precoTexto=it=>fmt(precoAjustado(it));
 
 // ---- SEÇÕES E GRUPOS ----
@@ -715,7 +721,7 @@ ${d.foto?'':d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d
 <div class="cinfo">${topo}
 ${d.selo}
 ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
-<div class="price"><small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
+<div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${parcelasHtml(d.vista)}
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}Tenho interesse</a></div>`;
 el.tabIndex=0;
@@ -790,6 +796,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')fecharDetalhe();});
 let pulaHash=false;
 window.addEventListener('popstate',()=>{if(!det.hidden){pulaHash=true;setTimeout(()=>pulaHash=false,300);}fecharDetalhe(true);});
 
+// virada do dia em Brasília com a aba aberta: redesenha a lista com o preço que vale agora (confere a cada 20 s)
+let diaPreco=null;
+setInterval(()=>{const d=hojeBR();if(diaPreco===null){diaPreco=d;return;}if(d!==diaPreco){diaPreco=d;if(ITENS.length){desenha();if(!det.hidden&&detBody._it){const ps=history.pushState;history.pushState=()=>{};try{abrirDetalhe(detBody._it);}finally{history.pushState=ps;}}}}},20000);
 // ---- carrega o estoque (gerado toda noite a partir do Zicão Gestão) ----
 fetch('estoque.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
 ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&Number(i.preco)>0);
