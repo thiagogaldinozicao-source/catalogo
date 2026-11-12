@@ -477,7 +477,8 @@ const capNum=c=>{const s=String(c||'').toUpperCase();const n=parseFloat(s)||0;re
 /* preço pela data de Brasília, calculado no navegador do cliente (independe da tarefa agendada):
    pp = preço da promoção de pi até pf (inclusive); pn = preço normal. Sem esses campos vale o "preco" de sempre. */
 const hojeBR=(t=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(t);
-const promoAtiva=(it,dia=hojeBR())=>Number(it.pp)>0&&!!it.pi&&!!it.pf&&dia>=it.pi&&dia<=it.pf;
+/* r5: promo só vale se for menor que o preço normal (pn) */
+const promoAtiva=(it,dia=hojeBR())=>Number(it.pp)>0&&(!Number(it.pn)||Number(it.pp)<Number(it.pn))&&!!it.pi&&!!it.pf&&dia>=it.pi&&dia<=it.pf;
 const precoNormal=it=>Number(it.pn)||Number(it.preco)||0;
 const precoAjustado=it=>promoAtiva(it)?Number(it.pp):precoNormal(it);
 const precoTexto=it=>fmt(precoAjustado(it));
@@ -721,7 +722,7 @@ ${d.foto?'':d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d
 <div class="cinfo">${topo}
 ${d.selo}
 ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
-<div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
+<div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${parcelasHtml(d.vista)}
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}Tenho interesse</a></div>`;
 el.tabIndex=0;
