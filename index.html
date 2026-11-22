@@ -101,7 +101,21 @@ background:var(--card);color:var(--txt);font-family:'Inter',system-ui,-apple-sys
 .pgl button.on{border-color:var(--gold);background:rgba(235,181,51,.12);color:var(--txt)}
 .pgl button.on b{color:var(--gold)}
 /* v1.121: lacrado sem preço */
-.price.consulta,.det-price.consulta{font-size:1.05em}
+.price.consulta,.det-price.consulta{font-size:17px;color:var(--gold)}
+/* v1.122: card sem foto do mesmo tamanho do card com foto */
+.cph{width:calc(100% + 32px);margin:-16px -16px 0;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);background:radial-gradient(120% 90% at 50% 15%,color-mix(in srgb,var(--c2,#3a4552) 55%,transparent),transparent 70%),linear-gradient(160deg,color-mix(in srgb,var(--c1,#2a3340) 35%,#0e1319),#0e1319)}
+.cph img{width:42%;opacity:.5;filter:drop-shadow(0 4px 14px rgba(0,0,0,.5))}
+@media (max-width:640px){.cph{width:calc(100% + 24px);margin:-12px -12px 0}}
+/* v1.122: selos em cima da foto (não empurram nem cobrem o resto) */
+.card>.card-flags{position:absolute;top:10px;left:10px;right:10px;z-index:2;pointer-events:none}
+.card>.card-flags .flag{box-shadow:0 2px 8px rgba(0,0,0,.45)}
+.card>.card-flags .flag.high{background:#0d3b25;color:#5ff0a0;border-color:#1f7a4b}
+.card>.card-flags .flag.enc{background:#1b2547;color:#b9cbff;border-color:#4a63b0}
+.card>.card-flags .flag.ult{background:#4a1418;color:#ffb3b7;border-color:#8a2a31}
+/* v1.122: selo de economia */
+.flag.eco{background:linear-gradient(135deg,#ff3b4d,#ff6a3d);color:#fff;box-shadow:0 3px 10px rgba(255,59,77,.35)}
+.camp-ft{position:relative}
+.camp-eco{position:absolute;top:8px;left:8px;z-index:1;background:linear-gradient(135deg,#ff3b4d,#ff6a3d);color:#fff;font-weight:900;font-size:12.5px;padding:4px 9px;border-radius:8px;box-shadow:0 3px 10px rgba(0,0,0,.35)}
 /* faixa de preço em outra cor pra diferenciar */
 .filter.price .fbtn.active{background:var(--green);color:#06231a;border-color:var(--green)}
 
@@ -446,8 +460,8 @@ const CORES = {
 <p id="hsub"></p>
 </div>
 <div class="tabs" id="tabs">
+<button class="tab" data-linha="semi">Seminovos</button>
 <button class="tab" data-linha="novos">Novos (Lacrados)</button>
-<button class="tab" data-linha="semi">Semi-novos</button>
 </div>
 
 <!-- Busca + filtros (os filtros ficam guardados até a pessoa pedir) -->
@@ -583,7 +597,7 @@ return it.bat?`<span class="bat">${batIco()} ${it.bat}%</span>`:`<span class="ba
 }
 
 let ITENS=[], faixaCtx='';
-let sec='apple', grp='iPhone', linha='novos', filtroModelo='all', filtroCor='all', filtroPreco='all', termoBusca='';
+let sec='apple', grp='iPhone', linha='semi', filtroModelo='all', filtroCor='all', filtroPreco='all', termoBusca='';
 
 function gruposDe(s){
 const its=ITENS.filter(i=>i.s===s);
@@ -592,7 +606,7 @@ if(S.grupos) return S.grupos.filter(g=>its.some(i=>i.g===g));
 const cats=[...new Set(its.map(i=>i.g))].sort((a,b)=>(a==='Outros')-(b==='Outros')||a.localeCompare(b,'pt'));
 return cats.length>1?['Todos',...cats]:cats;
 }
-const linhasDe=(s,g)=>{const its=ITENS.filter(i=>i.s===s&&(g==='Todos'||i.g===g)&&ehAparelho(i));return ['novos','semi'].filter(l=>its.some(i=>(i.cond==='novo')===(l==='novos')));};
+const linhasDe=(s,g)=>{const its=ITENS.filter(i=>i.s===s&&(g==='Todos'||i.g===g)&&ehAparelho(i));return ['semi','novos'].filter(l=>its.some(i=>(i.cond==='novo')===(l==='novos')));};
 
 // escolhe grupo/linha válidos (quando o estoque muda, o link continua abrindo algo)
 function ajusta(){
@@ -627,7 +641,7 @@ if(h==='apple'){sec='apple';grp='iPhone';}
 else if(h==='acessorios'){sec='acessorios';grp='Todos';}
 else if(h.startsWith('acessorios-')){sec='acessorios';const c=h.slice(11);grp=[...new Set(ITENS.filter(i=>i.s==='acessorios').map(i=>i.g))].find(g=>slug(g)===c)||'Todos';}
 else{const g=Object.keys(GSLUG).find(k=>GSLUG[k]===h);if(g){grp=g;sec=SECOES.find(s=>s.grupos&&s.grupos.includes(g)).k;}}
-linha=l||'novos';
+linha=l||'semi';
 ajusta();
 }
 function navega(){ajusta();filtroModelo='all';filtroCor='all';filtroPreco='all';history.replaceState(null,'',hashAtual());desenha();}
@@ -636,10 +650,10 @@ function chip(bar,label,ativo,on,cls='fbtn'){const b=document.createElement('but
 
 function desenhaNav(){
 const sb=$('secs');sb.innerHTML='';
-SECOES.forEach(S=>chip(sb,`<span>${S.ico}</span> ${S.nome}`,!termoBusca&&sec===S.k,()=>{sec=S.k;grp=S.k==='acessorios'?'Todos':gruposDe(S.k)[0];linha='novos';limpaBusca();navega();},'sec'));
+SECOES.forEach(S=>chip(sb,`<span>${S.ico}</span> ${S.nome}`,!termoBusca&&sec===S.k,()=>{sec=S.k;grp=S.k==='acessorios'?'Todos':gruposDe(S.k)[0];linha='semi';limpaBusca();navega();},'sec'));
 const gb=$('grps');gb.innerHTML='';
 const gs=gruposDe(sec);
-if(!termoBusca&&gs.length>1) gs.forEach(g=>chip(gb,esc(g),g===grp,()=>{grp=g;linha='novos';navega();},'grp'));
+if(!termoBusca&&gs.length>1) gs.forEach(g=>chip(gb,esc(g),g===grp,()=>{grp=g;linha='semi';navega();},'grp'));
 gb.hidden=!!termoBusca||gs.length<2;
 }
 
@@ -674,7 +688,7 @@ const casaBusca=(it,termo)=>{const alvo=norm(`${it.tipo==='iPhone'?'iphone':''} 
 
 // agrupa em blocos: aparelho por modelo; acessório por categoria
 function blocos(lista){
-const ord=[...lista].sort((a,b)=>SECOES.findIndex(s=>s.k===a.s)-SECOES.findIndex(s=>s.k===b.s)||idxModelo(a)-idxModelo(b)||nomeDe(a).localeCompare(nomeDe(b),'pt')||precoAjustado(a)-precoAjustado(b)||capNum(a.cap)-capNum(b.cap)||(b.bat||0)-(a.bat||0)||(a.cor||'').localeCompare(b.cor||'','pt'));
+const ord=[...lista].sort((a,b)=>SECOES.findIndex(s=>s.k===a.s)-SECOES.findIndex(s=>s.k===b.s)||idxModelo(b)-idxModelo(a)||nomeDe(a).localeCompare(nomeDe(b),'pt')||precoAjustado(a)-precoAjustado(b)||capNum(a.cap)-capNum(b.cap)||(b.bat||0)-(a.bat||0)||(a.cor||'').localeCompare(b.cor||'','pt'));
 const out=[];const by={};
 ord.forEach(it=>{
 const k=ehAparelho(it)?'a:'+nomeDe(it)+(termoBusca?'|'+it.cond:''):'c:'+it.g;
@@ -744,7 +758,7 @@ blocos(lista).forEach(bl=>{
 const comPreco=bl.itens.filter(i=>!consulta(i)), menor=comPreco.reduce((m,i)=>precoAjustado(i)<precoAjustado(m)?i:m,comPreco[0]);
 const semi=bl.ap&&bl.itens[0].cond==='semi';
 const block=document.createElement('div');block.className='model-block';
-block.innerHTML=`<div class="model-head"><h3>${esc(bl.titulo)}</h3>${semi?`<span class="count">${bl.itens.length} ${bl.itens.length>1?'unidades':'unidade'}</span>`:''}<span class="from">${menor?`a partir de <b>${precoTexto(menor)}</b>`:'<b>Consulte o valor</b>'}</span></div><div class="grid"></div>`;
+block.innerHTML=`<div class="model-head"><h3>${esc(bl.titulo)}</h3>${semi?`<span class="count">${bl.itens.length} ${bl.itens.length>1?'unidades':'unidade'}</span>`:''}<span class="from">${menor?`a partir de <b>${precoTexto(menor)}</b>`:'sob consulta'}</span></div><div class="grid"></div>`;
 const grid=block.querySelector('.grid');
 bl.itens.forEach(it=>grid.appendChild(card(it)));
 catalog.appendChild(block);
@@ -774,8 +788,10 @@ return encodeURIComponent(it.enc?`Olá! Tenho interesse no ${desc}, por encomend
 function dadosCard(it){
 const ap=ehAparelho(it), nome=nomeDe(it), pTxt=precoTexto(it), vista=precoAjustado(it);
 const msg=msgDe(it,'pix');
+const eco=!consulta(it)&&promoAtiva(it)&&!it.sd?precoNormal(it)-Number(it.pp):0;
 let flags=it.enc?`<span class="flag enc">📦 Por encomenda</span>`:'';
 if(ap&&it.cond==='semi'){if(it.bat===100)flags=`<span class="flag perfect">🔋 100% bateria</span>`;else if(it.bat>=90)flags=`<span class="flag high">Bateria alta</span>`;}
+if(eco>0) flags=`<span class="flag eco">−R$ ${fmt(eco)}</span>`+flags;
 return {ap,nome,pTxt,vista,msg,flags,foto:fotoDe(it),fotoG:it.fg?'fotos/'+it.fg:fotoDe(it),c:corDe(it.cor),selo:seloDe(it)};
 }
 function parcelasHtml(vista){
@@ -790,13 +806,13 @@ const topo=d.ap?`<div class="ctop"><span class="colr">${esc(it.cor||'—')}</spa
 const ult=Number(it.q)>0&&Number(it.q)<=2&&(it.cond==='novo'||!d.ap)?`<span class="flag ult">${it.q===1?'Última unidade':'Últimas unidades'}</span>`:'';
 el.innerHTML=`${d.flags||ult?`<div class="card-flags">${d.flags||''}${ult}</div>`:''}
 ${d.foto?`<img class="cphoto" src="${d.foto}" alt="${esc(d.nome)}" loading="lazy" decoding="async">`:''}
-${d.foto?'':d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d.c.frame},${d.c.body})"></div>`:`<div class="cchip neutro"></div>`}
+${d.foto?'':`<div class="cph"${d.c?` style="--c1:${d.c.frame};--c2:${d.c.body}"`:''}><img src="logo.png" alt="" loading="lazy"></div>`}
 <div class="cinfo">${d.foto?fotoNota(it):''}${topo}
 ${d.selo}
 ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
-${consulta(it)?`<div class="price consulta">Consulte o valor</div><div class="parcela">chama no WhatsApp</div>`:`<div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
+${consulta(it)?`<div class="price consulta">Consulte o valor</div>`:`<div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
 ${parcelasHtml(d.vista)}`}
-<a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}Tenho interesse</a></div>`;
+<a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}${consulta(it)?'Consultar valor':'Tenho interesse'}</a></div>`;
 el.tabIndex=0;
 const abrir=()=>abrirDetalhe(it);
 el.addEventListener('click',e=>{if(e.target.closest('a,summary,details'))return;abrir();});
@@ -891,7 +907,8 @@ function miniCamp(it){const n=precoNormal(it),v=precoAjustado(it),nm=[it.marca,i
 const msg=encodeURIComponent(`Oi! Vi no catálogo: ${nm}${it.cor?' '+it.cor:''} por R$ ${fmt(v)}. Ainda tem?`);
 const det=[it.cor,it.cond==='novo'?'Lacrado':it.cond==='semi'?(it.bat?'Seminovo · bateria '+it.bat+'%':'Seminovo'):''].filter(Boolean).join(' · ');
 // foto real (da loja ou do modelo); sem foto = quadro neutro com o logo (não inventa imagem do aparelho)
-const ft=f?`<div class="camp-ft"><img loading="lazy" src="${f}" alt="${esc(nm)}"></div>`:`<div class="camp-ft neutro"><img src="logo.png" alt=""><span>${esc(it.g||'')}</span></div>`;
+const eco=v<n&&!it.sd?n-v:0, ecoTag=eco>0?`<span class="camp-eco">−R$ ${fmt(eco)}</span>`:'';
+const ft=f?`<div class="camp-ft">${ecoTag}<img loading="lazy" src="${f}" alt="${esc(nm)}"></div>`:`<div class="camp-ft neutro">${ecoTag}<img src="logo.png" alt=""><span>${esc(it.g||'')}</span></div>`;
 return `<div class="camp-i">${ft}<div class="camp-ib">${f?fotoNota(it):''}<div class="n">${esc(nm)}</div><div class="m">${esc(det)}</div>
 <div class="p">${v<n&&!it.sd?`<s>de R$ ${fmt(n)}</s>`:''}R$ ${fmt(v)}<span class="pix">no Pix</span></div>${v>=PARCELA_MIN?`<div class="parc">ou 12x R$ ${fmt2(valorParcela(v,12))} no cartão</div>`:''}<a target="_blank" rel="noopener" href="https://wa.me/${WHATS}?text=${msg}">Chamar no WhatsApp</a></div></div>`;}
 function secCamp(id,tit,lista){return `<div class="camp-sec" id="${id}"><div class="camp-h"><h3>${tit}</h3><div class="camp-nav"><span>arraste</span><button type="button" aria-label="Anterior" data-cl="${id}" data-d="-1">‹</button><button type="button" aria-label="Próximo" data-cl="${id}" data-d="1">›</button></div></div><div class="camp-wrap"><div class="camp-l">${lista.map(miniCamp).join('')}</div></div></div>`;}
