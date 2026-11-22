@@ -100,6 +100,8 @@ background:var(--card);color:var(--txt);font-family:'Inter',system-ui,-apple-sys
 .pgl button .ptot{display:block;font-size:10px;color:var(--mut);font-weight:500}
 .pgl button.on{border-color:var(--gold);background:rgba(235,181,51,.12);color:var(--txt)}
 .pgl button.on b{color:var(--gold)}
+/* v1.121: lacrado sem preço */
+.price.consulta,.det-price.consulta{font-size:1.05em}
 /* faixa de preço em outra cor pra diferenciar */
 .filter.price .fbtn.active{background:var(--green);color:#06231a;border-color:var(--green)}
 
@@ -546,7 +548,9 @@ const hojeBR=(t=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/
 /* r5: promo só vale se for menor que o preço normal (pn) */
 const promoAtiva=(it,dia=hojeBR())=>Number(it.pp)>0&&(!Number(it.pn)||Number(it.pp)<Number(it.pn))&&!!it.pi&&!!it.pf&&dia>=it.pi&&dia<=it.pf;
 const precoNormal=it=>Number(it.pn)||Number(it.preco)||0;
-const precoAjustado=it=>promoAtiva(it)?Number(it.pp):precoNormal(it);
+/* v1.121: lacrado "consulte o valor" (cs=1): o estoque.json não traz preço; conta como 0 pra ordem/faixas */
+const consulta=it=>!!(it&&it.cs);
+const precoAjustado=it=>consulta(it)?0:promoAtiva(it)?Number(it.pp):precoNormal(it);
 const precoTexto=it=>fmt(precoAjustado(it));
 
 // ---- SEÇÕES E GRUPOS ----
@@ -737,10 +741,10 @@ catalog.innerHTML=`<div class="noresult">${nada?`No momento não tem ${esc(sec==
 return;
 }
 blocos(lista).forEach(bl=>{
-const menor=bl.itens.reduce((m,i)=>precoAjustado(i)<precoAjustado(m)?i:m,bl.itens[0]);
+const comPreco=bl.itens.filter(i=>!consulta(i)), menor=comPreco.reduce((m,i)=>precoAjustado(i)<precoAjustado(m)?i:m,comPreco[0]);
 const semi=bl.ap&&bl.itens[0].cond==='semi';
 const block=document.createElement('div');block.className='model-block';
-block.innerHTML=`<div class="model-head"><h3>${esc(bl.titulo)}</h3>${semi?`<span class="count">${bl.itens.length} ${bl.itens.length>1?'unidades':'unidade'}</span>`:''}<span class="from">a partir de <b>${precoTexto(menor)}</b></span></div><div class="grid"></div>`;
+block.innerHTML=`<div class="model-head"><h3>${esc(bl.titulo)}</h3>${semi?`<span class="count">${bl.itens.length} ${bl.itens.length>1?'unidades':'unidade'}</span>`:''}<span class="from">${menor?`a partir de <b>${precoTexto(menor)}</b>`:'<b>Consulte o valor</b>'}</span></div><div class="grid"></div>`;
 const grid=block.querySelector('.grid');
 bl.itens.forEach(it=>grid.appendChild(card(it)));
 catalog.appendChild(block);
@@ -764,6 +768,7 @@ const desc=[nomeDe(it),it.cap,it.cor].filter(Boolean).join(' ')+(estado?` (${est
 const n=Number(pg);
 const pag=n?`no cartão em ${n}x de R$ ${fmt2(valorParcela(vista,n))} (total R$ ${fmt2(valorParcela(vista,n)*n)})`:`R$ ${precoTexto(it)} no Pix`;
 const cod=it.k?` Cód. ${it.k}.`:'';
+if(consulta(it)) return encodeURIComponent(`Olá! Tenho interesse ${ap?'no':'em'} ${desc}${it.enc?', por encomenda':''}. Qual o valor${it.enc?' e o prazo':''}?${cod}`);
 return encodeURIComponent(it.enc?`Olá! Tenho interesse no ${desc}, por encomenda — ${pag}. Qual o prazo?`:`Olá! Tenho interesse ${ap?'no':'em'} ${desc} — ${pag}.${cod} Ainda tem?`);
 }
 function dadosCard(it){
@@ -789,8 +794,8 @@ ${d.foto?'':d.c?`<div class="cchip" style="background:linear-gradient(135deg,${d
 <div class="cinfo">${d.foto?fotoNota(it):''}${topo}
 ${d.selo}
 ${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
-<div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
-${parcelasHtml(d.vista)}
+${consulta(it)?`<div class="price consulta">Consulte o valor</div><div class="parcela">chama no WhatsApp</div>`:`<div class="price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
+${parcelasHtml(d.vista)}`}
 <a class="buy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}Tenho interesse</a></div>`;
 el.tabIndex=0;
 const abrir=()=>abrirDetalhe(it);
@@ -836,11 +841,11 @@ ${d.fotoG?'':`<div class="cchip det-cor${d.c?'':' neutro'}" style="${d.c?`backgr
 ${d.fotoG?fotoNota(it):''}<h3>${esc(d.nome)}</h3>
 <div class="det-sub">${it.cor?`<span class="colr">${esc(it.cor)}</span>`:''}${it.cap?`<span class="cap">${esc(it.cap)}</span>`:''}${d.ap?d.selo:''}</div>
 ${fichaHtml(it)}${it.obs?`<div class="cobs">⚠ ${esc(it.obs)}</div>`:''}
-<div class="det-price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>
+${consulta(it)?`<div class="det-price consulta">Consulte o valor</div>`:`<div class="det-price">${promoAtiva(it)&&Number(it.pp)<precoNormal(it)&&!it.sd?`<s class="de">de R$ ${fmt(precoNormal(it))}</s>`:''}<small>R$ </small>${d.pTxt}<span class="pix">no Pix</span></div>`}
 ${d.vista>=PARCELA_MIN?`<div class="parcela">ou <b>12x R$ ${fmt2(valorParcela(d.vista,12))}</b> · <b>18x R$ ${fmt2(valorParcela(d.vista,18))}</b></div>`:''}
 <div class="det-gar">${esc(garantia(it))}${it.enc?'<br>📦 Por encomenda: chama no WhatsApp pra saber o prazo.':''}</div>
 ${d.vista>=PARCELA_MIN?`<div class="det-tit">Como vai pagar? <span style="text-transform:none;font-weight:600">(toque pra escolher)</span></div><div class="pgl" id="pgl">${listaPagamento(d.vista,d.pTxt)}</div>`:''}
-<a class="buy" id="detBuy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}<span id="detBuyTx">${d.vista>=PARCELA_MIN?'Tenho interesse · Pix':'Tenho interesse'}</span></a>
+<a class="buy" id="detBuy" target="_blank" href="https://wa.me/${WHATS}?text=${d.msg}">${WA}<span id="detBuyTx">${consulta(it)?'Consultar valor':d.vista>=PARCELA_MIN?'Tenho interesse · Pix':'Tenho interesse'}</span></a>
 ${it.i?`<button class="share" type="button" data-share>🔗 Enviar link deste produto</button>`:''}
 </div>`;
 detBody._it=it;
@@ -916,7 +921,7 @@ else if(c&&CAMP_TXT[id].cd){const el=document.querySelector('.camp-cd');if(el)el
 
 // ---- carrega o estoque (gerado toda noite a partir do Zicão Gestão) ----
 fetch('estoque.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
-ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&Number(i.preco)>0);_fotoConta=null;
+ITENS=(d.itens||[]).filter(i=>i&&i.s&&i.modelo&&(Number(i.preco)>0||consulta(i)));_fotoConta=null;
 if(Array.isArray(d.campanhas)&&d.campanhas.length)CAMPANHAS=d.campanhas.filter(c=>c&&CAMP_TXT[c.id]);
 aplicaCampanha();
 if(d.atualizado){const t=new Date(d.atualizado);if(!isNaN(t))$('footdate').textContent=`Atualizado em ${String(t.getDate()).padStart(2,'0')}/${String(t.getMonth()+1).padStart(2,'0')}`;}
